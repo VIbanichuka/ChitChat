@@ -4,8 +4,15 @@ using ChitChat.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using ChitChat.Web.Hubs;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Configure logger
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+builder.Host.UseSerilog();
 
 // Configure Database Connection
 var connectionString = builder.Configuration.GetConnectionString("ChitChatConnectionString");

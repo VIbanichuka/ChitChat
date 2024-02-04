@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ChitChat.Application\ChitChat.Application.csproj" />
     <ProjectReference Include="..\ChitChat.Infrastructure\ChitChat.Infrastructure.csproj" />
   </ItemGroup>
