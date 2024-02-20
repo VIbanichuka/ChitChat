@@ -23,7 +23,7 @@
 
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-md-1 col-lg-1 min-vh-100 d-flex flex-column justify-content-between">
+            <div class="bg-dark col-auto col-md-2 col-lg-2 d-flex min-vh-100 flex-column justify-content-between">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column mt-6">
                         <li class="nav-item">
@@ -40,17 +40,11 @@
                 </div>
             </div>
             
-            <div class="col py-3">
+            <div class="col-md-10 py-3">
                 @RenderBody()
             </div>
         </div>   
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - PrimaMensa - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/signalr/signalr.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

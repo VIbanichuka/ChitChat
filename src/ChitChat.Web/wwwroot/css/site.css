@@ -5,7 +5,7 @@ html {
 @media (min-width: 768px) {
   html {
     font-size: 16px;
-  }
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -18,7 +18,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 0px;
+  height: 95vh;
 }
 
 .body-content {
@@ -43,6 +44,10 @@ label {
     margin-right: 4px;
 }
 
-    .nav-link span {
+.nav-link span {
         font-size: 0.8rem;
-    }
+}
+
+.col-md-10.py-3 {
+    padding: 0;
+}

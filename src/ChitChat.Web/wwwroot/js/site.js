@@ -4,11 +4,34 @@
     .build();
 
 connection.on("ReceiveMessageAsync", (message) => {
-    $('#signalr-message-panel').prepend($('<div />').text(message));
+
+    var newMessage = $('<div class="outgoing_msg">' +
+        '<div class="msg-box sent_msg">' +
+        '<p>' + message + '</p>' +
+        '</div>' +
+        '</div>');
+
+    if (user) {
+        var newMessage = $('<div class="outgoing_msg">' +
+            '<div class="msg-box sent_msg">' +
+            '<p>' + message + '</p>' +
+            '</div>' +
+            '</div>');
+    } else {
+        var newMessage = $('<div class="incoming_msg">' +
+            '<div class="msg-box received_msg">' +
+            '<div class="received_withd_msg">' +
+            '<p>' + message + '</p>' +
+            '</div>' +
+            '</div>' +
+            '</div>');
+    }
+    $('.msg_history').append(newMessage);
+    $('#txt_message').val('');
 });
 
-$('#btn-broadcast').on('click', function () {
-    var message = $('#broadcast').val();
+$('#btn_send').on('click', function () {
+    var message = $('#txt_message').val();
     connection.invoke("BroadcastMessage", message).catch(err => console.error(err.toString()));
 });
 
