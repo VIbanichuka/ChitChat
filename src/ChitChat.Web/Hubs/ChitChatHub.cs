@@ -20,6 +20,6 @@ namespace ChitChat.Web.Hubs
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             await base.OnDisconnectedAsync(exception);
-        }
+        } 
     }
 }
