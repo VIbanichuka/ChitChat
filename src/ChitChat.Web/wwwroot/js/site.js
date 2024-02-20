@@ -11,21 +11,21 @@ connection.on("ReceiveMessageAsync", (message) => {
         '</div>' +
         '</div>');
 
-    if (user) {
-        var newMessage = $('<div class="outgoing_msg">' +
-            '<div class="msg-box sent_msg">' +
-            '<p>' + message + '</p>' +
-            '</div>' +
-            '</div>');
-    } else {
-        var newMessage = $('<div class="incoming_msg">' +
-            '<div class="msg-box received_msg">' +
-            '<div class="received_withd_msg">' +
-            '<p>' + message + '</p>' +
-            '</div>' +
-            '</div>' +
-            '</div>');
-    }
+    //if (user) {
+    //    var newMessage = $('<div class="outgoing_msg">' +
+    //        '<div class="msg-box sent_msg">' +
+    //        '<p>' + message + '</p>' +
+    //        '</div>' +
+    //        '</div>');
+    //} else {
+    //    var newMessage = $('<div class="incoming_msg">' +
+    //        '<div class="msg-box received_msg">' +
+    //        '<div class="received_withd_msg">' +
+    //        '<p>' + message + '</p>' +
+    //        '</div>' +
+    //        '</div>' +
+    //        '</div>');
+    //}
     $('.msg_history').append(newMessage);
     $('#txt_message').val('');
 });
