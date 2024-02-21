@@ -6,6 +6,8 @@ using Npgsql;
 using ChitChat.Web.Hubs;
 using Serilog;
 using ChitChat.Web.Middleware;
+using ChitChat.Application.Interfaces.IServices;
+using ChitChat.Application.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +34,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IChannelRepository, ChannelRepository>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddSignalR();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
