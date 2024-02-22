@@ -35,6 +35,7 @@ builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IChannelRepository, ChannelRepository>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(Program));
 
