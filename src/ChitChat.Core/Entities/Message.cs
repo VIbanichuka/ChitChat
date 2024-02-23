@@ -18,19 +18,21 @@ namespace ChitChat.Core.Entities
         [Display(Name = "Content")]
         public string? Content { get; set; }
 
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        public int SenderId { get; set; }
+        public int? SenderId { get; set; }
 
-        public int ReceiverId { get; set; }
+        public int? ReceiverId { get; set; }
 
         public int ChannelId { get; set; }
+
+        [ForeignKey(nameof(ChannelId))]
         public virtual Channel? Channel { get; set; }
 
-        [ForeignKey("SenderId")]
+        [ForeignKey(nameof(SenderId))]
         public virtual User? Sender { get; set; }
 
-        [ForeignKey("ReceiverId")]
+        [ForeignKey(nameof(ReceiverId))]
         public virtual User? Receiver { get; set; }
     }
 }

@@ -31,10 +31,12 @@ namespace ChitChat.Core.Entities
 
         public virtual UserProfile? UserProfile { get; set; }
 
-        public virtual ICollection<Message>? SentMessages { get; set; }
+        public virtual ICollection<Message> SentMessages { get; set; } = null!;
 
-        public virtual ICollection<Message>? ReceivedMessages { get; set; }
+        public virtual ICollection<Message> ReceivedMessages { get; set; } = null!;
 
-        public virtual ICollection<Channel>? Channels { get; set; }
+        public virtual ICollection<Channel> Channels { get; set; } = null!;
+
+        public virtual ICollection<UserConnection> Connections { get; set; } = null!;
     }
 }

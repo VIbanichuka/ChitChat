@@ -22,5 +22,6 @@ namespace ChitChat.Infrastructure.Data
         public virtual DbSet<Channel> Channels { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
+        public virtual DbSet<UserConnection> UserConnections { get; set; }
     }
 }
