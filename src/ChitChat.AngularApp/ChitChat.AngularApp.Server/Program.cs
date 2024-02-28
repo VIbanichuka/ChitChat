@@ -29,6 +29,7 @@ var fullConnectionString = npgsqlConnectionStringBuilder.ToString();
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ChitChatDbContext>(options => options.UseNpgsql(fullConnectionString));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
@@ -54,6 +55,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(builder => builder.WithOrigins("*")
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 }
 
 app.UseHttpsRedirection();

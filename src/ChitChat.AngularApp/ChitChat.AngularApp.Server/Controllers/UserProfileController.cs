@@ -61,7 +61,7 @@ namespace ChitChat.Web.Controllers
             return Ok(userProfile);
         }
 
-        [HttpPut("edit-profile/{userProfileId}")]
+        [HttpPut("{userProfileId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
