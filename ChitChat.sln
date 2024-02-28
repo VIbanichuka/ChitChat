@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChat.Core", "src\ChitCh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChat.Infrastructure", "src\ChitChat.Infrastructure\ChitChat.Infrastructure.csproj", "{68D69672-9B93-4E75-8F5C-1F9E90527A16}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChat.Web", "src\ChitChat.Web\ChitChat.Web.csproj", "{F751D021-9A31-405D-945B-16A9871993AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChitChat.AngularApp.Server", "src\ChitChat.AngularApp\ChitChat.AngularApp.Server\ChitChat.AngularApp.Server.csproj", "{61656338-443C-437E-8B58-BF5AE2334E33}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "chitchat.angularapp.client", "src\ChitChat.AngularApp\chitchat.angularapp.client\chitchat.angularapp.client.esproj", "{78078726-77AE-45B6-A4F9-437B136BCDDB}"
@@ -33,10 +31,6 @@ Global
 		{68D69672-9B93-4E75-8F5C-1F9E90527A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68D69672-9B93-4E75-8F5C-1F9E90527A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68D69672-9B93-4E75-8F5C-1F9E90527A16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F751D021-9A31-405D-945B-16A9871993AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F751D021-9A31-405D-945B-16A9871993AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F751D021-9A31-405D-945B-16A9871993AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F751D021-9A31-405D-945B-16A9871993AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{61656338-443C-437E-8B58-BF5AE2334E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61656338-443C-437E-8B58-BF5AE2334E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61656338-443C-437E-8B58-BF5AE2334E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
