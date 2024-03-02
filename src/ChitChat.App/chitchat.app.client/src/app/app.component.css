@@ -1,0 +1,12 @@
+mat-sidenav-container {
+   height: calc(100vh - 20px);
+}
+
+mat-sidenav {
+  width: 80px;
+  background-color: aqua;
+}
+
+mat-toolbar{
+  background-color: aqua;
+}
