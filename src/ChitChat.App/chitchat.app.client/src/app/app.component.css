@@ -3,6 +3,6 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-  width: 50px;
+  width: 80px;
   background-color: aqua;
 }
