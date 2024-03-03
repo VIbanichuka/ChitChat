@@ -31,8 +31,8 @@ namespace ChitChat.Application.Implementations
             }
 
             await CheckIfUserExist(user.Email, user.DisplayName);
-            var userProfile = new UserProfile();
-            user.UserProfile = userProfile;
+            var newUserProfile = new UserProfile();
+            user.UserProfile = newUserProfile;
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
 

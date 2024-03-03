@@ -2,7 +2,7 @@
 
 namespace ChitChat.App.Server.Models.Requests
 {
-    public class UserModel
+    public class UserRequestModel
     {
         [Required(ErrorMessage = "Field required")]
         [MaxLength(30)]

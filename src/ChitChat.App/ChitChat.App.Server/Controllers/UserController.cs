@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Dtos;
 using ChitChat.Application.Interfaces.IServices;
@@ -34,7 +35,8 @@ namespace ChitChat.App.Server.Controllers
                 Log.Information("No users found");
                 return NotFound();
             }
-            return Ok(users);
+            var mappedUsers = _mapper.Map<IEnumerable<UserResponseModel>>(users);
+            return Ok(mappedUsers);
         }
 
         [HttpGet("{userId}")]
@@ -52,16 +54,18 @@ namespace ChitChat.App.Server.Controllers
                 return NotFound("User doesn't exist");
             }
             Log.Information("Returning user by ID: {UserId}", existingUser.UserId);
-            return Ok(existingUser);
+            var userResponse = _mapper.Map<UserResponseModel>(existingUser);
+
+            return Ok(userResponse);
         }
 
         [HttpPost("Register")]
-        [ProducesResponseType(typeof(UserModel), 201)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateUser(UserModel userModel)
+        public async Task<IActionResult> CreateUser(UserRequestModel userRequest)
         {
-            if (userModel == null)
+            if (userRequest == null)
             {
                 Log.Warning("Invalid user data provided.");
                 return BadRequest("Invalid user data.");
@@ -69,14 +73,14 @@ namespace ChitChat.App.Server.Controllers
 
             var newUser = new User()
             {
-                DisplayName = userModel.DisplayName,
-                Email = userModel.Email,
+                DisplayName = userRequest.DisplayName,
+                Email = userRequest.Email,
             };
 
             Log.Information("User created successfully. User ID: {Email}", newUser.Email);
             await _userService.CreateUserAsync(newUser);
 
-            var createdUser = _mapper.Map<UserDto>(newUser);
+            var createdUser = _mapper.Map<UserResponseModel>(newUser);
 
             return CreatedAtAction(nameof(GetUserById), new { userId = newUser.UserId }, createdUser);
         }
@@ -105,7 +109,7 @@ namespace ChitChat.App.Server.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UserModel userModel)
+        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UserRequestModel userRequest)
         {
             var existingUser = await _userService.GetUserByIdAsync(userId);
             if (existingUser == null)
@@ -113,11 +117,13 @@ namespace ChitChat.App.Server.Controllers
                 Log.Information("User not found to be updated.");
                 return NotFound("User not found");
             }
-            _mapper.Map(userModel, existingUser);
+            _mapper.Map(userRequest, existingUser);
 
             await _userService.UpdateUserAsync(existingUser);
-            return NoContent();
-        }
 
+            var updatedUser = _mapper.Map<UserResponseModel>(existingUser);
+
+            return Ok(updatedUser);
+        }
     }
 }
