@@ -23,7 +23,7 @@ namespace ChitChat.App.Server.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<UserResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -40,7 +40,7 @@ namespace ChitChat.App.Server.Controllers
         }
 
         [HttpGet("{userId}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(UserResponseModel), 200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

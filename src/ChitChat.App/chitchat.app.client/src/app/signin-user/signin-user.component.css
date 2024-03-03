@@ -1,0 +1,28 @@
+.signin-heading{
+    color: purple; 
+    text-align: center;
+}
+
+.container {
+    height: 100vh;
+    background-color: aqua; 
+}
+
+.victor{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    flex-direction: row;
+    padding-top: 200pt;
+}
+
+.form-floating{
+    margin: 20px;
+}
+
+.form-control{
+    width: 300px;
+    height: 30px;
+}
+

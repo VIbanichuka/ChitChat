@@ -1,0 +1,6 @@
+{
+  "input": "http://localhost:5062/swagger/v1/swagger.json",
+  "output": "src/ChitChat.App/chitchat.app.client/src/app",
+  "skipJsonSuffix": true,
+  "removeStaleFiles": true
+}
