@@ -1,24 +1,33 @@
 <div class="container">
-    <div class="victor">
-        <div>
-            <div class="signin-heading">
-                <h1>PrimaMensa ChitChat</h1>
-                <h2>Sign in to PrimaMensa ChitChat</h2>
-            </div>
 
-            <div class="form-floating">
-                <input placeholder="Email" class="form-control" type="email" />
-                <label for="email"></label>
-            </div>
+    <div>
+        <div class="signin-heading">
+            <h1 style="font-size: 2em; font-weight: bolder;">PrimaMensa ChitChat</h1>
+            <h2>Sign in to PrimaMensa ChitChat</h2>
+        </div>
 
-            <div class="form-floating">
-                <input placeholder="Password" class="form-control" type="password" />
-                <label for="password"></label>
-            </div>
+        <div class="form-floating">
+            <input placeholder="Email" class="form-control" type="email" />
+            <label for="email"></label>
+        </div>
 
-            <button type="submit" class="btn btn-primary">
-                <mat-icon>login</mat-icon> Login
+        <div class="form-floating">
+            <input placeholder="Password" class="form-control" type="password" />
+            <label for="password"></label>
+        </div>
+
+        <div class="login-btn">
+            <button type="submit" mat-raised-button color="primary" class="form-control">
+                <mat-icon>login</mat-icon> Sign in with email
             </button>
         </div>
+
+        <div class="register-user">
+            <small>New to PrimaMensa ChitChat? </small>
+            <a routerLink="/register-user">
+                <small style="color: purple;">Create an account</small>
+            </a>            
+        </div>
     </div>
+
 </div>

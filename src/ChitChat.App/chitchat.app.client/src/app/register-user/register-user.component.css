@@ -1,0 +1,29 @@
+.signin-heading{
+    color: purple; 
+    text-align: center;
+}
+
+.container {
+    height: 100vh;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-floating{
+    margin: 20px;
+}
+
+.form-control{
+    width: 300px;
+    height: 30px;
+}
+
+.login-btn{
+    text-align: center;
+}
+
+.signin-user{
+    text-align: center;
+}

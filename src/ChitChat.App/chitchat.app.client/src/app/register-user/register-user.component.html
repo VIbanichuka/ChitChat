@@ -1,1 +1,43 @@
-<p>register-user works!</p>
+<div class="container">
+
+    <div>
+        <div class="signin-heading">
+            <h1 style="font-size: 2em; font-weight: bolder;">PrimaMensa ChitChat</h1>
+            <h2>Sign in to PrimaMensa ChitChat</h2>
+        </div>
+
+        <div class="form-floating">
+            <input placeholder="Display name" class="form-control" type="email" />
+            <label for="displayName"></label>
+        </div>
+
+        <div class="form-floating">
+            <input placeholder="Email" class="form-control" type="email" />
+            <label for="email"></label>
+        </div>
+
+        <div class="form-floating">
+            <input placeholder="Password" class="form-control" type="password" />
+            <label for="password"></label>
+        </div>
+
+        <div class="form-floating">
+            <input placeholder="Confirm Password" class="form-control" type="password" />
+            <label for="password"></label>
+        </div>
+
+        <div class="login-btn">
+            <button type="submit" mat-raised-button color="primary" class="form-control">
+                <mat-icon>login</mat-icon> Sign up
+            </button>
+        </div>
+
+        <div class="signin-user">
+            <small>Already using PrimaMensa ChitChat? </small>
+            <a routerLink="/signin-user">
+                <small style="color: purple;">Sign in to your account</small>
+            </a>            
+        </div>
+    </div>
+
+</div>

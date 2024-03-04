@@ -5,16 +5,10 @@
 
 .container {
     height: 100vh;
-    background-color: aqua; 
-}
-
-.victor{
+    background-color: aqua;
     display: flex;
     justify-content: center;
-    justify-items: center;
     align-items: center;
-    flex-direction: row;
-    padding-top: 200pt;
 }
 
 .form-floating{
@@ -26,3 +20,10 @@
     height: 30px;
 }
 
+.login-btn{
+    text-align: center;
+}
+
+.register-user{
+    text-align: center;
+}
