@@ -3,7 +3,7 @@
     <div>
         <div class="signin-heading">
             <h1 style="font-size: 2em; font-weight: bolder;">PrimaMensa ChitChat</h1>
-            <h2>Sign in to PrimaMensa ChitChat</h2>
+            <h2>First of all, Enter your credentials</h2>
         </div>
 
         <div class="form-floating">
@@ -27,16 +27,18 @@
         </div>
 
         <div class="login-btn">
-            <button type="submit" mat-raised-button color="primary" class="form-control">
-                <mat-icon>login</mat-icon> Sign up
-            </button>
+            <a routerLink="/home">
+                <button type="submit" mat-raised-button color="primary" class="form-control">
+                    <mat-icon>login</mat-icon> Sign up
+                </button>
+            </a>
         </div>
 
         <div class="signin-user">
             <small>Already using PrimaMensa ChitChat? </small>
             <a routerLink="/signin-user">
-                <small style="color: purple;">Sign in to your account</small>
-            </a>            
+                <small>Sign in to your account</small>
+            </a>
         </div>
     </div>
 

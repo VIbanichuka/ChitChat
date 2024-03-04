@@ -2,7 +2,7 @@
 {
     public class UserProfileResponseModel
     {
-            public Guid Id { get; set; }
+            public Guid UserProfileId { get; set; }
             public string? ProfilePicture { get; set; }
 
             public string? Bio { get; set; }

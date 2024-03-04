@@ -4,10 +4,10 @@ mat-sidenav-container {
  
  mat-sidenav {
    width: 80px;
-   background-color: aqua;
- }
+   background: linear-gradient(to bottom, #6CDFF6, #3498DB); 
+  }
  
  mat-toolbar{
-   background-color: aqua;
- }
+  background: linear-gradient(to right, #6CDFF6, #3498DB); 
+}
  

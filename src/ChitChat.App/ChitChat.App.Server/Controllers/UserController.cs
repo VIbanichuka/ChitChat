@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
-using ChitChat.Application.Dtos;
 using ChitChat.Application.Interfaces.IServices;
 using ChitChat.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -39,15 +38,15 @@ namespace ChitChat.App.Server.Controllers
             return Ok(mappedUsers);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserResponseModel), 200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUserById(Guid userId) 
+        public async Task<IActionResult> GetUserById(Guid id) 
         { 
-            var existingUser = await _userService.GetUserByIdAsync(userId);
+            var existingUser = await _userService.GetUserByIdAsync(id);
             if (existingUser == null)
             {
                 Log.Information("No user found.");
@@ -59,7 +58,7 @@ namespace ChitChat.App.Server.Controllers
             return Ok(userResponse);
         }
 
-        [HttpPost("Register")]
+        [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -85,33 +84,33 @@ namespace ChitChat.App.Server.Controllers
             return CreatedAtAction(nameof(GetUserById), new { userId = newUser.UserId }, createdUser);
         }
 
-        [HttpDelete("{userId}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteUser(Guid userId)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var isDeleted = await _userService.DeleteUserAsync(userId);
+            var isDeleted = await _userService.DeleteUserAsync(id);
             if (!isDeleted)
             {
                 Log.Information("User not found to be deleted.");
                 return NotFound("User not found");
             }
-            Log.Information("User deleted successfully. User ID: {UserId}", userId);
+            Log.Information("User deleted successfully. User ID: {UserId}", id);
 
             return NoContent();
         }
 
-        [HttpPut("{userId}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UserRequestModel userRequest)
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserRequestModel userRequest)
         {
-            var existingUser = await _userService.GetUserByIdAsync(userId);
+            var existingUser = await _userService.GetUserByIdAsync(id);
             if (existingUser == null)
             {
                 Log.Information("User not found to be updated.");

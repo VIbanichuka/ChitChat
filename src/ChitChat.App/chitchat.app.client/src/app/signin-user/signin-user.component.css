@@ -1,14 +1,14 @@
 .signin-heading{
-    color: purple; 
     text-align: center;
 }
 
 .container {
     height: 100vh;
-    background-color: aqua;
+    background: linear-gradient(to bottom, #6CDFF6, #3498DB);
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #3F51B5;
 }
 
 .form-floating{
