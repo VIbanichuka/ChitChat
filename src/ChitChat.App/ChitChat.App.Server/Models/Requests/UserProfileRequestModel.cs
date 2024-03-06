@@ -1,6 +1,6 @@
 ﻿namespace ChitChat.App.Server.Models.Requests
 {
-    public class UserProfileRequest
+    public class UserProfileRequestModel
     {
         public string? ProfilePicture { get; set; }
 

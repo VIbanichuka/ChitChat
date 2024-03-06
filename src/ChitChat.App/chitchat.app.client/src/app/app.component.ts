@@ -7,5 +7,4 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent {
   title = 'chitchat.app.client';
-  opened = true;
 }

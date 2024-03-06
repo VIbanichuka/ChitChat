@@ -20,9 +20,9 @@ namespace ChitChat.Core.Entities
 
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        public int? SenderId { get; set; }
+        public Guid SenderId { get; set; }
 
-        public int? ReceiverId { get; set; }
+        public Guid ReceiverId { get; set; }
 
         public int ChannelId { get; set; }
 

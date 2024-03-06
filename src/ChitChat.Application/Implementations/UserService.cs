@@ -31,8 +31,8 @@ namespace ChitChat.Application.Implementations
             }
 
             await CheckIfUserExist(user.Email, user.DisplayName);
-            var userProfile = new UserProfile();
-            user.UserProfile = userProfile;
+            var newUserProfile = new UserProfile();
+            user.UserProfile = newUserProfile;
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
 
@@ -66,7 +66,7 @@ namespace ChitChat.Application.Implementations
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
-        public async Task<UserDto> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
             {
@@ -74,10 +74,8 @@ namespace ChitChat.Application.Implementations
             }
             
             Expression<Func<User, bool>> userEmailExpression = u => u.Email == email;
-            
-            var user = await _userRepository.FindAsync(userEmailExpression);
 
-            return _mapper.Map<UserDto>(user);
+            return await _userRepository.FindAsync(userEmailExpression);             
         }
 
         public async Task<UserDto> UpdateUserAsync(UserDto user)

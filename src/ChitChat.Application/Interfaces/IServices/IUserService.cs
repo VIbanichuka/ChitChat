@@ -14,7 +14,7 @@ namespace ChitChat.Application.Interfaces.IServices
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
         Task<bool> DeleteUserAsync(Guid userId);
         Task<UserDto> UpdateUserAsync(UserDto user);
-        Task<UserDto> GetUserByEmailAsync(string email);
+        Task<User?> GetUserByEmailAsync(string email);
         Task<UserDto> GetUserByIdAsync(Guid userId);
     }
 }

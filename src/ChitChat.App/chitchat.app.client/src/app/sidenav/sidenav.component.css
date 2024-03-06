@@ -1,0 +1,13 @@
+mat-sidenav-container {
+    height: calc(100vh - 20px);
+ }
+ 
+ mat-sidenav {
+   width: 80px;
+   background: linear-gradient(to bottom, #6CDFF6, #3498DB); 
+  }
+ 
+ mat-toolbar{
+  background: linear-gradient(to right, #6CDFF6, #3498DB); 
+}
+ 

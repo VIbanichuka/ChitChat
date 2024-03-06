@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Dtos;
 using ChitChat.Application.Interfaces.IServices;
@@ -20,7 +21,7 @@ namespace ChitChat.App.Server.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<UserProfileResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -32,51 +33,59 @@ namespace ChitChat.App.Server.Controllers
             {
                 Log.Information("UserProfiles not found.");
                 return NotFound();
-            }
+            }         
 
-            return Ok(userProfiles);
+            var userProfileResponse = _mapper.Map<IEnumerable<UserProfileResponseModel>>(userProfiles);
+
+            return Ok(userProfileResponse);
         }
         
-        [HttpGet("{userProfileId}")]
-        [ProducesResponseType(typeof(UserProfileDto), 200)]
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(UserProfileResponseModel), 200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUserProfileById(Guid userProfileId) 
+        public async Task<IActionResult> GetUserProfileById(Guid id) 
         {
-            if (userProfileId == Guid.Empty)
+            if (id == Guid.Empty)
             {
                 Log.Error("No userProfile Id");
                 return BadRequest("Invalid user profile ID");
             }
 
-            var userProfile = await _userProfileService.GetUserProfileByIdAsync(userProfileId);
+            var userProfile = await _userProfileService.GetUserProfileByIdAsync(id);
             if (userProfile == null) 
             {
                 Log.Information("UserProfile not found.");
                 return NotFound();
             }
             
-            return Ok(userProfile);
+            var userProfileResponse = _mapper.Map<UserProfileResponseModel>(userProfile);
+
+            return Ok(userProfileResponse);
         }
 
-        [HttpPut("{userProfileId}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileRequest userProfileRequest, [FromRoute] Guid userProfileId)
+        public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileRequestModel userProfileRequest, [FromRoute] Guid id)
         {
-            var existingUser = await _userProfileService.GetUserProfileByIdAsync(userProfileId);
+            var existingUser = await _userProfileService.GetUserProfileByIdAsync(id);
             if (existingUser == null)
             {
                 Log.Information("User profile not to be updated.");
                 return NotFound("User Profile not found");
             }
 
-            var userProfile = _mapper.Map(userProfileRequest, existingUser);
-            await _userProfileService.UpdateUserProfileAsync(userProfile);
-            return NoContent();
+            var updatedUserProfile = _mapper.Map(userProfileRequest, existingUser);
+
+            await _userProfileService.UpdateUserProfileAsync(updatedUserProfile);
+
+            var userProfileResponse = _mapper.Map<UserProfileResponseModel>(updatedUserProfile);
+
+            return Ok(userProfileResponse);
         }
     }
 }

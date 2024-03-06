@@ -1,0 +1,29 @@
+.signin-heading{
+    text-align: center;
+}
+
+.container {
+    height: 100vh;
+    background: linear-gradient(to bottom, #6CDFF6, #3498DB);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3F51B5;
+}
+
+.form-floating{
+    margin: 20px;
+}
+
+.form-control{
+    width: 300px;
+    height: 30px;
+}
+
+.login-btn{
+    text-align: center;
+}
+
+.register-user{
+    text-align: center;
+}
