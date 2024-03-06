@@ -8,17 +8,19 @@ using Serilog;
 
 namespace ChitChat.App.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IPasswordService _passwordService;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper, IPasswordService passwordService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _mapper = mapper ?? throw new ArgumentNullException();
+            _passwordService = passwordService;
         }
 
         [HttpGet]
@@ -69,11 +71,14 @@ namespace ChitChat.App.Server.Controllers
                 Log.Warning("Invalid user data provided.");
                 return BadRequest("Invalid user data.");
             }
+            _passwordService.CreatePasswordHash(userRequest.Password,out byte[] passwordHash, out byte[] passwordSalt);
 
             var newUser = new User()
             {
                 DisplayName = userRequest.DisplayName,
                 Email = userRequest.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
             };
 
             Log.Information("User created successfully. User ID: {Email}", newUser.Email);

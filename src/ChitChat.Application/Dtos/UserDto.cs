@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +12,8 @@ namespace ChitChat.Application.Dtos
         public Guid UserId { get; set; }
         public string? DisplayName { get; set; }
         public string? Email { get; set; }
+        public byte[] PasswordHash { get; set; } = new byte[32];
+        public byte[] PasswordSalt { get; set; } = new byte[32];
         public List<Message>? SentMessages { get; set; }
         public List<Message>? ReceivedMessages { get; set; }
         public List<Channel>? Channels { get; set; }
