@@ -60,6 +60,23 @@ namespace ChitChat.App.Server.Controllers
             return Ok(userResponse);
         }
 
+        [HttpGet("{email}")]
+        [ProducesResponseType(typeof(UserResponseModel), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetUserByEmail(string email) 
+        {
+            var existingUser = await _userService.GetUserByEmailAsync(email);
+            if(existingUser == null) 
+            {
+                return NotFound("No user");
+            }
+            var user = _mapper.Map<UserResponseModel>(existingUser);
+            return Ok(user);
+        }
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

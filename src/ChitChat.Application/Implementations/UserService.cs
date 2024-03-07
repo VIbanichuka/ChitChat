@@ -72,10 +72,8 @@ namespace ChitChat.Application.Implementations
             {
                 throw new ArgumentNullException(nameof(email));
             }
-            
-            Expression<Func<User, bool>> userEmailExpression = u => u.Email == email;
 
-            return await _userRepository.FindAsync(userEmailExpression);             
+            return await _userRepository.FindAsync(user => user.Email == email);             
         }
 
         public async Task<UserDto> UpdateUserAsync(UserDto user)

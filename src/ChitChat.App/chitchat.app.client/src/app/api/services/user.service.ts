@@ -9,265 +9,298 @@ import { map, filter } from "rxjs/operators";
 import { UserRequestModel, UserResponseModel } from "../models";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class UserService extends BaseService {
-    constructor(
-        config: ApiConfiguration,
-        http: HttpClient
-    ) {
-        super(config, http);
+  constructor(
+    config: ApiConfiguration,
+    http: HttpClient
+  ) {
+    super(config, http);
+  }
+
+  static readonly UserIdGetPath = '/User/{id}';
+  userIdGet$Plain$Response(params: {
+    id: string;
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<UserResponseModel>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserIdGetPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
     }
 
-    static readonly UserIdGetPath = '/User/{id}';
-    userIdGet$Plain$Response(params: {
-        id: string;
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<UserResponseModel>;
+      })
+    );
+  }
 
-    ): Observable<StrictHttpResponse<UserResponseModel>> {
+  userIdGet$Plain(params: {
+    id: string;
+  },
+    context?: HttpContext
 
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserIdGetPath, 'get');
-        if (params) {
-            rb.path('id', params.id, {});
-        }
+  ): Observable<UserResponseModel> {
 
-        return this.http.request(rb.build({
-            responseType: 'text',
-            accept: 'text/plain',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return r as StrictHttpResponse<UserResponseModel>;
-            })
-        );
+    return this.userIdGet$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
+    );
+  }
+
+  static readonly UserEmailGetPath = '/User/{email}';
+  userEmailGet$Response(params: {
+    email: string
+  },
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<UserResponseModel>> {
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserEmailGetPath, 'get');
+    if (params) {
+      rb.path('email', params.email, {})
     }
 
-    userIdGet$Plain(params: {
-        id: string;
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<UserResponseModel>;
+      })
+    );
+  }
 
-    ): Observable<UserResponseModel> {
+  userEmailGet(params: {
+    email: string;
+  },
+    context?: HttpContext
+  ): Observable<UserResponseModel> {
+    return this.userEmailGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
+    );
+  }
 
-        return this.userIdGet$Plain$Response(params, context).pipe(
-            map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
-        );
+  userIdGet$Response(params: {
+    id: string;
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<UserResponseModel>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserIdGetPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
     }
 
-    userIdGet$Response(params: {
-        id: string;
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<UserResponseModel>;
+      })
+    );
+  }
 
-    ): Observable<StrictHttpResponse<UserResponseModel>> {
+  userIdGet(params: {
+    id: string;
+  },
+    context?: HttpContext
 
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserIdGetPath, 'get');
-        if (params) {
-            rb.path('id', params.id, {});
-        }
+  ): Observable<UserResponseModel> {
 
-        return this.http.request(rb.build({
-            responseType: 'json',
-            accept: 'text/json',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return r as StrictHttpResponse<UserResponseModel>;
-            })
-        );
+    return this.userIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
+    );
+  }
+
+  static readonly UserGetPath = '/User';
+  userGet$Plain$Response(params?: {
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<Array<UserResponseModel>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserGetPath, 'get');
+    if (params) {
     }
 
-    userIdGet(params: {
-        id: string;
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<UserResponseModel>>;
+      })
+    );
+  }
 
-    ): Observable<UserResponseModel> {
+  userGet$Plain(params?: {
+  },
+    context?: HttpContext
 
-        return this.userIdGet$Response(params, context).pipe(
-            map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
-        );
+  ): Observable<Array<UserResponseModel>> {
+
+    return this.userGet$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<UserResponseModel>>) => r.body as Array<UserResponseModel>)
+    );
+  }
+
+  userGet$Response(params?: {
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<Array<UserResponseModel>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserGetPath, 'get');
+    if (params) {
     }
 
-    static readonly UserGetPath = '/User';
-    userGet$Plain$Response(params?: {
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<UserResponseModel>>;
+      })
+    );
+  }
 
-    ): Observable<StrictHttpResponse<Array<UserResponseModel>>> {
+  userGet(params?: {
+  },
+    context?: HttpContext
 
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserGetPath, 'get');
-        if (params) {
-        }
+  ): Observable<Array<UserResponseModel>> {
 
-        return this.http.request(rb.build({
-            responseType: 'text',
-            accept: 'text/plain',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return r as StrictHttpResponse<Array<UserResponseModel>>;
-            })
-        );
+    return this.userGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<UserResponseModel>>) => r.body as Array<UserResponseModel>)
+    );
+  }
+
+  static readonly UserPostPath = '/User';
+  userPost$Response(params?: {
+    body?: UserRequestModel
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserPostPath, 'post');
+    if (params) {
+      rb.body(params.body, 'application/*+json');
     }
 
-    userGet$Plain(params?: {
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
 
-    ): Observable<Array<UserResponseModel>> {
+  userPost(params?: {
+    body?: UserRequestModel
+  },
+    context?: HttpContext
 
-        return this.userGet$Plain$Response(params, context).pipe(
-            map((r: StrictHttpResponse<Array<UserResponseModel>>) => r.body as Array<UserResponseModel>)
-        );
+  ): Observable<void> {
+
+    return this.userPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  static readonly UserDeletePath = '/User/{id}';
+  userDelete$Response(params: {
+    id: string;
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserDeletePath, 'delete');
+    if (params) {
+      rb.body(params.id, 'application/*+json');
     }
 
-    userGet$Response(params?: {
-    },
-        context?: HttpContext
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
 
-    ): Observable<StrictHttpResponse<Array<UserResponseModel>>> {
+  userDelete(params: {
+    id: string
+  },
+    context?: HttpContext
 
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserGetPath, 'get');
-        if (params) {
-        }
+  ): Observable<void> {
 
-        return this.http.request(rb.build({
-            responseType: 'json',
-            accept: 'text/json',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return r as StrictHttpResponse<Array<UserResponseModel>>;
-            })
-        );
+    return this.userDelete$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  static readonly UserPutPath = '/User/{id}';
+  userPut$Response(params: {
+    id: string,
+    body?: UserRequestModel
+  },
+    context?: HttpContext
+
+  ): Observable<StrictHttpResponse<UserResponseModel>> {
+    const rb = new RequestBuilder(this.rootUrl, UserService.UserPutPath, 'put');
+    if (params) {
+      rb.path('id', params.id, {});
+      rb.body(params.body, 'application/*+json');
     }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<UserResponseModel>;
+      })
+    );
+  }
 
-    userGet(params?: {
-    },
-        context?: HttpContext
+  userPut(params: {
+    id: string,
+    body?: UserRequestModel
+  },
+    context: HttpContext
+  ): Observable<UserResponseModel> {
 
-    ): Observable<Array<UserResponseModel>> {
-
-        return this.userGet$Response(params, context).pipe(
-            map((r: StrictHttpResponse<Array<UserResponseModel>>) => r.body as Array<UserResponseModel>)
-        );
-    }
-
-    static readonly UserPostPath = '/User';
-    userPost$Response(params?: {
-        body?: UserRequestModel
-    },
-        context?: HttpContext
-
-    ): Observable<StrictHttpResponse<void>> {
-
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserPostPath, 'post');
-        if (params) {
-            rb.body(params.body, 'application/*+json');
-        }
-
-        return this.http.request(rb.build({
-            responseType: 'text',
-            accept: '*/*',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-            })
-        );
-    }
-
-    userPost(params?: {
-        body?: UserRequestModel
-    },
-        context?: HttpContext
-
-    ): Observable<void> {
-
-        return this.userPost$Response(params, context).pipe(
-            map((r: StrictHttpResponse<void>) => r.body as void)
-        );
-    }
-
-    static readonly UserDeletePath = '/User/{id}';
-    userDelete$Response(params: {
-        id: string;
-    },
-        context?: HttpContext
-
-    ): Observable<StrictHttpResponse<void>> {
-
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserDeletePath, 'delete');
-        if (params) {
-            rb.body(params.id, 'application/*+json');
-        }
-
-        return this.http.request(rb.build({
-            responseType: 'text',
-            accept: '*/*',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-            })
-        );
-    }
-
-    userDelete(params: {
-        id: string
-    },
-        context?: HttpContext
-
-    ): Observable<void> {
-
-        return this.userDelete$Response(params, context).pipe(
-            map((r: StrictHttpResponse<void>) => r.body as void)
-        );
-    }
-
-    static readonly UserPutPath = '/User/{id}';
-    userPut$Response(params: {
-        id: string,
-        body?: UserRequestModel
-    },
-        context?: HttpContext
-
-    ): Observable<StrictHttpResponse<UserResponseModel>> {
-        const rb = new RequestBuilder(this.rootUrl, UserService.UserPutPath, 'put');
-        if (params) {
-            rb.path('id', params.id, {});
-            rb.body(params.body, 'application/*+json');
-        }
-        return this.http.request(rb.build({
-            responseType: 'json',
-            accept: 'text/json',
-            context: context
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return r as StrictHttpResponse<UserResponseModel>;
-            })
-        );
-    }
-
-    userPut(params: {
-        id: string,
-        body?: UserRequestModel
-    },
-        context: HttpContext
-    ): Observable<UserResponseModel> {
-
-        return this.userPut$Response(params, context).pipe(
-            map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
-        );
-    }
+    return this.userPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponseModel>) => r.body as UserResponseModel)
+    );
+  }
 }
