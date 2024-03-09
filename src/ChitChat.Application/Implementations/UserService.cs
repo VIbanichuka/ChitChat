@@ -72,10 +72,8 @@ namespace ChitChat.Application.Implementations
             {
                 throw new ArgumentNullException(nameof(email));
             }
-            
-            Expression<Func<User, bool>> userEmailExpression = u => u.Email == email;
 
-            return await _userRepository.FindAsync(userEmailExpression);             
+            return await _userRepository.FindAsync(user => user.Email == email);             
         }
 
         public async Task<UserDto> UpdateUserAsync(UserDto user)
@@ -102,6 +100,30 @@ namespace ChitChat.Application.Implementations
                 throw new ArgumentNullException();   
             }
             return _mapper.Map<UserDto>(user);
+        }
+
+        public async Task<bool> CheckForEmail(string email)
+        {
+            if ((string.IsNullOrWhiteSpace(email)) || (await _userRepository.AnyAsync(u => u.Email == email)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> CheckForDisplayName(string displayName)
+        {
+            if ((string.IsNullOrWhiteSpace(displayName)) || (await _userRepository.AnyAsync(u => u.DisplayName == displayName)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
