@@ -7,13 +7,16 @@
             </div>
 
             <div class="form-floating">
-                <input formControlName="displayName" placeholder="Display name" class="form-control" />
+                <input (blur)="checkIfDisplayNameExists()" formControlName="displayName" placeholder="Display name" class="form-control" />
                 <label for="displayName"></label>
                 <div style="color: red" *ngIf="form.get('displayName')?.hasError('required') && form.get('displayName')?.touched">
                     Display name is required
                 </div>
                 <div style="color: red" *ngIf="form.get('displayName')?.hasError('maxlength') && form.get('displayName')?.touched">
                     Maximum characters allowed is 30
+                </div>
+                <div style="color: red" *ngIf="getDisplayNameValidationMessage() !== '' ">
+                    {{ getDisplayNameValidationMessage() }}
                 </div>
             </div>
 
@@ -28,6 +31,9 @@
                 </div>
                 <div style="color: red" *ngIf="form.get('email')?.hasError('maxlength') && form.get('email')?.touched">
                     Maximum characters allowed is 300
+                </div>
+                <div style="color: red" *ngIf="getEmailValidationMessage() !== '' ">
+                    {{ getEmailValidationMessage() }}
                 </div>
             </div>
 

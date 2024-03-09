@@ -60,7 +60,7 @@ namespace ChitChat.App.Server.Controllers
             return Ok(userResponse);
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("find-email/{email}")]
         [ProducesResponseType(typeof(UserResponseModel), 200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -69,12 +69,53 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> GetUserByEmail(string email) 
         {
             var existingUser = await _userService.GetUserByEmailAsync(email);
-            if(existingUser == null) 
+            if (existingUser == null)
             {
-                return NotFound("No user");
+                return BadRequest("User does not exist");
             }
-            var user = _mapper.Map<UserResponseModel>(existingUser);
-            return Ok(user);
+            else 
+            {
+                var userResponse = _mapper.Map<UserResponseModel>(existingUser);
+                return Ok(userResponse);
+            }
+        }
+
+        [HttpGet("email/{email}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> CheckForUserEmail(string email)
+        {
+            var userExists = await _userService.CheckForEmail(email);
+            if (userExists)
+            {
+                return BadRequest("Email exists");
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        [HttpGet("display-name/{displayName}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> CheckForDisplayName(string displayName)
+        {
+            var userExists = await _userService.CheckForDisplayName(displayName);
+            if (userExists)
+            {
+                return BadRequest("Display name exists");
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
         [HttpPost]

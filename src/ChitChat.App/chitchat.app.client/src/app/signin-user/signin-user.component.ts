@@ -29,8 +29,12 @@ export class SigninUserComponent implements OnInit {
 
     console.log(this.form.value)
     this.authService.authPost({ body: this.form.value }).subscribe(
-      token => { console.log(token); this.router.navigate(['/home']); },
+      token => {
+        this.router.navigate(['/home']);
+        console.log(token); 
+      },
       error => {
+        alert("Incorrect Email or Password")
         console.error("Invalid authentication", error);
       }
     );

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../api/services/user.service';
+import {UserService} from '../api/services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -39,17 +39,45 @@ export class RegisterUserComponent implements OnInit {
       return;
 
       console.log(this.form.value);
-      this.userService.userPost({ body: this.form.value }).subscribe(_ => {
+      this.userService.registerUser(this.form.value).subscribe(_ => {
         console.log('posted to server');
         this.router.navigate(['/home']);
       });
   }
 
+  emailExists: boolean = false;
   checkIfUserExists(): void {
-    this.userService.userEmailGet(this.form.get('email')?.value).subscribe(_ => {
-      console.log("user doesn't exist");
+    const email = this.form.get('email')?.value;
+    console.log(email);
+    if (!email)
+      return;
+    this.userService.getEmail(email).subscribe(response => {
+      console.log('user does not exist', response);
+      this.emailExists = false;
     },
-      error => { console.log("user exists", error); alert("User already exists") }
+      error => { console.log(error); this.emailExists = true; }
     )
+  }
+
+  getEmailValidationMessage(): string {
+    return this.emailExists ? 'Email exists aleady' : '';
+  }
+
+  displayNameExists: boolean = false;
+  checkIfDisplayNameExists(): void {
+    const displayName = this.form.get('displayName')?.value;
+    console.log(displayName);
+    if (!displayName)
+      return;
+    this.userService.getDisplayName(displayName).subscribe(response => {
+      console.log('display name does not exist', response);
+      this.displayNameExists = false;
+    },
+      error => { console.log(error); this.displayNameExists = true; }
+    )
+  }
+
+  getDisplayNameValidationMessage(): string {
+    return this.displayNameExists ? 'Display name exists aleady' : '';
   }
 }

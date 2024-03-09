@@ -101,5 +101,29 @@ namespace ChitChat.Application.Implementations
             }
             return _mapper.Map<UserDto>(user);
         }
+
+        public async Task<bool> CheckForEmail(string email)
+        {
+            if ((string.IsNullOrWhiteSpace(email)) || (await _userRepository.AnyAsync(u => u.Email == email)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> CheckForDisplayName(string displayName)
+        {
+            if ((string.IsNullOrWhiteSpace(displayName)) || (await _userRepository.AnyAsync(u => u.DisplayName == displayName)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
