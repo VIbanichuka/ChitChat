@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChitChat.Core.Enums
 {
-    public enum FriendShipStatus
+    public enum FriendshipStatus
     {
         Accepted = 0,
         Rejected = 1,
