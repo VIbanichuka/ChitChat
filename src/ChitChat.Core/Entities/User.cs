@@ -34,9 +34,9 @@ namespace ChitChat.Core.Entities
         public virtual ICollection<Message> SentMessages { get; set; } = null!;
 
         public virtual ICollection<Message> ReceivedMessages { get; set; } = null!;
-
+        public virtual ICollection<Friendship> SentFriendRequests { get; set; } = null!;
+        public virtual ICollection<Friendship> ReceivedFriendRequests { get; set; } = null!;
         public virtual ICollection<Channel> Channels { get; set; } = null!;
-
         public virtual ICollection<UserConnection> Connections { get; set; } = null!;
     }
 }

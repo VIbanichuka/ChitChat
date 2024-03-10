@@ -23,6 +23,7 @@ namespace ChitChat.Infrastructure.Data
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
         public virtual DbSet<UserConnection> UserConnections { get; set; }
+        public virtual DbSet<Friendship> Friendships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,18 @@ namespace ChitChat.Infrastructure.Data
                 .HasOne(m => m.Receiver)
                 .WithMany()
                 .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Friendship>()
+                .HasOne(f => f.Inviter)
+                .WithMany(u => u.SentFriendRequests)
+                .HasForeignKey(f => f.InviterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Friendship>()
+                .HasOne(f => f.Invitee)
+                .WithMany(u => u.ReceivedFriendRequests)
+                .HasForeignKey(f => f.InviteeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);

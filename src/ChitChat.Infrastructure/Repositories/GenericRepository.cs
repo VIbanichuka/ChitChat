@@ -76,5 +76,29 @@ namespace ChitChat.Infrastructure.Repositories
         {
             return await _context.Set<TEntity>().AnyAsync(predicate);
         }
+
+        public IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = _context.Set<TEntity>().AsQueryable();
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return query;
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllWithIncludeAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = Include(includes);
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

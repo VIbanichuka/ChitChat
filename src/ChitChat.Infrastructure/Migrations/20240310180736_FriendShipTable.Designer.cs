@@ -3,6 +3,7 @@ using System;
 using ChitChat.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChitChat.Infrastructure.Migrations
 {
     [DbContext(typeof(ChitChatDbContext))]
-    partial class ChitChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310180736_FriendShipTable")]
+    partial class FriendShipTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +66,8 @@ namespace ChitChat.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FriendshipId"));
 
-                    b.Property<string>("FriendshipStatus")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)");
+                    b.Property<int>("FriendshipStatus")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("InviteTime")
                         .HasColumnType("timestamp with time zone");

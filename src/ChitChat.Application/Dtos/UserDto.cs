@@ -17,5 +17,7 @@ namespace ChitChat.Application.Dtos
         public List<Message>? SentMessages { get; set; }
         public List<Message>? ReceivedMessages { get; set; }
         public List<Channel>? Channels { get; set; }
+        public List<Friendship> SentFriendRequests { get; set; } = null!;
+        public List<Friendship> ReceivedFriendRequests { get; set; } = null!;
     }
 }
