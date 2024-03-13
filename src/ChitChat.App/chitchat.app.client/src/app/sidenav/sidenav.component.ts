@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { UserProfileComponent } from 'src/app/user-profile/user-profile.component';
+import { MainUserProfileComponent } from 'src/app/main-user-profile/main-user-profile.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-sidenav',
@@ -6,5 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidenav.component.css']
 })
 export class SidenavComponent {
+  constructor(private matDialog: MatDialog) { }
   opened = true;
+  openDialog() {
+    this.matDialog.open(MainUserProfileComponent, {
+      width: '400px',
+    })
+  }
+  
 }
