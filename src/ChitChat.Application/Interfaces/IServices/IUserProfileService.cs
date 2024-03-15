@@ -12,7 +12,7 @@ namespace ChitChat.Application.Interfaces.IServices
     public interface IUserProfileService
     {
         Task<IEnumerable<UserProfileDto>> GetAllUserProfilesAsync();
-        Task<UserProfileDto> GetUserProfileByIdAsync(Guid userProfileId);
+        Task<UserProfileDto> GetUserProfileByIdAsync(Guid userId);
         Task<UserProfileDto> UpdateUserProfileAsync(UserProfileDto userProfile);
     }
 }

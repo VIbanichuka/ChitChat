@@ -3,12 +3,13 @@ using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Dtos;
 using ChitChat.Application.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 namespace ChitChat.App.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
     {
@@ -20,7 +21,7 @@ namespace ChitChat.App.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [ProducesResponseType(typeof(IEnumerable<UserProfileResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

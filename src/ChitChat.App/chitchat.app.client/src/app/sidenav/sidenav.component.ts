@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { UserProfileComponent } from 'src/app/user-profile/user-profile.component';
 import { MainUserProfileComponent } from 'src/app/main-user-profile/main-user-profile.component';
 import { MatDialog } from '@angular/material/dialog';
 

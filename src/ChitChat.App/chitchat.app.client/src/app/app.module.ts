@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -23,6 +23,7 @@ import { RegisterUserComponent } from './register-user/register-user.component';
 import { SigninUserComponent } from './signin-user/signin-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainUserProfileComponent } from './main-user-profile/main-user-profile.component';
+import { AuthInterceptor } from './api/services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,11 @@ import { MainUserProfileComponent } from './main-user-profile/main-user-profile.
     ]),
     NoopAnimationsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

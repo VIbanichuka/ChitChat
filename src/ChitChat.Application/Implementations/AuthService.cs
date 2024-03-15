@@ -29,7 +29,7 @@ namespace ChitChat.Application.Implementations
 
             var token = new JwtSecurityToken(
                     claims: GetClaims(user),
-                    expires: DateTime.Now.AddMinutes(100),
+                    expires: DateTime.Now.AddMinutes(400),
                     signingCredentials: credentials
                 );
 
@@ -42,7 +42,10 @@ namespace ChitChat.Application.Implementations
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             return claims;

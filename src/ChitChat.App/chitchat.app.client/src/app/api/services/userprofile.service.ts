@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { UserProfileRequestModel, UserProfileResponseModel } from "../models";
@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.development'
   providedIn: 'root'
 })
 
-export class UserprofileserviceService {
+export class UserProfileService {
   userProfileUrl = "/UserProfile/"
   userProfilesUrl = "/UserProfile"
   constructor(private httpClient: HttpClient) { }
@@ -19,10 +19,10 @@ export class UserprofileserviceService {
     return this.httpClient.get<UserProfileResponseModel>(url);
   }
 
-  public getAllUserProfiles(): Observable<UserProfileResponseModel> {
+  public getAllUserProfiles(): Observable<UserProfileResponseModel[]> {
     const url = `${environment.apiUrl}${this.userProfilesUrl}`;
     console.log('Request URL:', url);
-    return this.httpClient.get<UserProfileResponseModel>(url);
+    return this.httpClient.get<UserProfileResponseModel[]>(url);
   }
 
   public updateUserProfile(id: string, userProfileRequest: UserProfileRequestModel): Observable<UserProfileResponseModel> {
