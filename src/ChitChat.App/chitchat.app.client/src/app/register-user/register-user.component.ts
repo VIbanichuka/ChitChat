@@ -41,7 +41,7 @@ export class RegisterUserComponent implements OnInit {
       console.log(this.form.value);
       this.userService.registerUser(this.form.value).subscribe(_ => {
         console.log('posted to server');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/signin-user']);
       });
   }
 

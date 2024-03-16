@@ -25,7 +25,7 @@ export class UserProfileService {
     return this.httpClient.get<UserProfileResponseModel[]>(url);
   }
 
-  public updateUserProfile(id: string, userProfileRequest: UserProfileRequestModel): Observable<UserProfileResponseModel> {
+  public updateUserProfile(id: string | null, userProfileRequest: UserProfileRequestModel): Observable<UserProfileResponseModel> {
     const url = `${environment.apiUrl}${this.userProfileUrl}${id}`;
     console.log('Request URL:', url);
     return this.httpClient.put<UserProfileResponseModel>(url, userProfileRequest);

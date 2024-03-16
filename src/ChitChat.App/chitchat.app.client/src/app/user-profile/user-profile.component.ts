@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserProfileService } from 'src/app/api/services/userprofile.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router} from '@angular/router';
+import { AuthService } from '../api/services/auth.service';
 import { UserProfileResponseModel } from '../api/models';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,40 +12,68 @@ import { UserProfileResponseModel } from '../api/models';
 })
 export class UserProfileComponent implements OnInit {
   form: FormGroup;
+  userProfile: UserProfileResponseModel | null = null;
 
   constructor(private userProfileService: UserProfileService,
     private formbuilder: FormBuilder,
-    private router: Router,
-  ) {
+    private authService: AuthService,
+    private matDialog: MatDialog) {
+
     this.form = this.formbuilder.group({
       firstName: ['', [Validators.maxLength(50)]],
       lastName: ['', [Validators.maxLength(50)]],
-      Bio: ['', [Validators.maxLength(300)]],
+      bio: ['', [Validators.maxLength(300)]],
     })
-
   }
 
-  profileId: string = ''
-  userProfiles: UserProfileResponseModel[] = [];
-
- 
   ngOnInit(): void {
-    this.getAllUserProfiles();
+    this.prefillProfile();
   }
 
-  editUserProfile(): void {
-
+  closeUserProfileDialogs() {
+    this.matDialog.closeAll()
   }
 
-  getAllUserProfiles() {
-    this.userProfileService.getAllUserProfiles().subscribe(
-      (userProfiles: UserProfileResponseModel[]) => {
-        this.userProfiles = userProfiles;
-        console.log(userProfiles)
-      },
-      (error) => {
-        console.error('Error fetching user profiles:', error);
+  editUserProfile() {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId) {
+        console.log('no user found')
+        return;
       }
-    );
+
+      if (this.form.invalid)
+        return;
+
+      this.userProfileService.updateUserProfile(userId, this.form.value).subscribe(_ => {
+        console.log('updated')
+      });
+      this.closeUserProfileDialogs();
+    });
   }
+
+  prefillProfile(): void {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId) {
+        return;
+      }
+
+      this.userProfileService.getUserProfileById(userId).subscribe(
+        (userProfile: UserProfileResponseModel) => {
+          this.userProfile = userProfile;
+          this.prefillForm();
+        }
+      )
+    })
+  }
+
+  private prefillForm(): void {
+    if (this.userProfile) {
+      this.form.patchValue({
+        firstName: this.userProfile.firstName,
+        lastName: this.userProfile.lastName,
+        bio: this.userProfile.bio
+      })
+    }
+  }
+
 }
