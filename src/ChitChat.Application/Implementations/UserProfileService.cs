@@ -14,12 +14,14 @@ namespace ChitChat.Application.Implementations
     public class UserProfileService : IUserProfileService
     {
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
 
-        public UserProfileService(IUserProfileRepository userProfileRepository, IMapper mapper)
+        public UserProfileService(IUserProfileRepository userProfileRepository, IMapper mapper, IFileService fileService)
         {
             _userProfileRepository = userProfileRepository;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<IEnumerable<UserProfileDto>> GetAllUserProfilesAsync()
@@ -49,5 +51,31 @@ namespace ChitChat.Application.Implementations
             return _mapper.Map<UserProfileDto>(existingUserProfile);
         }
 
+        public async Task<UserProfileDto> EditProfilePhoto(UserProfileDto userProfile) 
+        {
+            var existingUserProfile = await _userProfileRepository.GetByIdAsync(userProfile.UserProfileId);
+            if (existingUserProfile == null) 
+            {
+                throw new ArgumentNullException(nameof(userProfile));
+            }
+            await _fileService.UpdateImageAsync(userProfile.ImageFile, existingUserProfile.ProfilePicture);
+
+            _mapper.Map(userProfile, existingUserProfile);      
+            _userProfileRepository.Update(existingUserProfile);
+            await _userProfileRepository.SaveChangesAsync();
+            return _mapper.Map<UserProfileDto>(existingUserProfile);
+        }
+
+        public async Task<bool> DeleteProfilePhotoAsync(UserProfileDto userProfile)
+        {
+            var existingUserProfile = await _userProfileRepository.GetByIdAsync(userProfile.UserProfileId);
+            if (existingUserProfile == null)
+            {
+                throw new ArgumentNullException(nameof(userProfile));
+            }
+            _fileService.RemoveImage(existingUserProfile.ProfilePicture);
+            await _userProfileRepository.SaveChangesAsync();
+            return true;
+        }
     }
 }
