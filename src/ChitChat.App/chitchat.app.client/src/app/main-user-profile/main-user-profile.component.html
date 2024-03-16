@@ -1,0 +1,24 @@
+<mat-dialog-content>
+    <header>
+        <h1>Profile</h1>
+        <hr />
+    </header>
+
+    <div class="profile-header">
+
+        <div class="profile-image">
+            <img src="../assets/photo.jpg" />
+        </div>
+        
+        <div class="profile-content">
+            <h2>{{userProfile?.firstName}} {{userProfile?.lastName}}</h2>
+            <button mat-button color="primary" (click)="openEditUserProfileDialog()">Edit</button>
+        </div>
+        
+    </div>
+    <hr />
+    <mat-dialog-actions align="end">
+        <button mat-raised-button matDialogClose>Close</button>
+    </mat-dialog-actions>
+
+</mat-dialog-content>

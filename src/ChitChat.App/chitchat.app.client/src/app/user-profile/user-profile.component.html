@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="editUserProfile()">
+    <button mat-icon-button style="float: right;" matDialogClose>
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-dialog-content>
+        <header>
+            <h1>Edit your Profile</h1>
+            <hr />
+        </header>
+
+        <div style="display: flex; gap: 16px;">
+            <mat-form-field>
+                <input matInput formControlName="firstName" placeholder="Firstname" />
+                <label for="firstName"></label>
+                <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName="lastName" placeholder="Lastname" />
+                <label for="lastName"></label>
+                <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <p>
+            <mat-form-field style="width: 100%;">
+                <input matInput formControlName="bio" placeholder="Bio" />
+                <label for="bio"></label>
+            </mat-form-field>
+        </p>
+    </mat-dialog-content>
+
+    <hr />
+    <mat-dialog-actions align="end">
+        <button type="submit" mat-raised-button color="primary">Save Changes</button>
+    </mat-dialog-actions>
+
+</form>

@@ -1,12 +1,12 @@
 <mat-toolbar>
     <mat-toolbar-row style="justify-content: space-between; align-items: center;">
         <a routerLink="/home"
-            style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
+           style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
             <span style="font-size: 14px;">PrimaMensa ChitChat</span>
         </a>
 
         <div style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
-            <input type="search" style="width: 80%; max-width: 400px; height: 36px;">         
+            <input type="search" style="width: 80%; max-width: 400px; height: 36px;">
             <button type="submit" mat-raised-button color="primary" class="btn-primary" style="height: 36px;">
                 <mat-icon>search</mat-icon>
             </button>
@@ -20,7 +20,7 @@
         <mat-list>
             <mat-list-item style="margin-bottom: 20px;">
                 <a routerLink="/home"
-                    style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
+                   style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
                     <mat-icon color="primary" style="font-size: 28px;">home</mat-icon>
                     <span style="font-size: 12px;">Home</span>
                 </a>
@@ -28,7 +28,7 @@
 
             <mat-list-item style="margin-bottom: 20px;">
                 <a routerLink="./dms"
-                    style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
+                   style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
                     <mat-icon color="primary" style="font-size: 28px;">chat</mat-icon>
                     <span style="font-size: 12px;">DMs</span>
                 </a>
@@ -36,14 +36,42 @@
 
             <mat-list-item style="margin-bottom: 20px;">
                 <a routerLink="./friends"
-                    style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
+                   style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
                     <mat-icon color="primary" style="font-size: 28px;">people</mat-icon>
                     <span style="font-size: 12px;">Friends</span>
                 </a>
             </mat-list-item>
+
+            <mat-list-item style="margin-top: 420px;">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon color="primary">person</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu">
+
+                    <mat-dialog-actions>
+                        <button mat-menu-item (click)="openDialog()" >
+                            <span>Profile</span>
+                        </button>
+                    </mat-dialog-actions>
+                 
+                    <button mat-menu-item>
+                        <span>Pending Invites</span>
+                    </button>
+
+                    <button mat-menu-item>
+                        <mat-icon>exit_to_app</mat-icon>
+                        <span>Sign out</span>
+                    </button>
+                </mat-menu>
+
+            </mat-list-item>
         </mat-list>
 
     </mat-sidenav>
+
+
+
     <mat-sidenav-content>
         <router-outlet></router-outlet>
     </mat-sidenav-content>

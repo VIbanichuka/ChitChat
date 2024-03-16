@@ -1,21 +1,24 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpResponse, HttpContext } from "@angular/common/http";
 import { BaseService } from "../base-service";
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ApiConfiguration } from "../api-configuration";
 import { StrictHttpResponse } from "../strict-http-response";
 import { RequestBuilder } from "../request-builder";
 import { map, filter } from "rxjs/operators";
-import { UserLoginRequestModel } from "src/app/api/models";
+import { UserLoginRequestModel, UserResponseModel } from "src/app/api/models";
+import { JwtHelperService, JwtModule } from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService extends BaseService {
+
+  jwtHelper = new JwtHelperService();
   constructor(
     config: ApiConfiguration,
-    http: HttpClient
+    http: HttpClient,
   ) {
     super(config, http);
   }
@@ -55,5 +58,15 @@ export class AuthService extends BaseService {
     return this.authPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<string>) => r.body)
     );
+  }
+
+  getUserIdFromToken(): Observable<string | null>{
+    const token = localStorage.getItem('token');
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return of(decodedToken.id);
+    } else {
+      return of(null);
+    }
   }
 }

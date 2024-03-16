@@ -39,11 +39,11 @@ namespace ChitChat.Application.Implementations
             var friendships = await _friendshipRepository
                 .GetAllWithIncludeAsync(f => (f.InviteeId == userId || f.InviterId == userId) && f.FriendshipStatus == FriendshipStatus.Accepted, f => f.Inviter, f => f.Invitee);
 
-            var friendDtos = friendships
+            var friends = friendships
         .SelectMany(f => f.InviteeId == userId ? new[] { new FriendDto(f.Inviter.UserId, f.Inviter.DisplayName) } : new[] { new FriendDto(f.Invitee.UserId, f.Invitee.DisplayName) })
         .ToList();
 
-            return friendDtos;
+            return friends;
         }
 
         public async Task<IEnumerable<Friendship>> GetPendingFriendRequestsAsync(Guid userId)

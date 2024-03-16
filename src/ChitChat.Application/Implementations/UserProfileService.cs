@@ -7,6 +7,7 @@ using AutoMapper;
 using ChitChat.Application.Dtos;
 using ChitChat.Application.Interfaces.IRepositories;
 using ChitChat.Application.Interfaces.IServices;
+using ChitChat.Core.Entities;
 
 namespace ChitChat.Application.Implementations
 {
@@ -27,9 +28,9 @@ namespace ChitChat.Application.Implementations
             return _mapper.Map<IEnumerable<UserProfileDto>>(userProfiles);   
         }
 
-        public async Task<UserProfileDto> GetUserProfileByIdAsync(Guid userProfileId)
+        public async Task<UserProfileDto> GetUserProfileByIdAsync(Guid userId)
         {
-            var userProfile = await _userProfileRepository.GetByIdAsync(userProfileId);
+            var userProfile = await _userProfileRepository.FindAsync(u => u.UserId == userId);
             return _mapper.Map<UserProfileDto>(userProfile);
         }
 
@@ -47,5 +48,6 @@ namespace ChitChat.Application.Implementations
             await _userProfileRepository.SaveChangesAsync();
             return _mapper.Map<UserProfileDto>(existingUserProfile);
         }
+
     }
 }
