@@ -45,6 +45,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
