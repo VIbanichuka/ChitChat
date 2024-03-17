@@ -51,29 +51,28 @@ namespace ChitChat.Application.Implementations
             return _mapper.Map<UserProfileDto>(existingUserProfile);
         }
 
-        public async Task<UserProfileDto> EditProfilePhoto(UserProfileDto userProfile) 
+        public async Task<UserProfileDto> UploadProfilePhoto(UserProfileDto userProfile) 
         {
             var existingUserProfile = await _userProfileRepository.GetByIdAsync(userProfile.UserProfileId);
-            if (existingUserProfile == null) 
+            if(existingUserProfile != null)
             {
-                throw new ArgumentNullException(nameof(userProfile));
-            }
-            await _fileService.UpdateImageAsync(userProfile.ImageFile, existingUserProfile.ProfilePicture);
-
-            _mapper.Map(userProfile, existingUserProfile);      
-            _userProfileRepository.Update(existingUserProfile);
-            await _userProfileRepository.SaveChangesAsync();
+                var fileName = await _fileService.UploadImageAsync(userProfile.ImageFile);
+                existingUserProfile.ProfilePicture = fileName;
+                _userProfileRepository.Update(existingUserProfile);
+                await _userProfileRepository.SaveChangesAsync();
+            }         
             return _mapper.Map<UserProfileDto>(existingUserProfile);
         }
 
         public async Task<bool> DeleteProfilePhotoAsync(UserProfileDto userProfile)
         {
             var existingUserProfile = await _userProfileRepository.GetByIdAsync(userProfile.UserProfileId);
-            if (existingUserProfile == null)
+            if (existingUserProfile == null || existingUserProfile.ProfilePicture == null)
             {
                 throw new ArgumentNullException(nameof(userProfile));
             }
             _fileService.RemoveImage(existingUserProfile.ProfilePicture);
+            existingUserProfile.ProfilePicture = string.Empty;
             await _userProfileRepository.SaveChangesAsync();
             return true;
         }

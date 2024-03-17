@@ -6,8 +6,11 @@
 
     <div class="profile-header">
 
-        <div class="profile-image">
-            <img src="../assets/photo.jpg" />
+        <div class="profile-image" [ngStyle]="{'background-color': circleColor}">
+            <img *ngIf="!showInitials" src="{{userProfile?.profilePicture}}">
+            <div *ngIf="showInitials" class="initials">
+                {{initials}}
+            </div>
         </div>
         
         <div class="profile-content">
