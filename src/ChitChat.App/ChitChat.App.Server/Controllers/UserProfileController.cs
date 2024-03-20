@@ -22,7 +22,7 @@ namespace ChitChat.App.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserProfileResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

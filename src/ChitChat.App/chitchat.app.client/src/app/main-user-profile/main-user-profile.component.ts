@@ -29,14 +29,15 @@ export class MainUserProfileComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService) { }
 
-    ngOnInit(): void {
-      this.getUserProfile();
-      this.getUser();
-    }
+  ngOnInit(): void {
+    this.getUserProfile();
+    this.getUser();
+  }
+
   openEditUserProfileDialog() {
     this.matDialog.open(UserProfileComponent, {
       width: '600px',
-    } )
+    })
   }
 
   getUserProfile(): void {
@@ -60,7 +61,7 @@ export class MainUserProfileComponent implements OnInit {
       this.userService.getUserById(userId).subscribe(
         (user: UserResponseModel) => {
           this.user = user;
-          console.log(user);
+          console.log(user.userId);
           this.createAlternativeProfilePic();
         }
       )
@@ -88,7 +89,7 @@ export class MainUserProfileComponent implements OnInit {
   }
 
   createAlternativeProfilePic() {
-    if (this.userProfile?.profilePicture === null) {
+    if (this.userProfile?.profilePicture === '') {
       this.showInitials = true;
       this.createInitials();
 
