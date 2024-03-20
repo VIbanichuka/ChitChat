@@ -5,7 +5,6 @@ import { AuthService } from '../api/services/auth.service';
 import { UserProfileResponseModel, UserResponseModel } from '../api/models';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../api/services';
-import { UserProfilePhotoRequest } from '../api/models/user-profile-photo-request-model';
 
 @Component({
   selector: 'app-user-profile',
@@ -43,7 +42,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.prefillProfile();
-    this.getUser();
+    this.showAlternativeProfilePhoto();
   }
 
   closeUserProfileDialogs() {
@@ -71,8 +70,10 @@ export class UserProfileComponent implements OnInit {
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId)
         return;
+      this.showAlternativeProfilePhoto();
       this.userProfileService.removeUserProfilePhoto(userId).subscribe(_ => {
-        console.log("success")
+        this.showInitials = true;
+        console.log("success");
       })
 
     })
@@ -93,14 +94,16 @@ export class UserProfileComponent implements OnInit {
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId)
         return;
-      this.userProfileService.uploadUserProfilePhoto(formData, userId).subscribe(_ => {
-        console.log("success")
+      this.userProfileService.uploadUserProfilePhoto(formData, userId).subscribe((userProfile: UserProfileResponseModel) => {
+        this.userProfile = userProfile;
+        this.showInitials = !userProfile.profilePicture;
+        console.log("success");
       })
 
     })
   }
 
-  prefillProfile(): void {
+  private prefillProfile(): void {
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId) {
         return;
@@ -115,7 +118,18 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
-  getUser(): void {
+  private prefillForm(): void {
+    if (this.userProfile) {
+      this.form.patchValue({
+        firstName: this.userProfile.firstName,
+        lastName: this.userProfile.lastName,
+        bio: this.userProfile.bio,
+        profilePicture: this.userProfile.profilePicture,
+      })
+    }
+  }
+
+  showAlternativeProfilePhoto(): void {
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId)
         return;
@@ -129,13 +143,14 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
-  private prefillForm(): void {
-    if (this.userProfile) {
-      this.form.patchValue({
-        firstName: this.userProfile.firstName,
-        lastName: this.userProfile.lastName,
-        bio: this.userProfile.bio
-      })
+  createAlternativeProfilePic() {
+    if (this.userProfile?.profilePicture === '' || this.userProfile?.profilePicture === null) {
+      this.showInitials = true;
+      this.createInitials();
+
+      const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
+      this.circleColor = this.colors[randomIndex];
+      console.log(this.circleColor);
     }
   }
 
@@ -157,16 +172,5 @@ export class UserProfileComponent implements OnInit {
     }
     console.log(firstCharacter);
     this.initials = firstCharacter;
-  }
-
-  createAlternativeProfilePic() {
-    if (this.userProfile?.profilePicture === '') {
-      this.showInitials = true;
-      this.createInitials();
-
-      const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
-      this.circleColor = this.colors[randomIndex];
-      console.log(this.circleColor);
-    }
   }
 }

@@ -34,10 +34,10 @@ export class UserProfileService {
     return this.httpClient.put<UserProfileResponseModel>(url, userProfileRequest);
   }
 
-  public uploadUserProfilePhoto(userProfilePhotoRequest: UserProfilePhotoRequest | any, id: string | null): Observable<void>{
+  public uploadUserProfilePhoto(userProfilePhotoRequest: UserProfilePhotoRequest | any, id: string | null): Observable<UserProfileResponseModel>{
     const url = `${environment.apiUrl}${this.uploadPhotoUrl}${id}`;
     console.log('Request URL:', url);
-    return this.httpClient.post<void>(url, userProfilePhotoRequest);
+    return this.httpClient.post<UserProfileResponseModel>(url, userProfilePhotoRequest);
   }
 
   public removeUserProfilePhoto(id: string | null): Observable<void> {

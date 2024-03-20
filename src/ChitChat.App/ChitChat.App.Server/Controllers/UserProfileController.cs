@@ -4,6 +4,7 @@ using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Dtos;
 using ChitChat.Application.Implementations;
 using ChitChat.Application.Interfaces.IServices;
+using ChitChat.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -102,11 +103,13 @@ namespace ChitChat.App.Server.Controllers
                 Log.Information("User profile not to be updated.");
                 return NotFound("User Profile not found");
             }
-            var updatedUserProfile = _mapper.Map(userProfilePhotoRequest, existingUser);
+            var userProfile = _mapper.Map(userProfilePhotoRequest, existingUser);
 
-            await _userProfileService.UploadProfilePhoto(updatedUserProfile);
+            var uploaded = await _userProfileService.UploadProfilePhoto(userProfile);
 
-            return Ok();
+            var userProfileResponse = _mapper.Map<UserProfileResponseModel>(uploaded);
+
+            return Ok(userProfileResponse);
         }
 
         [HttpDelete("remove-photo/{id}")]
