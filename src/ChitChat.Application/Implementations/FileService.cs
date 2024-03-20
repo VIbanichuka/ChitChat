@@ -21,7 +21,8 @@ namespace ChitChat.Application.Implementations
         public async Task<string> UploadImageAsync(IFormFile image)
         {
             CheckIfImageFileIsNull(image);
-            return await CreateImage(image);
+            var fileName = await CreateImage(image);
+            return fileName;
         }
 
         public void RemoveImage(string imageUrl)
@@ -35,7 +36,8 @@ namespace ChitChat.Application.Implementations
             CheckImageUrlIsNullOrWhiteSpace(imageUrl);
             DeleteImageIfExists(imageUrl);
             CheckIfImageFileIsNull(image);
-            return await CreateImage(image);
+            var fileName = await CreateImage(image);
+            return fileName;
         }
 
         private void CheckIfImageFileIsNull(IFormFile image) 
@@ -62,7 +64,8 @@ namespace ChitChat.Application.Implementations
 
         private string GetImagePath(string fileName)
         {
-            return Path.Combine(_webHostEnvironment.WebRootPath + "/images/Profiles/", fileName);
+            var path = @"ChitChat\src\ChitChat.App\chitchat.app.client\src\assets\";
+            return Path.Combine(path, fileName);
         }
 
         private void DeleteImageIfExists(string imageUrl)

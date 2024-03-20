@@ -2,6 +2,7 @@
 using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Dtos;
+using ChitChat.Application.Implementations;
 using ChitChat.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,12 @@ namespace ChitChat.App.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserProfileResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAllUserProfiles() 
+        public async Task<IActionResult> GetAllUserProfiles()
         {
             var userProfiles = await _userProfileService.GetAllUserProfilesAsync();
 
@@ -34,20 +35,20 @@ namespace ChitChat.App.Server.Controllers
             {
                 Log.Information("UserProfiles not found.");
                 return NotFound();
-            }         
+            }
 
             var userProfileResponse = _mapper.Map<IEnumerable<UserProfileResponseModel>>(userProfiles);
 
             return Ok(userProfileResponse);
         }
-        
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserProfileResponseModel), 200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUserProfileById(Guid id) 
+        public async Task<IActionResult> GetUserProfileById(Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -56,12 +57,12 @@ namespace ChitChat.App.Server.Controllers
             }
 
             var userProfile = await _userProfileService.GetUserProfileByIdAsync(id);
-            if (userProfile == null) 
+            if (userProfile == null)
             {
                 Log.Information("UserProfile not found.");
                 return NotFound();
             }
-            
+
             var userProfileResponse = _mapper.Map<UserProfileResponseModel>(userProfile);
 
             return Ok(userProfileResponse);
@@ -87,6 +88,48 @@ namespace ChitChat.App.Server.Controllers
             var userProfileResponse = _mapper.Map<UserProfileResponseModel>(updatedUserProfile);
 
             return Ok(userProfileResponse);
+        }
+
+        [HttpPost("upload-photo/{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> UploadUserProfilePhoto([FromForm] UserProfilePhotoRequest userProfilePhotoRequest, [FromRoute] Guid id)
+        {
+            var existingUser = await _userProfileService.GetUserProfileByIdAsync(id);
+            if (existingUser == null)
+            {
+                Log.Information("User profile not to be updated.");
+                return NotFound("User Profile not found");
+            }
+            var updatedUserProfile = _mapper.Map(userProfilePhotoRequest, existingUser);
+
+            await _userProfileService.UploadProfilePhoto(updatedUserProfile);
+
+            return Ok();
+        }
+
+        [HttpDelete("remove-photo/{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> RemoveUserProfilePhoto(Guid id)
+        {
+            var existingUser = await _userProfileService.GetUserProfileByIdAsync(id);
+            if (existingUser == null)
+            {
+                return NotFound("User Profile not found");
+            }
+            var isDeleted = await _userProfileService.DeleteProfilePhotoAsync(existingUser);
+            if (!isDeleted)
+            {
+                Log.Information("User not found to be deleted.");
+                return NotFound("User not found");
+            }
+            Log.Information("User deleted successfully. User ID: {UserId}", id);
+
+            return NoContent();
         }
     }
 }

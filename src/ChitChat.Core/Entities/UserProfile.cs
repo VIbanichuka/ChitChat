@@ -14,7 +14,7 @@ namespace ChitChat.Core.Entities
 
         public Guid UserId { get; set; }
 
-        public string? ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; } = string.Empty;
 
         [Display(Name = "Bio")]
         [MaxLength(300)]

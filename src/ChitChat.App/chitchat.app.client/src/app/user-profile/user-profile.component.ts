@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UserProfileService } from 'src/app/api/services/userprofile.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../api/services/auth.service';
-import { UserProfileResponseModel } from '../api/models';
+import { UserProfileResponseModel, UserResponseModel } from '../api/models';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '../api/services';
+import { UserProfilePhotoRequest } from '../api/models/user-profile-photo-request-model';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,10 +15,23 @@ import { MatDialog } from '@angular/material/dialog';
 export class UserProfileComponent implements OnInit {
   form: FormGroup;
   userProfile: UserProfileResponseModel | null = null;
+  initials: string = '';
+  user: UserResponseModel | null = null;
+  circleColor: string = '';
+  showInitials: boolean = false;
+  selectedFile: File | null = null
+
+  private colors = [
+    '#EB7181',
+    '#468547',
+    '#FFD558',
+    '#3670B2',
+  ];
 
   constructor(private userProfileService: UserProfileService,
     private formbuilder: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private matDialog: MatDialog) {
 
     this.form = this.formbuilder.group({
@@ -28,6 +43,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.prefillProfile();
+    this.getUser();
   }
 
   closeUserProfileDialogs() {
@@ -51,6 +67,39 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  removePhoto(): void {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+      this.userProfileService.removeUserProfilePhoto(userId).subscribe(_ => {
+        console.log("success")
+      })
+
+    })
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    this.uploadPhoto();
+  }
+
+  uploadPhoto(): void {
+    if (!this.selectedFile)
+      return;
+
+    const formData = new FormData();
+    formData.append('imageFile', this.selectedFile, this.selectedFile.name);
+
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+      this.userProfileService.uploadUserProfilePhoto(formData, userId).subscribe(_ => {
+        console.log("success")
+      })
+
+    })
+  }
+
   prefillProfile(): void {
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId) {
@@ -66,6 +115,20 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
+  getUser(): void {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+      this.userService.getUserById(userId).subscribe(
+        (user: UserResponseModel) => {
+          this.user = user;
+          console.log(user);
+          this.createAlternativeProfilePic();
+        }
+      )
+    })
+  }
+
   private prefillForm(): void {
     if (this.userProfile) {
       this.form.patchValue({
@@ -76,4 +139,34 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  createInitials(): void {
+    if (!this.user?.displayName)
+      return;
+
+    let displayName = this.user.displayName.trim();
+    console.log(displayName);
+
+    if (displayName.length === 0) {
+      this.initials = "";
+    }
+
+    let firstCharacter = displayName.charAt(0);
+
+    if (firstCharacter === firstCharacter.toLowerCase()) {
+      firstCharacter = firstCharacter.toUpperCase();
+    }
+    console.log(firstCharacter);
+    this.initials = firstCharacter;
+  }
+
+  createAlternativeProfilePic() {
+    if (this.userProfile?.profilePicture === '') {
+      this.showInitials = true;
+      this.createInitials();
+
+      const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
+      this.circleColor = this.colors[randomIndex];
+      console.log(this.circleColor);
+    }
+  }
 }

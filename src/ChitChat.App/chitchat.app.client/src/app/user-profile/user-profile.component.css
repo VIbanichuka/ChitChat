@@ -1,0 +1,20 @@
+.avatar-initials {
+  color: white;
+  font-size: 60px;
+  line-height: 19px;
+}
+
+.edit-profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-profile-photo img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
