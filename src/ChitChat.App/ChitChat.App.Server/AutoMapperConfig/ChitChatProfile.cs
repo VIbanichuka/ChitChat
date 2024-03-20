@@ -15,6 +15,7 @@ namespace ChitChat.App.Server.AutoMapperConfig
             CreateMap<UserProfileResponseModel, UserProfileDto>().ReverseMap();
             CreateMap<UserProfileResponseModel, UserProfile>().ReverseMap();
             CreateMap<UserProfilePhotoRequest, UserProfileDto>().ReverseMap();
+            CreateMap<UserProfilePhotoResponse, UserProfileDto>().ReverseMap();
 
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<UserRequestModel, UserDto>().ReverseMap();

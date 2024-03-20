@@ -68,6 +68,17 @@ export class MainUserProfileComponent implements OnInit {
     })
   }
 
+  createAlternativeProfilePic() {
+    if (this.userProfile?.profilePicture === '' || this.userProfile?.profilePicture === null) {
+      this.showInitials = true;
+      this.createInitials();
+
+      const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
+      this.circleColor = this.colors[randomIndex];
+      console.log(this.circleColor);
+    }
+  }
+
   createInitials(): void {
     if (!this.user?.displayName)
       return;
@@ -86,16 +97,5 @@ export class MainUserProfileComponent implements OnInit {
     }
     console.log(firstCharacter);
     this.initials = firstCharacter;
-  }
-
-  createAlternativeProfilePic() {
-    if (this.userProfile?.profilePicture === '') {
-      this.showInitials = true;
-      this.createInitials();
-
-      const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
-      this.circleColor = this.colors[randomIndex];
-      console.log(this.circleColor);
-    }
   }
 }
