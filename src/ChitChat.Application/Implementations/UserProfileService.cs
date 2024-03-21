@@ -76,5 +76,15 @@ namespace ChitChat.Application.Implementations
             await _userProfileRepository.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<UserProfileDto>> SearchUserAsync(string user)
+        {
+            if (string.IsNullOrEmpty(user)) 
+            {
+                throw new ArgumentNullException(user);
+            }
+           var users = await _userProfileRepository.SearchUserAsync(user);
+            return _mapper.Map<IEnumerable<UserProfileDto>>(users);
+        }
     }
 }

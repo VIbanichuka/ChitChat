@@ -15,6 +15,7 @@ namespace ChitChat.Application.Interfaces.IServices
         Task<UserProfileDto> GetUserProfileByIdAsync(Guid userId);
         Task<UserProfileDto> UpdateUserProfileAsync(UserProfileDto userProfile);
         Task<UserProfileDto> UploadProfilePhoto(UserProfileDto userProfile);
-        Task<bool> DeleteProfilePhotoAsync(UserProfileDto userProfile);   
+        Task<bool> DeleteProfilePhotoAsync(UserProfileDto userProfile);
+        Task<IEnumerable<UserProfileDto>> SearchUserAsync(string user);
     }
 }
