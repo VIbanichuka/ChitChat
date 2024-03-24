@@ -21,7 +21,13 @@ export class SidenavComponent implements OnInit {
   }
 
   updateSearchTerm() {
-    this.searchBarService.updateSearchTerm(this.searchTerm);
+    if (this.searchTerm.trim() === '') {
+      this.searchResults$ = null;
+      this.results = null;
+      this.closeOverlay();
+    } else {
+      this.searchBarService.updateSearchTerm(this.searchTerm);
+    }
   }
 
   ngOnInit(): void {
