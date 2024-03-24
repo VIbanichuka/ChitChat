@@ -29,7 +29,7 @@
                     <mat-icon matListItemIcon>search</mat-icon>
                     <div style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-left: 10px; margin-right: 10px;">
                         <h3 style="margin: 0; font-weight:500;">{{ result?.firstName }} {{result?.lastName}}</h3>
-                        <img matListAvatar src="../assets/{{result?.profilePicture}}" style=" padding: 0; margin: 0; width: 35px; height: 35px; border-radius: 50%;">
+                        <img matListAvatar src="../assets/{{result?.profilePicture || 'photo.jpg'}}" style=" padding: 0; margin: 0; width: 35px; height: 35px; border-radius: 50%;">
                     </div>
                 </div>
 
