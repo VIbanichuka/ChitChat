@@ -14,6 +14,7 @@ export class UserProfileService {
   userProfilesUrl = "/UserProfile"
   uploadPhotoUrl = "/UserProfile/upload-photo/"
   deletePhotoUrl = "/UserProfile/remove-photo/"
+  searchUrl = "/UserProfile/query/"
   constructor(private httpClient: HttpClient) { }
 
   public getUserProfileById(id: string): Observable<UserProfileResponseModel> {
@@ -44,5 +45,11 @@ export class UserProfileService {
     const url = `${environment.apiUrl}${this.deletePhotoUrl}${id}`;
     console.log('Request URL:', url);
     return this.httpClient.delete<void>(url);
+  }
+
+  public searchUsers(searchTerm: string | ''): Observable<UserProfileResponseModel[]> {
+    const url = `${environment.apiUrl}${this.searchUrl}${searchTerm}`;
+    console.log('Request URL:', url);
+    return this.httpClient.get<UserProfileResponseModel[]>(url);
   }
 }

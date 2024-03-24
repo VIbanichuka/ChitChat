@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Dtos;
@@ -41,6 +42,23 @@ namespace ChitChat.App.Server.Controllers
             var userProfileResponse = _mapper.Map<IEnumerable<UserProfileResponseModel>>(userProfiles);
 
             return Ok(userProfileResponse);
+        }
+
+        [HttpGet("query/{searchTerm}")]
+        [ProducesResponseType(typeof(IEnumerable<UserProfileResponseModel>), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> SearchUsers(string searchTerm)
+        {
+            var searchedUsers = await _userProfileService.SearchUserAsync(searchTerm);
+            if(searchedUsers == null || !searchedUsers.Any()) 
+            {
+                Log.Information("No user found.");
+                return NotFound();
+            }
+            var response = _mapper.Map<IEnumerable<UserProfileResponseModel>>(searchedUsers);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

@@ -14,3 +14,33 @@ mat-sidenav-container {
  .user-profile img{
  object-fit: cover;
  }
+
+.overlay-container {
+  width: 400px;
+  background-color: white;
+  border-radius: 5px;
+  padding-bottom: 10px;
+  padding-top: 0;
+}
+
+.mat-typography h3{
+    margin: 0;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 400px;
+  height: 36px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3rem;
+    margin: 1rem;
+    padding: 2rem 0rem;
+}

@@ -6,14 +6,37 @@
         </a>
 
         <div style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
-            <input type="search" style="width: 80%; max-width: 400px; height: 36px;">
-            <button type="submit" mat-raised-button color="primary" class="btn-primary" style="height: 36px;">
+            <input [(ngModel)]="searchTerm" (keyup)="updateSearchTerm()" (click)="overlayOpen = !overlayOpen" type="search"
+                   placeholder="Search PrimaMensa" class="searchInput"
+                   cdkOverlayOrigin #overlayPosition="cdkOverlayOrigin" />
+            <button type="submit" mat-raised-button color="primary" (click)="search()" class="btn-primary" style="height: 36px;">
                 <mat-icon>search</mat-icon>
             </button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
 
+<ng-template cdk-connected-overlay
+             [cdkConnectedOverlayOrigin]="overlayPosition"
+             [cdkConnectedOverlayOpen]="overlayOpen"
+             (overlayOutsideClick)="closeOverlay()">
+    <div class="overlay-container">
+        <mat-divider></mat-divider>
+        <mat-action-list>
+            <mat-list-item *ngFor="let result of searchResults$ | async" class="search">
+
+                <div class="search-details">
+                    <mat-icon matListItemIcon>search</mat-icon>
+                    <div style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-left: 10px; margin-right: 10px;">
+                        <h3 style="margin: 0; font-weight:500;">{{ result?.firstName }} {{result?.lastName}}</h3>
+                        <img matListAvatar src="../assets/{{result?.profilePicture || 'photo.jpg'}}" style=" padding: 0; margin: 0; width: 35px; height: 35px; border-radius: 50%;">
+                    </div>
+                </div>
+
+            </mat-list-item>
+        </mat-action-list>
+    </div>
+</ng-template>
 
 <mat-sidenav-container>
     <mat-sidenav [(opened)]="opened" mode="side">
@@ -50,11 +73,11 @@
                 <mat-menu #menu="matMenu">
 
                     <mat-dialog-actions>
-                        <button mat-menu-item (click)="openDialog()" >
+                        <button mat-menu-item (click)="openDialog()">
                             <span>Profile</span>
                         </button>
                     </mat-dialog-actions>
-                 
+
                     <button mat-menu-item>
                         <span>Pending Invites</span>
                     </button>
