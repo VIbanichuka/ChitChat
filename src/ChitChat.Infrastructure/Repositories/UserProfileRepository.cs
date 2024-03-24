@@ -18,10 +18,10 @@ namespace ChitChat.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<UserProfile>> SearchUserAsync(string user) 
+        public async Task<IEnumerable<UserProfile>> SearchUserAsync(string searchTerm) 
         {
             return await _context.UserProfiles
-                .Where(u => (u.FirstName != null && u.FirstName.ToLower().Contains(user.Trim().ToLower())) || (u.LastName != null && u.LastName.ToLower().Contains(user.Trim().ToLower())))
+                .Where(u => (u.FirstName != null && u.FirstName.ToLower().Contains(searchTerm.Trim().ToLower())) || (u.LastName != null && u.LastName.ToLower().Contains(searchTerm.Trim().ToLower())))
                 .ToListAsync();
         }
     }

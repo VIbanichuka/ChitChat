@@ -44,14 +44,14 @@ namespace ChitChat.App.Server.Controllers
             return Ok(userProfileResponse);
         }
 
-        [HttpGet("users")]
+        [HttpGet("query/{searchTerm}")]
         [ProducesResponseType(typeof(IEnumerable<UserProfileResponseModel>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> SearchUsers(string name)
+        public async Task<IActionResult> SearchUsers(string searchTerm)
         {
-            var searchedUsers = await _userProfileService.SearchUserAsync(name);
+            var searchedUsers = await _userProfileService.SearchUserAsync(searchTerm);
             if(searchedUsers == null || !searchedUsers.Any()) 
             {
                 Log.Information("No user found.");

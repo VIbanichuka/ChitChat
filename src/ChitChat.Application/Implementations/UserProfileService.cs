@@ -77,13 +77,13 @@ namespace ChitChat.Application.Implementations
             return true;
         }
 
-        public async Task<IEnumerable<UserProfileDto>> SearchUserAsync(string user)
+        public async Task<IEnumerable<UserProfileDto>> SearchUserAsync(string searchTerm)
         {
-            if (string.IsNullOrEmpty(user)) 
+            if (string.IsNullOrEmpty(searchTerm)) 
             {
-                throw new ArgumentNullException(user);
+                throw new ArgumentNullException(searchTerm);
             }
-           var users = await _userProfileRepository.SearchUserAsync(user);
+           var users = await _userProfileRepository.SearchUserAsync(searchTerm);
             return _mapper.Map<IEnumerable<UserProfileDto>>(users);
         }
     }

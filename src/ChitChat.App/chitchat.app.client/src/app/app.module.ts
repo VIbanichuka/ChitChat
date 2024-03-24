@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -51,6 +53,8 @@ import { AuthInterceptor } from './api/services/auth.interceptor';
     MatDialogModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    OverlayModule,
+    MatDividerModule,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
       { path: 'register-user', component: RegisterUserComponent },
