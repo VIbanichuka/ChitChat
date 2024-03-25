@@ -23,7 +23,7 @@
     <div class="overlay-container">
         <mat-divider></mat-divider>
         <mat-action-list>
-            <mat-list-item *ngFor="let result of searchResults$ | async" class="search">
+            <mat-list-item *ngFor="let result of searchResults$ | async" class="search" (click)="openProfileHub(result?.userId)">
 
                 <div class="search-details">
                     <mat-icon matListItemIcon>search</mat-icon>
