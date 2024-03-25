@@ -1,0 +1,37 @@
+<button mat-icon-button style="float: right;" matDialogClose>
+    <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content>
+    <header>
+        <h1>{{user?.firstName}} {{user?.lastName}}</h1>
+        <hr />
+    </header>
+
+    <div class="profile-header" style="display: flex; flex-direction: column; align-items: center;">
+
+        <div class="profile-image">
+            <img src="../assets/{{user?.profilePicture || 'photo.jpg'}}">
+        </div>
+        <h2 style="font-weight:500;">@{{userInfo?.displayName}}</h2>
+    </div>
+
+    <div class="profile-content">
+        <button mat-button color="accent">Invite</button>
+        <button mat-button color="primary">Message</button>
+    </div>
+
+    <div style="display: flex; justify-content:left; align-items:center;">
+        <mat-icon>person</mat-icon>
+        <h4 style="margin: 0; white-space: pre-line;">{{user?.bio}}</h4>
+    </div>
+    <hr />
+
+    <h3 style="font-weight:500;">Contact Information</h3>
+    <div style="display: flex; justify-content:left; align-items:center;">
+        <mat-icon>email</mat-icon>
+        <h4 style="margin: 0;">{{userInfo?.email}}</h4>
+    </div>
+    <hr />
+    <span></span>
+</mat-dialog-content>

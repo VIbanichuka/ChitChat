@@ -5,6 +5,7 @@ import { SearchBarService } from '../api/services/search-bar.service';
 import { UserProfileResponseModel } from '../api/models';
 import { UserProfileService } from '../api/services';
 import { Observable } from 'rxjs';
+import { UserHubComponent } from '../user-hub/user-hub.component';
 
 @Component({
   selector: 'app-sidenav',
@@ -27,6 +28,7 @@ export class SidenavComponent implements OnInit {
       this.closeOverlay();
     } else {
       this.searchBarService.updateSearchTerm(this.searchTerm);
+      this.search();
     }
   }
 
@@ -38,8 +40,24 @@ export class SidenavComponent implements OnInit {
 
   openDialog() {
     this.matDialog.open(MainUserProfileComponent, {
-      width: '400px',
+      maxWidth: '400px',
+      width: '100%'
     })
+  }
+
+  openProfileHub(userId: string | any) {
+    this.userProfileService.getUserProfileById(userId).subscribe(user => {
+      this.closeOverlay();
+      const matDialogRef = this.matDialog.open(UserHubComponent, {
+        width: '100%',
+        maxWidth: '600px',
+        data: { user: user }
+      });
+
+      matDialogRef.afterOpened().subscribe(result => {
+        this.searchTerm = '';
+      });
+    });  
   }
 
   closeOverlay() {

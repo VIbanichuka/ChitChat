@@ -26,6 +26,7 @@ import { SigninUserComponent } from './signin-user/signin-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainUserProfileComponent } from './main-user-profile/main-user-profile.component';
 import { AuthInterceptor } from './api/services/auth.interceptor';
+import { UserHubComponent } from './user-hub/user-hub.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AuthInterceptor } from './api/services/auth.interceptor';
     SigninUserComponent,
     UserProfileComponent,
     MainUserProfileComponent,
+    UserHubComponent,
   ],
   imports: [
     BrowserModule,
