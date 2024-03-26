@@ -28,7 +28,6 @@ export class SidenavComponent implements OnInit {
       this.closeOverlay();
     } else {
       this.searchBarService.updateSearchTerm(this.searchTerm);
-      this.search();
     }
   }
 

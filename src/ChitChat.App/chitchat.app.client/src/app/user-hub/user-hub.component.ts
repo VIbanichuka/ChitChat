@@ -1,7 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserResponseModel } from '../api/models';
+import { FriendshipRequest } from '../api/models/friendship-request-model';
 import { UserService } from '../api/services';
+import { AuthService } from '../api/services/auth.service';
+import { FriendshipService } from '../api/services/friendship.service';
 
 
 @Component({
@@ -12,8 +15,9 @@ import { UserService } from '../api/services';
 export class UserHubComponent implements OnInit {
   user: any;
   userInfo: UserResponseModel | null = null;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: { user: any },
-    private userService: UserService) {
+    private userService: UserService, private friendshipService: FriendshipService, private authService: AuthService) {
     this.user = data.user;
   }
 
@@ -27,4 +31,19 @@ export class UserHubComponent implements OnInit {
     }
     );
   }
+
+  sendInvite() {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+
+      const friendshipRequest: FriendshipRequest = { inviterId: userId, inviteeId: this.user.userId };
+      this.friendshipService.sendFriendRequest(friendshipRequest).subscribe(response => {
+        console.log('success');
+      }, error => {
+        console.error("failed sending invite");
+      })
+    })
+  }
+
 }
