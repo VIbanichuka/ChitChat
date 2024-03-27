@@ -57,10 +57,29 @@ namespace ChitChat.Application.Implementations
             return friends;
         }
 
-        public async Task<IEnumerable<Friendship>> GetPendingFriendRequestsAsync(Guid userId)
+        public async Task<IEnumerable<FriendshipDto>> GetPendingFriendRequestsAsync(Guid userId)
         {
-            var pendingRequests = await _friendshipRepository.GetAllAsync(f => (f.InviteeId == userId) && (f.FriendshipStatus == FriendshipStatus.Pending));
-            return pendingRequests.ToList();
+            var pendingFriendships = await _friendshipRepository
+                .GetAllWithIncludeAsync(f => (f.InviteeId == userId) && f.FriendshipStatus == FriendshipStatus.Pending, 
+                    f => f.Inviter, f => f.Invitee, f => f.Inviter.UserProfile, f => f.Invitee.UserProfile);
+            var pendingFriendshipDtos = pendingFriendships.SelectMany(pendingFriendship => 
+            {
+                var pendingInvite = pendingFriendship.InviteeId == userId ? pendingFriendship.Inviter : pendingFriendship.Invitee;
+                return new[]
+                {
+                    new FriendshipDto()
+                    {
+                        FriendshipId = pendingFriendship.FriendshipId,
+                        InviteeId = pendingFriendship.InviteeId,
+                        InviteTime = pendingFriendship.InviteTime,
+                        InviterId = pendingFriendship.InviterId,
+                        FriendshipStatus = pendingFriendship.FriendshipStatus,
+                        DisplayName = pendingInvite.DisplayName,
+                        ProfilePicture = pendingInvite.UserProfile.ProfilePicture
+                    }
+                };
+            }).ToList();
+            return pendingFriendshipDtos;
         }
 
         public async Task RejectFriendRequestAsync(int friendshipId)

@@ -28,6 +28,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainUserProfileComponent } from './main-user-profile/main-user-profile.component';
 import { AuthInterceptor } from './api/services/auth.interceptor';
 import { UserHubComponent } from './user-hub/user-hub.component';
+import { ManageInvitationComponent } from './manage-invitation/manage-invitation.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UserHubComponent } from './user-hub/user-hub.component';
     UserProfileComponent,
     MainUserProfileComponent,
     UserHubComponent,
+    ManageInvitationComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,8 @@ import { UserHubComponent } from './user-hub/user-hub.component';
         children: [
           { path: 'home', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
-          { path: 'dms', component: DmsComponent }
+          { path: 'dms', component: DmsComponent },
+          { path: 'manage-invitations', component: ManageInvitationComponent }
         ]
       },
 

@@ -37,7 +37,7 @@ export class SidenavComponent implements OnInit {
   opened = true;
   overlayOpen = false;
 
-  openDialog() {
+  openProfileDialog() {
     this.matDialog.open(MainUserProfileComponent, {
       maxWidth: '400px',
       width: '100%'
