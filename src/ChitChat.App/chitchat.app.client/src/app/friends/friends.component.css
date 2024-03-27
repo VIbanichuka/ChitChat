@@ -1,0 +1,11 @@
+.card-container{
+    max-width: 150px;
+    border-radius: 5px;
+    width: 100%;
+    float: left;
+    margin: 1%
+}
+
+.card-content{
+text-align: center;
+}

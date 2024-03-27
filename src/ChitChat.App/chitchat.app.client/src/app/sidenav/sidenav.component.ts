@@ -28,7 +28,6 @@ export class SidenavComponent implements OnInit {
       this.closeOverlay();
     } else {
       this.searchBarService.updateSearchTerm(this.searchTerm);
-      this.search();
     }
   }
 
@@ -38,7 +37,7 @@ export class SidenavComponent implements OnInit {
   opened = true;
   overlayOpen = false;
 
-  openDialog() {
+  openProfileDialog() {
     this.matDialog.open(MainUserProfileComponent, {
       maxWidth: '400px',
       width: '100%'

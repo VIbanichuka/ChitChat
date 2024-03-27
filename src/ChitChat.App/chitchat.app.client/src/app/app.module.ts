@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -27,6 +28,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainUserProfileComponent } from './main-user-profile/main-user-profile.component';
 import { AuthInterceptor } from './api/services/auth.interceptor';
 import { UserHubComponent } from './user-hub/user-hub.component';
+import { ManageInvitationComponent } from './manage-invitation/manage-invitation.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { UserHubComponent } from './user-hub/user-hub.component';
     UserProfileComponent,
     MainUserProfileComponent,
     UserHubComponent,
+    ManageInvitationComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { UserHubComponent } from './user-hub/user-hub.component';
     ReactiveFormsModule,
     OverlayModule,
     MatDividerModule,
+    MatCardModule,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
       { path: 'register-user', component: RegisterUserComponent },
@@ -67,7 +71,8 @@ import { UserHubComponent } from './user-hub/user-hub.component';
         children: [
           { path: 'home', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
-          { path: 'dms', component: DmsComponent }
+          { path: 'dms', component: DmsComponent },
+          { path: 'manage-invitations', component: ManageInvitationComponent }
         ]
       },
 

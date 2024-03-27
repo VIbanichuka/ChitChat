@@ -1,4 +1,5 @@
-﻿using ChitChat.App.Server.Models.Reponses;
+﻿using AutoMapper;
+using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Implementations;
 using ChitChat.Application.Interfaces.IServices;
@@ -13,9 +14,11 @@ namespace ChitChat.App.Server.Controllers
     public class FriendshipController : ControllerBase
     {
         private readonly IFriendshipService _friendshipService;
-        public FriendshipController(IFriendshipService friendshipService)
+        private readonly IMapper _mapper;
+        public FriendshipController(IFriendshipService friendshipService, IMapper mapper)
         {
             _friendshipService = friendshipService;
+            _mapper = mapper;
         }
 
         [HttpGet("friends/{userId}")]
@@ -53,7 +56,7 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> AcceptFriendRequestAsync(int friendshipId) 
         {
             await _friendshipService.AcceptFriendRequestAsync(friendshipId);
-            return Ok("Friend request accepted successfully.");
+            return Ok();
         }
 
 
@@ -66,18 +69,24 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> RejectFriendRequestAsync(int friendshipId)
         {
             await _friendshipService.RejectFriendRequestAsync(friendshipId);
-            return Ok("Friend request rejected successfully.");
+            return Ok();
         }
 
         [HttpGet("pending-requests/{userId}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<FriendshipResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetPendingFriendRequests(Guid userId) 
         {
             var pendingRequests = await _friendshipService.GetPendingFriendRequestsAsync(userId);
-            return Ok(pendingRequests);
+            if(pendingRequests == null || !pendingRequests.Any()) 
+            {
+                Log.Information("There are no pending requests");
+                return NotFound();
+            }
+            var friendshipResponse = _mapper.Map<IEnumerable<FriendshipResponseModel>>(pendingRequests);
+            return Ok(friendshipResponse);
         }
     }
 }

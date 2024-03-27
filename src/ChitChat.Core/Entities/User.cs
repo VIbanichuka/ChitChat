@@ -29,7 +29,7 @@ namespace ChitChat.Core.Entities
         [Required]
         public byte[] PasswordSalt { get; set; } = new byte[32];
 
-        public virtual UserProfile? UserProfile { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
 
         public virtual ICollection<Message> SentMessages { get; set; } = null!;
 

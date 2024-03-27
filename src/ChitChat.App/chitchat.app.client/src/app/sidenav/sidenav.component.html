@@ -73,14 +73,14 @@
                 <mat-menu #menu="matMenu">
 
                     <mat-dialog-actions>
-                        <button mat-menu-item (click)="openDialog()">
+                        <button mat-menu-item (click)="openProfileDialog()">
                             <span>Profile</span>
                         </button>
                     </mat-dialog-actions>
 
-                    <button mat-menu-item>
+                    <a routerLink="./manage-invitations" style="text-decoration: none;" mat-menu-item>
                         <span>Pending Invites</span>
-                    </button>
+                    </a>
 
                     <button mat-menu-item>
                         <mat-icon>exit_to_app</mat-icon>

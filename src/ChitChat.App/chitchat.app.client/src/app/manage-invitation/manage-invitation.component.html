@@ -1,0 +1,21 @@
+<div style="display:flex; justify-content:center;">
+        <mat-card class="card-container">
+            <mat-card-header>
+                <mat-card-title>Pending Invitations</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div *ngFor="let pendingInvite of pendingInvites">
+                    <div style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-left: 10px; margin-right: 10px;">
+                        <img matListAvatar src="../assets/{{pendingInvite?.profilePicture || 'photo.jpg'}}" style=" padding: 0; margin: 0; width: 35px; height: 35px; border-radius: 50%;">
+                        <h3 style="margin: 0; font-weight:500;">{{pendingInvite?.displayName}}</h3><small>is inviting you to connect</small>
+                        <div style="margin: 1%;">
+                            <button mat-raised-button color="warn" (click)="rejectInvite(pendingInvite.friendshipId)">Reject</button>
+                            <button mat-raised-button color="primary" (click)="acceptInvite(pendingInvite.friendshipId)">Accept</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    
+</div>

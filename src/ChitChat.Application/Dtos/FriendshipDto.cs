@@ -12,6 +12,8 @@ namespace ChitChat.Application.Dtos
         public int FriendshipId { get; set; }
         public Guid InviterId { get; set; }
         public Guid InviteeId { get; set; }
+        public string? DisplayName { get; set; }
+        public string? ProfilePicture { get; set; }
         public DateTime? InviteTime { get; set; } = DateTime.UtcNow;
         public FriendshipStatus FriendshipStatus { get; set; }
     }

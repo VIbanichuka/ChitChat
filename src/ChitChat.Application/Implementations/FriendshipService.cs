@@ -37,19 +37,49 @@ namespace ChitChat.Application.Implementations
         public async Task<IEnumerable<FriendDto>> GetAllFriendsAsync(Guid userId)
         {
             var friendships = await _friendshipRepository
-                .GetAllWithIncludeAsync(f => (f.InviteeId == userId || f.InviterId == userId) && f.FriendshipStatus == FriendshipStatus.Accepted, f => f.Inviter, f => f.Invitee);
+                .GetAllWithIncludeAsync(f => (f.InviteeId == userId || f.InviterId == userId) && f.FriendshipStatus == FriendshipStatus.Accepted, 
+                    f => f.Inviter, f => f.Invitee, f => f.Inviter.UserProfile, f => f.Invitee.UserProfile);
 
-            var friends = friendships
-        .SelectMany(f => f.InviteeId == userId ? new[] { new FriendDto(f.Inviter.UserId, f.Inviter.DisplayName) } : new[] { new FriendDto(f.Invitee.UserId, f.Invitee.DisplayName) })
-        .ToList();
+            var friends = friendships.SelectMany(friendship =>
+            {
+                var friend = friendship.InviteeId == userId ? friendship.Inviter : friendship.Invitee;
+                return new[]
+                {
+                    new FriendDto()
+                    {
+                        UserId = friend.UserId,
+                        DisplayName = friend.DisplayName,
+                        ProfilePicture = friend.UserProfile.ProfilePicture
+                    }
+                };
+            }).ToList();
 
             return friends;
         }
 
-        public async Task<IEnumerable<Friendship>> GetPendingFriendRequestsAsync(Guid userId)
+        public async Task<IEnumerable<FriendshipDto>> GetPendingFriendRequestsAsync(Guid userId)
         {
-            var pendingRequests = await _friendshipRepository.GetAllAsync(f => (f.InviteeId == userId) && (f.FriendshipStatus == FriendshipStatus.Pending));
-            return pendingRequests.ToList();
+            var pendingFriendships = await _friendshipRepository
+                .GetAllWithIncludeAsync(f => (f.InviteeId == userId) && f.FriendshipStatus == FriendshipStatus.Pending, 
+                    f => f.Inviter, f => f.Invitee, f => f.Inviter.UserProfile, f => f.Invitee.UserProfile);
+            var pendingFriendshipDtos = pendingFriendships.SelectMany(pendingFriendship => 
+            {
+                var pendingInvite = pendingFriendship.InviteeId == userId ? pendingFriendship.Inviter : pendingFriendship.Invitee;
+                return new[]
+                {
+                    new FriendshipDto()
+                    {
+                        FriendshipId = pendingFriendship.FriendshipId,
+                        InviteeId = pendingFriendship.InviteeId,
+                        InviteTime = pendingFriendship.InviteTime,
+                        InviterId = pendingFriendship.InviterId,
+                        FriendshipStatus = pendingFriendship.FriendshipStatus,
+                        DisplayName = pendingInvite.DisplayName,
+                        ProfilePicture = pendingInvite.UserProfile.ProfilePicture
+                    }
+                };
+            }).ToList();
+            return pendingFriendshipDtos;
         }
 
         public async Task RejectFriendRequestAsync(int friendshipId)

@@ -21,9 +21,9 @@ namespace ChitChat.Core.Entities
         public FriendshipStatus FriendshipStatus { get; set; }
 
         [ForeignKey(nameof(InviterId))]
-        public virtual User? Inviter { get; set; }
+        public virtual User Inviter { get; set; }
 
         [ForeignKey(nameof(InviteeId))]
-        public virtual User? Invitee { get; set; }
+        public virtual User Invitee { get; set; }
     }
 }
