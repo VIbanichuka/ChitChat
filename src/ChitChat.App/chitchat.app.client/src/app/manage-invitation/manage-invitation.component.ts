@@ -14,10 +14,10 @@ export class ManageInvitationComponent implements OnInit {
   constructor(private authService: AuthService, private friendshipService: FriendshipService) { }
 
     ngOnInit(): void {
-      this.getPendingInvitions();
+      this.getPendingInvitations();
     }
 
-  getPendingInvitions() {
+  getPendingInvitations() {
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId)
         return;
@@ -25,5 +25,15 @@ export class ManageInvitationComponent implements OnInit {
         this.pendingInvites = pendingInvites;
       })
     })
+  }
+
+  acceptInvite(friendshipId: number) {
+    this.friendshipService.acceptInvite(friendshipId).subscribe(() => {
+    });
+  }
+
+  rejectInvite(friendshipId: number) {
+    this.friendshipService.rejectInvite(friendshipId).subscribe(() => {
+    });
   }
 }

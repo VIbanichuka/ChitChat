@@ -56,7 +56,7 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> AcceptFriendRequestAsync(int friendshipId) 
         {
             await _friendshipService.AcceptFriendRequestAsync(friendshipId);
-            return Ok("Friend request accepted successfully.");
+            return Ok();
         }
 
 
@@ -69,7 +69,7 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> RejectFriendRequestAsync(int friendshipId)
         {
             await _friendshipService.RejectFriendRequestAsync(friendshipId);
-            return Ok("Friend request rejected successfully.");
+            return Ok();
         }
 
         [HttpGet("pending-requests/{userId}")]

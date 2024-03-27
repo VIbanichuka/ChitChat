@@ -13,6 +13,8 @@ export class FriendshipService {
   sendrequestUrl = "/Friendship/send-request"
   friendsUrl = "/Friendship/friends/"
   pendingInviteUrl = "/Friendship/pending-requests/"
+  acceptInviteUrl = "/Friendship/accept-request/"
+  rejectInviteUrl = "/Friendship/reject-request/"
   constructor(private httpClient: HttpClient) { }
 
   public sendFriendRequest(frienshipRequest: FriendshipRequest): Observable<FriendshipRequest> {
@@ -31,5 +33,17 @@ export class FriendshipService {
     const url = `${environment.apiUrl}${this.pendingInviteUrl}${id}`;
     console.log('Request URL:', url);
     return this.httpClient.get<FriendshipResponseModel[]>(url);
+  }
+
+  public acceptInvite(id: number): Observable<void> {
+    const url = `${environment.apiUrl}${this.acceptInviteUrl}${id}`
+    console.log('Request URL:', url);
+    return this.httpClient.put<void>(url, null);
+  }
+
+  public rejectInvite(id: number): Observable<void> {
+    const url = `${environment.apiUrl}${this.rejectInviteUrl}${id}`
+    console.log('Request URL:', url);
+    return this.httpClient.put<void>(url, null);
   }
 }
