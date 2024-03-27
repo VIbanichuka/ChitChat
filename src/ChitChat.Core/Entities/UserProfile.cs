@@ -28,6 +28,6 @@ namespace ChitChat.Core.Entities
         [MaxLength(50)]
         public string? LastName { get; set; }
 
-        public virtual User? User { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -57,6 +58,7 @@ import { UserHubComponent } from './user-hub/user-hub.component';
     ReactiveFormsModule,
     OverlayModule,
     MatDividerModule,
+    MatCardModule,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
       { path: 'register-user', component: RegisterUserComponent },

@@ -10,11 +10,6 @@ namespace ChitChat.Application.Dtos
     {
         public Guid UserId { get; set; }
         public string? DisplayName { get; set; }
-
-        public FriendDto(Guid userId, string displayName)
-        {
-            UserId = userId;
-            DisplayName = displayName;
-        }
+        public string? ProfilePicture { get; set; }
     } 
 }
