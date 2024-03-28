@@ -6,6 +6,7 @@ import { UserProfileResponseModel } from '../api/models';
 import { UserProfileService } from '../api/services';
 import { Observable } from 'rxjs';
 import { UserHubComponent } from '../user-hub/user-hub.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
@@ -17,7 +18,7 @@ export class SidenavComponent implements OnInit {
   searchTerm: string = '';
   searchResults$: Observable<UserProfileResponseModel[]> | null = null;
 
-  constructor(private matDialog: MatDialog, private searchBarService: SearchBarService, private userProfileService: UserProfileService) {
+  constructor(private router:Router, private matDialog: MatDialog, private searchBarService: SearchBarService, private userProfileService: UserProfileService) {
     this.searchResults$ = this.searchBarService.search(this.searchBarService.getSearchSubject());
   }
 
@@ -69,5 +70,10 @@ export class SidenavComponent implements OnInit {
       console.log(searchResults);
     })
 
+  }
+
+  signOut() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/signin-user']);
   }
 }

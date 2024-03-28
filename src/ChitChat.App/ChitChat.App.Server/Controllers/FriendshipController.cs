@@ -3,6 +3,7 @@ using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
 using ChitChat.Application.Implementations;
 using ChitChat.Application.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -11,6 +12,7 @@ namespace ChitChat.App.Server.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class FriendshipController : ControllerBase
     {
         private readonly IFriendshipService _friendshipService;
