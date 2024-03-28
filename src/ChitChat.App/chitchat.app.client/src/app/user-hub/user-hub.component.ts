@@ -15,10 +15,11 @@ import { FriendshipService } from '../api/services/friendship.service';
 export class UserHubComponent implements OnInit {
   user: any;
   userInfo: UserResponseModel | null = null;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { user: any },
+  showInviteButton: boolean = true;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { user: any, showInviteButton: boolean },
     private userService: UserService, private friendshipService: FriendshipService, private authService: AuthService) {
     this.user = data.user;
+    this.showInviteButton = data.showInviteButton;
   }
 
   ngOnInit(): void {
