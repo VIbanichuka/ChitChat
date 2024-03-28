@@ -49,7 +49,10 @@ namespace ChitChat.Application.Implementations
                     {
                         UserId = friend.UserId,
                         DisplayName = friend.DisplayName,
-                        ProfilePicture = friend.UserProfile.ProfilePicture
+                        ProfilePicture = friend.UserProfile?.ProfilePicture,
+                        Bio = friend.UserProfile?.Bio,
+                        LastName = friend.UserProfile?.LastName,
+                        FirstName = friend.UserProfile?.FirstName,                       
                     }
                 };
             }).ToList();
