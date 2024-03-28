@@ -14,6 +14,7 @@ namespace ChitChat.App.Server.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileService _userProfileService;

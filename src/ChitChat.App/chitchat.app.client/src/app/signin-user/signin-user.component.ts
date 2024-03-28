@@ -42,6 +42,8 @@ export class SigninUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['/home']);
+    }
   }
 }
