@@ -50,7 +50,7 @@ export class SidenavComponent implements OnInit {
       const matDialogRef = this.matDialog.open(UserHubComponent, {
         width: '100%',
         maxWidth: '600px',
-        data: { user: user }
+        data: { user: user, showInviteButton: true}
       });
 
       matDialogRef.afterOpened().subscribe(result => {
