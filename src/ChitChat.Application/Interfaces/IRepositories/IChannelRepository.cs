@@ -9,5 +9,7 @@ namespace ChitChat.Application.Interfaces.IRepositories
 {
     public interface IChannelRepository : IGenericRepository<Channel>
     {
+        Task<Channel?> GetChannelWithUserByIdAsync(int channelId);
+        Task<IEnumerable<Channel>> GetChannelsByUserIdAsync(Guid userId);
     }
 }

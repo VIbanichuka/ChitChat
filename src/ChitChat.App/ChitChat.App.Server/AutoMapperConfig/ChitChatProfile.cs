@@ -24,6 +24,10 @@ namespace ChitChat.App.Server.AutoMapperConfig
 
             CreateMap<Friendship, FriendshipDto>().ReverseMap();
             CreateMap<FriendshipDto, FriendshipResponseModel>().ReverseMap();
+
+            CreateMap<Channel, ChannelDto>().ReverseMap();
+            CreateMap<ChannelDto, ChannelResponseModel>().ReverseMap();
+            CreateMap<ChannelDto, ChannelRequestModel>().ReverseMap();
         }
     }
 }
