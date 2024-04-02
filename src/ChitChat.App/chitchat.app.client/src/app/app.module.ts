@@ -29,6 +29,8 @@ import { MainUserProfileComponent } from './main-user-profile/main-user-profile.
 import { AuthInterceptor } from './api/services/auth.interceptor';
 import { UserHubComponent } from './user-hub/user-hub.component';
 import { ManageInvitationComponent } from './manage-invitation/manage-invitation.component';
+import { ChannelsComponent } from './channels/channels.component';
+import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { ManageInvitationComponent } from './manage-invitation/manage-invitation
     MainUserProfileComponent,
     UserHubComponent,
     ManageInvitationComponent,
+    ChannelsComponent,
+    ChannelPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,8 @@ import { ManageInvitationComponent } from './manage-invitation/manage-invitation
           { path: 'home', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
           { path: 'dms', component: DmsComponent },
-          { path: 'manage-invitations', component: ManageInvitationComponent }
+          { path: 'manage-invitations', component: ManageInvitationComponent },
+          { path: 'channels', component: ChannelsComponent }
         ]
       },
 

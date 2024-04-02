@@ -58,6 +58,14 @@
             </mat-list-item>
 
             <mat-list-item style="margin-bottom: 20px;">
+                <a routerLink="./channels"
+                   style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
+                    <mat-icon color="primary" style="font-size: 28px;">groups</mat-icon>
+                    <span style="font-size: 12px;">Channels</span>
+                </a>
+            </mat-list-item>
+
+            <mat-list-item style="margin-bottom: 20px;">
                 <a routerLink="./friends"
                    style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
                     <mat-icon color="primary" style="font-size: 28px;">people</mat-icon>
@@ -65,7 +73,8 @@
                 </a>
             </mat-list-item>
 
-            <mat-list-item style="margin-top: 420px;">
+
+            <mat-list-item style="margin-top: 350px;">
                 <button mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon color="primary">person</mat-icon>
                 </button>
