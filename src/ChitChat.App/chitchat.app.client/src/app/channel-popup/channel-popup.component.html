@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+    <button mat-icon-button style="float: right;" matDialogClose>
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-dialog-content>
+        <header>
+            <h1>Create a channel</h1>
+        </header>
+        <div>
+            <mat-form-field style="width: 100%; border-radius: 5px;">
+                <mat-label>channel name</mat-label>
+                <input style="min-width: 150px; max-width: 400px; width: 100%; border-radius: 5px;" matInput formControlName="channelName" placeholder="e.g. plan-trip" />
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button (click)="createChannel()" type="submit" mat-raised-button color="primary">Create</button>
+    </mat-dialog-actions>
+</form>

@@ -34,7 +34,7 @@ namespace ChitChat.Application.Implementations
             var channelToCreate = _mapper.Map<Channel>(channel);
             await _channelRepository.AddAsync(channelToCreate);
             await _channelRepository.SaveChangesAsync();
-
+            channel.ChannelId = channelToCreate.ChannelId;
             return _mapper.Map<ChannelDto>(channelToCreate);
         }
 

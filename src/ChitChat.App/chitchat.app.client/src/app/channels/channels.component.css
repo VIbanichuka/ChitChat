@@ -1,0 +1,20 @@
+.list-item {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.list-item:last-child {
+    border-bottom: none;
+}
+
+.hover-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.list-item:hover .hover-button {
+  display: block;
+}

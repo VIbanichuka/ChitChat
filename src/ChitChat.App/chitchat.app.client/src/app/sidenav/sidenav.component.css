@@ -3,7 +3,8 @@ mat-sidenav-container {
  }
 
  mat-sidenav {
-   width: 80px;
+   width: 100%;
+   max-width: 86px;
    background: linear-gradient(to bottom, #6CDFF6, #3498DB); 
   }
  
