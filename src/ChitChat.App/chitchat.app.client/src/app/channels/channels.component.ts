@@ -48,7 +48,7 @@ export class ChannelsComponent implements OnInit{
     this.authService.getUserIdFromToken().subscribe(userId => {
       if (!userId)
         return;
-      this.channelsService.leaveChannel(channelId, userId).subscribe((response: ChannelResponseModel) => {
+      this.channelsService.leaveChannel(channelId, userId).subscribe( _ => {
         console.log('success');
       },
         (error) => {

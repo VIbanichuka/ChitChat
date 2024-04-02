@@ -46,14 +46,14 @@ export class ChannelsService {
   }
 
   public joinChannel(channelId: number, userId: string): Observable<ChannelResponseModel> {
-    const url = `${environment.apiUrl}${channelId}/user/${userId}/join`;
+    const url = `${environment.apiUrl}${this.channelsUrl}${channelId}/user/${userId}/join`;
     const body = {};
     console.log('Request URL:', url);
     return this.httpClient.post<ChannelResponseModel>(url,body);
   }
 
   public leaveChannel(channelId: number, userId: string): Observable<ChannelResponseModel> {
-    const url = `${environment.apiUrl}${channelId}/user/${userId}/leave`;
+    const url = `${environment.apiUrl}${this.channelsUrl}${channelId}/user/${userId}/leave`;
     const body = {};
     console.log('Request URL:', url);
     return this.httpClient.post<ChannelResponseModel>(url, body);

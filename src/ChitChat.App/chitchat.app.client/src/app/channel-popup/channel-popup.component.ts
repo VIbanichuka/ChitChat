@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChannelRequestModel } from '../api/models/channel-request-model';
 import { ChannelsService } from '../api/services/channels.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../api/services/auth.service';
+import { ChannelResponseModel } from '../api/models/channel-response-model';
 
 
 @Component({
@@ -13,11 +15,12 @@ import { Router } from '@angular/router';
 })
 export class ChannelPopupComponent implements OnInit {
   form: FormGroup;
-  channel: ChannelRequestModel | null = null;
+  channel: ChannelResponseModel | null = null;
   constructor(private channelsService: ChannelsService,
     private formbuilder: FormBuilder,
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private authService: AuthService,
   ) {
     this.form = this.formbuilder.group({
       channelName: ['', [Validators.maxLength(50)]]
@@ -31,10 +34,22 @@ export class ChannelPopupComponent implements OnInit {
   createChannel() {
     if (this.form.invalid)
       return;
-    this.channelsService.createChannel(this.form.value).subscribe(_ => {
+    this.channelsService.createChannel(this.form.value).subscribe(channel => {
       console.log('posted to server');
-      this.router.navigate(['./channels']);
+      const channelId = channel.channelId;
+      if (channelId) {
+        this.joinChannel(channelId);
+      }
     })
   }
 
+  private joinChannel(channelId: number) {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+      this.channelsService.joinChannel(channelId, userId).subscribe(_ => {
+        console.log('success');
+      });
+    });
+  }
 }
