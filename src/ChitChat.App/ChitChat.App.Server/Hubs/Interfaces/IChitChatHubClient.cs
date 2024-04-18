@@ -3,5 +3,6 @@
     public interface IChitChatHubClient
     {
         Task ReceiveMessageAsync(string message);
+        Task SendMessageAsync(string message, string sender);
     }
 }

@@ -19,7 +19,9 @@
         <mat-card>
             <mat-action-list>
                 <mat-list-item class="list-item" *ngFor="let channel of channels" (mouseenter)="toggleHoverButton(channel.channelId, true)" (mouseleave)="toggleHoverButton(channel.channelId, false)">
-                    <div matListItemTitle>{{channel?.channelName}}</div>
+                    <a [routerLink]="['/home/channel', channel.channelId]">
+                        <div matListItemTitle>{{channel?.channelName}}</div>
+                    </a>
                     <button type="submit" mat-raised-button color="warn" class="hover-button" *ngIf="hoveredItemId === channel.channelId" (click)="leaveChannel(channel.channelId)">Leave</button>
                 </mat-list-item>
             </mat-action-list>

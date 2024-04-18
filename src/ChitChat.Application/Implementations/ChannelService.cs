@@ -101,6 +101,24 @@ namespace ChitChat.Application.Implementations
             return true;
         }
 
+        public async Task<bool> JoinChannelByDisplayName(int channelId, string displayName)
+        {
+            var channel = await _channelRepository.GetChannelWithUserByIdAsync(channelId);
+            if(channel == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var user = await _userRepository.FindAsync(u => u.DisplayName == displayName);
+            if (user != null)
+            {
+                channel.Users.Add(user);
+                await _channelRepository.SaveChangesAsync();
+                return true;
+            }
+            
+            return false;
+        }
+
         public async Task<bool> LeaveChannel(int channelId, Guid userId)
         {
             var channel = await _channelRepository.GetChannelWithUserByIdAsync(channelId);
@@ -136,6 +154,17 @@ namespace ChitChat.Application.Implementations
         {
             var channels = await _channelRepository.GetChannelsByUserIdAsync(userId);
             return _mapper.Map<IEnumerable<ChannelDto>>(channels);
+        }
+
+        public async Task<IEnumerable<MemberDto>> GetChannelMembersAsync(int channelId)
+        {
+            var channel = await _channelRepository.GetChannelWithUserByIdAsync(channelId);
+            if(channel == null)
+            {
+                throw new ArgumentNullException(nameof(channel));
+            }
+            var members = channel.Users.ToList();
+            return _mapper.Map<IEnumerable<MemberDto>>(members);
         }
     }
 }

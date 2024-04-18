@@ -31,6 +31,7 @@ import { UserHubComponent } from './user-hub/user-hub.component';
 import { ManageInvitationComponent } from './manage-invitation/manage-invitation.component';
 import { ChannelsComponent } from './channels/channels.component';
 import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
+import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
     ManageInvitationComponent,
     ChannelsComponent,
     ChannelPopupComponent,
+    ChannelsChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,14 +72,14 @@ import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
       { path: 'register-user', component: RegisterUserComponent },
 
       {
-        path: 'home',
-        component: SidenavComponent,
+        path: 'home',component: SidenavComponent,
         children: [
-          { path: 'home', component: HomeComponent },
+          { path: '', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
           { path: 'dms', component: DmsComponent },
           { path: 'manage-invitations', component: ManageInvitationComponent },
-          { path: 'channels', component: ChannelsComponent }
+          { path: 'channels', component: ChannelsComponent },
+          { path: 'channel/:channelId', component: ChannelsChatComponent }
         ]
       },
 

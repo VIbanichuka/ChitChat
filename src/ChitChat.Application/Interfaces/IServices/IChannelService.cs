@@ -19,6 +19,8 @@ namespace ChitChat.Application.Interfaces.IServices
         Task<bool> DeleteChannelAsync(int id);
         Task<bool> LeaveChannel(int channelId, Guid userId);
         Task<bool> JoinChannel(int channelId, Guid userId);
+        Task<bool> JoinChannelByDisplayName(int channelId, string displayName);
+        Task<IEnumerable<MemberDto>> GetChannelMembersAsync(int channelId); 
         Task<IEnumerable<ChannelDto>> GetChannelsByUserIdAsync(Guid userId);
     }
 }
