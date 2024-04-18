@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="chat-list mat-elevation-z5">
+    </div>
+    <div class="message-box  mat-elevation-z5">
+        <div class="messagebox-header">
+            <h2>#{{selectedChannel}}</h2>
+        </div>
+        <mat-divider></mat-divider>
+        <div #scrollBar class="chat-area">
+
+            <div *ngFor="let message of messages" [ngClass]="{'sent-message': message.sender === currentUser, 'received-message': message.sender !== currentUser}">
+                <div>
+                    <div *ngIf="message.sender !== currentUser">
+                        <span style="font-weight: bold; margin-right: 8px;">{{ message.sender }}</span>
+                    </div>
+                    <div>{{ message.message }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <mat-form-field appearance="outline">
+                <input (keydown.enter)="sendMessageToGroup()" [(ngModel)]="inputMessage" matInput placeholder="Type message..." />
+                <button (click)="sendMessageToGroup()" mat-icon-button matSuffix>
+                    <mat-icon>send</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+</div>

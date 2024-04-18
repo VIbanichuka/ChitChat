@@ -1,1 +1,22 @@
-<p>home works!</p>
+<div class="container">
+    <div class="chat-list mat-elevation-z5">
+    </div>
+    <div class="message-box  mat-elevation-z5">
+        <div class="messagebox-header">
+            <h2>Random</h2>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="chat-area">
+            <div *ngFor="let message of messages">{{ message.message }}</div>
+        </div>
+        <div class="input-area">
+            <mat-form-field appearance="outline">
+                <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" matInput placeholder="Message..." />
+                <button (click)="sendMessage()" mat-icon-button matSuffix>
+                    <mat-icon>send</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+</div>

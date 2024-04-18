@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
 using ChitChat.App.Server.Hubs;
 using ChitChat.App.Server.Hubs.Interfaces;
 using ChitChat.App.Server.Models.Reponses;
@@ -82,6 +83,23 @@ namespace ChitChat.App.Server.Controllers
             return Ok(response);
         }
 
+        [HttpGet("members/{channelId}")]
+        [ProducesResponseType(typeof(IEnumerable<ChannelResponseModel>), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetChannelMembers(int channelId)
+        {
+            var members = await _channelService.GetChannelMembersAsync(channelId);
+            if(!members.Any() || members == null)
+            {
+                Log.Information("No channel found");
+                return NotFound();
+            }
+            return Ok(members);
+        }
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ChannelResponseModel>), 200)]
         [ProducesResponseType(204)]
@@ -129,7 +147,20 @@ namespace ChitChat.App.Server.Controllers
             var hasJoined = await _channelService.JoinChannel(channelId, userId);
             if (hasJoined)
             {
-                await _hubContext.Clients.All.ReceiveMessageAsync($"{userId} has Joined");
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpPost("{channelId}/displayName/{displayName}/join")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> JoinChannelByUserName(int channelId, string displayName)
+        {
+            var hasJoined = await _channelService.JoinChannelByDisplayName(channelId, displayName);
+            if (hasJoined)
+            {
                 return Ok();
             }
             return BadRequest();
@@ -144,7 +175,6 @@ namespace ChitChat.App.Server.Controllers
             var hasLeft = await _channelService.LeaveChannel(channelId,userId);
             if (hasLeft)
             {
-                await _hubContext.Clients.All.ReceiveMessageAsync($"{userId} has left");
                 return Ok();
             }
             return BadRequest();

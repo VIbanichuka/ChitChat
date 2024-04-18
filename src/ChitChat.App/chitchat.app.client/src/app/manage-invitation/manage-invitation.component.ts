@@ -29,11 +29,13 @@ export class ManageInvitationComponent implements OnInit {
 
   acceptInvite(friendshipId: number) {
     this.friendshipService.acceptInvite(friendshipId).subscribe(() => {
+      location.reload();
     });
   }
 
   rejectInvite(friendshipId: number) {
     this.friendshipService.rejectInvite(friendshipId).subscribe(() => {
+      location.reload();
     });
   }
 }

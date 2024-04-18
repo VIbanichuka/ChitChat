@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment.development'
+import { UserResponseModel } from '../models';
 import { ChannelRequestModel } from '../models/channel-request-model';
 import { ChannelResponseModel } from '../models/channel-response-model';
 
@@ -19,6 +20,12 @@ export class ChannelsService {
     const url = `${environment.apiUrl}${this.channelsUrl}`;
     console.log('Request URL:', url);
     return this.httpClient.get<ChannelResponseModel[]>(url);
+  }
+
+  public getChannelMembers(id: number): Observable<UserResponseModel[]> {
+    const url = `${environment.apiUrl}${this.channelsUrl}members/${id}`;
+    console.log('Request URL:', url);
+    return this.httpClient.get<UserResponseModel[]>(url);
   }
 
   public getChannelById(id: number): Observable<ChannelResponseModel> {
@@ -59,13 +66,13 @@ export class ChannelsService {
     return this.httpClient.post<ChannelResponseModel>(url, body);
   }
 
-  public updateUser(id: number, request: ChannelRequestModel): Observable<ChannelResponseModel> {
+  public updateChannel(id: number, request: ChannelRequestModel): Observable<ChannelResponseModel> {
     const url = `${environment.apiUrl}${this.channelsUrl}${id}`;
     console.log('Request URL:', url);
     return this.httpClient.put<ChannelResponseModel>(url, request);
   }
 
-  public deleteUser(id: number): Observable<ChannelResponseModel> {
+  public deleteChannel(id: number): Observable<ChannelResponseModel> {
     const url = `${environment.apiUrl}${this.channelsUrl}${id}`;
     console.log('Request URL:', url);
     return this.httpClient.delete<ChannelResponseModel>(url);

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ChitChat.Application.Dtos
 {
-    public class ChannelDto
+    public class MemberDto
     {
-        public int ChannelId { get; set; }
-
-        public string? ChannelName { get; set; }
+        public Guid UserId { get; set; }
+        public string? DisplayName { get; set; }
+        public string? Email { get; set; }
     }
 }

@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  height: calc(100vh - 65px);
+}
+
+.chat-list {
+  width: 25%;
+  margin: 0;
+  background: #2A7BB8;
+}
+
+.message-box {
+  width: 75%;
+  margin: 0;
+  background:#F8F8F8;
+  padding: 1%;
+}
+
+.chat-area{
+    margin: 1%;
+    height: calc(100vh - 240px);
+    background: green;
+}
+
+.input-area > mat-form-field{
+    width: 98%;
+    margin-left: 1%;
+}
+
+.messagebox-header{
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.messagebox-header > img{
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+    height: 35px;
+    width: 100%;
+    max-width: 35px;
+}

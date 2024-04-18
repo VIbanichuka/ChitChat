@@ -1,5 +1,5 @@
 export interface UserResponseModel{
     userId?: string;
-    displayName?: string;
+    displayName: string;
     email?: string;
 }

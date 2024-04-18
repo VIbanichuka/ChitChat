@@ -17,6 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.signalrService.startConnection();
 
+    setTimeout(() => {
+      this.signalrService.receiveMessageListener();
+    }, 2000);
+
   }
   title = 'chitchat.app.client';
 }
