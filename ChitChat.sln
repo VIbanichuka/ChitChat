@@ -9,9 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChat.Core", "src\ChitCh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChat.Infrastructure", "src\ChitChat.Infrastructure\ChitChat.Infrastructure.csproj", "{68D69672-9B93-4E75-8F5C-1F9E90527A16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChitChat.App.Server", "src\ChitChat.App\ChitChat.App.Server\ChitChat.App.Server.csproj", "{3183194F-6BA3-4214-9B76-75C8B9FF109E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChat.App.Server", "src\ChitChat.App\ChitChat.App.Server\ChitChat.App.Server.csproj", "{3183194F-6BA3-4214-9B76-75C8B9FF109E}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "chitchat.app.client", "src\ChitChat.App\chitchat.app.client\chitchat.app.client.esproj", "{2880C83D-366B-450F-8025-E66723EA2D74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{A83ADAAE-7417-4E7C-80F6-5B239721BA37}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B7FFAE20-35EC-4BE5-8AB6-AE4125DF22A6} = {B7FFAE20-35EC-4BE5-8AB6-AE4125DF22A6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +46,10 @@ Global
 		{2880C83D-366B-450F-8025-E66723EA2D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2880C83D-366B-450F-8025-E66723EA2D74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2880C83D-366B-450F-8025-E66723EA2D74}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A83ADAAE-7417-4E7C-80F6-5B239721BA37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83ADAAE-7417-4E7C-80F6-5B239721BA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83ADAAE-7417-4E7C-80F6-5B239721BA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83ADAAE-7417-4E7C-80F6-5B239721BA37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

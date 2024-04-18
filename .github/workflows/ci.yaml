@@ -23,3 +23,6 @@ jobs:
       
     - name: Build
       run: dotnet build ChitChat.sln --configuration Release
+
+    - name: Test
+      run:  dotnet test ChitChat.sln -c Release --no-build
