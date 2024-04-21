@@ -32,6 +32,10 @@ namespace ChitChat.Application.Implementations
 
         public async Task<UserProfileDto> GetUserProfileByIdAsync(Guid userId)
         {
+            if(userId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
             var userProfile = await _userProfileRepository.FindAsync(u => u.UserId == userId);
             return _mapper.Map<UserProfileDto>(userProfile);
         }
