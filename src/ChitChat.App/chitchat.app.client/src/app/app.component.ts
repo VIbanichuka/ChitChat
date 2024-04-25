@@ -11,15 +11,11 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private signalrService: SignalrService) { }
 
   ngOnDestroy(): void {
-    this.signalrService.hubConnection.off("ReceiveMessageAsync");
+    this.signalrService.hubConnection.off("SendMessageAsync");
   }
 
   ngOnInit(): void {
     this.signalrService.startConnection();
-
-    setTimeout(() => {
-      this.signalrService.receiveMessageListener();
-    }, 2000);
 
   }
   title = 'chitchat.app.client';
