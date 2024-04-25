@@ -21,6 +21,7 @@ export class SignalrService {
       .start()
       .then(() => {
         console.log('Connection started...');
+        this.receiveMessageListener();
       })
       .catch(error => console.log('Error while starting connection: ' + error));
  }
@@ -37,8 +38,9 @@ export class SignalrService {
   }
 
   receiveMessageListener() {
-    this.hubConnection.on("SendMessageAsync", (message: string, sender: string) => {
-      this.messages = [...this.messages, { message, sender }];
+    this.hubConnection.on("SendMessageAsync", (message: string, sender: string, channelName: string) => {
+      this.messages = [...this.messages, { message, sender, channelName }];
+      console.log("Received raw message:", message, sender);
       this.messages$.next(this.messages);
       console.log("Received message:", message);
     });

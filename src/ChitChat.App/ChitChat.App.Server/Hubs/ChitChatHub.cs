@@ -22,7 +22,7 @@ namespace ChitChat.App.Server.Hubs
 
         public async Task SendMessageToGroupAsync(string channelName, string message, string sender)
         {
-            await Clients.Group(channelName).SendMessageAsync(message, sender);
+            await Clients.Group(channelName).SendMessageAsync(message, sender, channelName);
         }
 
         public async Task RejoinGroupAsync(HubModel hubModel)

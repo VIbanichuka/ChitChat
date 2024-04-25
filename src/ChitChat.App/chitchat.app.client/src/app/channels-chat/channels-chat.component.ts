@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfileResponseModel, UserResponseModel } from '../api/models';
 import { UserProfileService, UserService } from '../api/services';
@@ -26,10 +26,12 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
     private authService: AuthService,
     private userService: UserService,
     private channelService: ChannelsService,
-    private signalrService: SignalrService) { }
+    private signalrService: SignalrService,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(p => { this.channelId = p.get("channelId");
+    this.route.paramMap.subscribe(p => {
+      this.channelId = p.get("channelId");
       if (this.channelId) {
         console.log("ChannelId:", this.channelId);
         this.channelMembers(parseInt(this.channelId));
@@ -39,7 +41,10 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
 
     this.getCurrentUser();
     this.signalrService.messages$.subscribe(response => {
-      this.messages = response;
+      console.log('Raw messages:', response);
+      this.messages = response.filter((msg: any) => msg.channelName === this.selectedChannel);
+      console.log('Filtered messages:', this.messages);
+      this.changeDetectorRef.detectChanges();
     })
   }
 
@@ -74,6 +79,7 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
   channelName(channelId: number) {
     this.channelService.getChannelById(channelId).subscribe(name => {
       this.selectedChannel = name.channelName;
+      this.signalrService.messages$.next(this.signalrService.messages$.value);
     })
   }
 
