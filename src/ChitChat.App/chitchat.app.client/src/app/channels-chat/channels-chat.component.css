@@ -69,3 +69,24 @@
     overflow-wrap: break-word;
     max-width: 45%;
   }
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+button[mat-icon-button] {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin-right: 0;
+}
+
+  button[mat-icon-button] mat-icon {
+    color: #333;
+  }
+
+.toggle-container h3 {
+  color: #333;
+  margin: 0;
+}
