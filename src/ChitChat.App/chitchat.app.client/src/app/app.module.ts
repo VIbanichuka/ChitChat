@@ -32,6 +32,7 @@ import { ManageInvitationComponent } from './manage-invitation/manage-invitation
 import { ChannelsComponent } from './channels/channels.component';
 import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
 import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
+import { ErrorInterceptor } from './api/services/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -87,11 +88,18 @@ import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
     ]),
     NoopAnimationsModule
   ],
-  providers: [{
+  providers: [
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
-  }],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
