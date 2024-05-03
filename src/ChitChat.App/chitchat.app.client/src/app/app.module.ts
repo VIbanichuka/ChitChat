@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -32,6 +33,8 @@ import { ManageInvitationComponent } from './manage-invitation/manage-invitation
 import { ChannelsComponent } from './channels/channels.component';
 import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
 import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
+import { ErrorInterceptor } from './api/services/error.interceptor';
+import { NotFoundErrorComponent } from './not-found-error/not-found-error.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
     ChannelsComponent,
     ChannelPopupComponent,
     ChannelsChatComponent,
+    NotFoundErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,31 +71,35 @@ import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
     OverlayModule,
     MatDividerModule,
     MatCardModule,
+    MatProgressBarModule,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
       { path: 'register-user', component: RegisterUserComponent },
-
-      {
-        path: 'home',component: SidenavComponent,
-        children: [
+      { path: 'home',component: SidenavComponent, children: [
           { path: '', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
           { path: 'dms', component: DmsComponent },
           { path: 'manage-invitations', component: ManageInvitationComponent },
           { path: 'channels', component: ChannelsComponent },
-          { path: 'channel/:channelId', component: ChannelsChatComponent }
-        ]
-      },
-
+          { path: 'channel/:channelId', component: ChannelsChatComponent },
+          { path: '**', component: NotFoundErrorComponent },
+      ]},
       { path: '', redirectTo: '/signin-user', pathMatch: 'full' },
     ]),
     NoopAnimationsModule
   ],
-  providers: [{
+  providers: [
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
-  }],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
