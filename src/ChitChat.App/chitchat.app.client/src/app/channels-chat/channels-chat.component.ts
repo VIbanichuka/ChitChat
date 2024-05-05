@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfileResponseModel, UserResponseModel } from '../api/models';
+import { ChannelResponseModel } from '../api/models/channel-response-model';
 import { UserProfileService, UserService } from '../api/services';
 import { AuthService } from '../api/services/auth.service';
 import { ChannelsService } from '../api/services/channels.service';
@@ -12,6 +13,8 @@ import { SignalrService } from '../api/services/signalr.service';
   styleUrls: ['./channels-chat.component.css']
 })
 export class ChannelsChatComponent implements OnInit, AfterViewChecked {
+  showChannelList: boolean = false;
+  currentUserChannelList: ChannelResponseModel[] | null = null;
   channelId: string | null = null;
   usersInGroup: UserResponseModel[] | null = null;
   currentUser: string = "";
@@ -34,8 +37,8 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
       this.channelId = p.get("channelId");
       if (this.channelId) {
         console.log("ChannelId:", this.channelId);
-        this.channelMembers(parseInt(this.channelId));
-        this.channelName(parseInt(this.channelId));
+        this.getChannelMembers(parseInt(this.channelId));
+        this.getCurrentChannelName(parseInt(this.channelId));
       }
     });
 
@@ -45,7 +48,9 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
       this.messages = response.filter((msg: any) => msg.channelName === this.selectedChannel);
       console.log('Filtered messages:', this.messages);
       this.changeDetectorRef.detectChanges();
-    })
+    });
+
+    this.getUserChannels();
   }
 
   ngAfterViewChecked(): void {
@@ -70,13 +75,13 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
       })
   }
 
-  channelMembers(channelId: number) {
+  getChannelMembers(channelId: number) {
     this.channelService.getChannelMembers(channelId).subscribe(users => {
       this.usersInGroup = users;
     });
   }
 
-  channelName(channelId: number) {
+  getCurrentChannelName(channelId: number) {
     this.channelService.getChannelById(channelId).subscribe(name => {
       this.selectedChannel = name.channelName;
       this.signalrService.messages$.next(this.signalrService.messages$.value);
@@ -101,5 +106,26 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
         console.error(error);
       });
   }
+
+  toggleChannelList() {
+    this.showChannelList = !this.showChannelList;
+  }
+
+  getUserChannels() {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+      this.channelService.getChannelsUserId(userId).subscribe((channels: ChannelResponseModel[]) => {
+        this.currentUserChannelList = channels;
+        console.log(channels);
+      })
+    })
+  }
+
+  reconnectSelectedChannel(channelName: string) {
+    this.selectedChannel = channelName;
+    this.reconnectGroup();
+  }
+
 }
 

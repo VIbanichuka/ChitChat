@@ -1,6 +1,25 @@
 <div class="container">
     <div class="chat-list mat-elevation-z5">
-    </div>
+
+        <div class="toggle-container">
+            <button mat-icon-button (click)="toggleChannelList()">
+                <mat-icon>{{ showChannelList ? 'arrow_drop_down' : 'arrow_right' }}</mat-icon>
+            </button>
+            <h3>Channels</h3>
+        </div>
+
+        <div *ngIf="showChannelList">
+            <div class="channels" *ngFor="let channel of currentUserChannelList" [ngClass]="{ 'current-channel': channel.channelName === selectedChannel }">
+                <a style="text-decoration: none;" [routerLink]="['/home/channel', channel.channelId]" (click)="reconnectSelectedChannel(channel.channelName)">
+                    <div>{{channel?.channelName}}</div>
+                </a>
+            </div>
+        </div>
+        <div *ngIf="!showChannelList" id="active-channel">
+            <p>{{selectedChannel}}</p>
+        </div>
+    </div>     
+
     <div class="message-box  mat-elevation-z5">
         <div class="messagebox-header">
             <h2>#{{selectedChannel}}</h2>
