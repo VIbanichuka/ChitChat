@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Npgsql;
 using Serilog;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,10 @@ var npgsqlConnectionStringBuilder = new NpgsqlConnectionStringBuilder(connection
     Password = dBPassword
 };
 var fullConnectionString = npgsqlConnectionStringBuilder.ToString();
+
+//Configure Redis
+var redisConfiguration = builder.Configuration.GetSection("Redis");
+var redisConnectionString = $"{redisConfiguration["RedisConnectionString"]}";
 
 // Add services to the container.
 
@@ -48,6 +53,7 @@ builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IChannelService, ChannelService>();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
 builder.Services.AddAutoMapper(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
