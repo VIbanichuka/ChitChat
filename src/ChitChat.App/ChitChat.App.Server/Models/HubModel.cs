@@ -3,6 +3,7 @@
     public class HubModel
     {
         public string? ChannelName { get; set; }
-        public string? DisplayName { get; set; }
+        public string? Sender { get; set; }
+        public string? Message { get; set; }
     }
 }

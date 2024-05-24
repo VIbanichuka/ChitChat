@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using ChitChat.App.Server.Hubs;
 using ChitChat.App.Server.Middleware;
+using ChitChat.App.Server.Services;
 using ChitChat.Application.Implementations;
 using ChitChat.Application.Interfaces.IRepositories;
 using ChitChat.Application.Interfaces.IServices;
@@ -35,6 +36,12 @@ var fullConnectionString = npgsqlConnectionStringBuilder.ToString();
 var redisConfiguration = builder.Configuration.GetSection("Redis");
 var redisConnectionString = $"{redisConfiguration["RedisConnectionString"]}";
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var configuration = ConfigurationOptions.Parse(redisConnectionString, true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -52,8 +59,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IChannelService, ChannelService>();
+builder.Services.AddSingleton<IRedisService, RedisService>();
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
 builder.Services.AddAutoMapper(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

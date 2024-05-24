@@ -62,7 +62,7 @@ export class ChannelPopupComponent implements OnInit {
       const channelName: string = this.form.value.channelName.toString();
       this.userService.getUserById(userId).subscribe(user => {
         const displayName = user.displayName;
-        this.signalrService.JoinGroupAsync(channelName, displayName)
+        this.signalrService.joinGroupAsync(channelName, displayName)
           .then(() => {
             this.matDialog.closeAll();
             this.router.navigate(['home']);

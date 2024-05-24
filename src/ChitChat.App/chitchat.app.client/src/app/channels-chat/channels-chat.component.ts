@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfileResponseModel, UserResponseModel } from '../api/models';
 import { ChannelResponseModel } from '../api/models/channel-response-model';
@@ -12,7 +12,7 @@ import { SignalrService } from '../api/services/signalr.service';
   templateUrl: './channels-chat.component.html',
   styleUrls: ['./channels-chat.component.css']
 })
-export class ChannelsChatComponent implements OnInit, AfterViewChecked {
+export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   showChannelList: boolean = false;
   currentUserChannelList: ChannelResponseModel[] | null = null;
   channelId: string | null = null;
@@ -32,6 +32,10 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
     private signalrService: SignalrService,
     private changeDetectorRef: ChangeDetectorRef) { }
 
+  ngOnDestroy(): void {
+    this.signalrService.hubConnection.off("SendMessageAsync");
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(p => {
       this.channelId = p.get("channelId");
@@ -43,6 +47,7 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
     });
 
     this.getCurrentUser();
+
     this.signalrService.messages$.subscribe(response => {
       console.log('Raw messages:', response);
       this.messages = response.filter((msg: any) => msg.channelName === this.selectedChannel);
@@ -51,6 +56,8 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
     });
 
     this.getUserChannels();
+
+    
   }
 
   ngAfterViewChecked(): void {
@@ -124,8 +131,11 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked {
 
   reconnectSelectedChannel(channelName: string) {
     this.selectedChannel = channelName;
-    this.reconnectGroup();
+    this.signalrService.reconnectChannelAsync(this.selectedChannel, this.currentUser)
+      .then(() => {
+      }).catch((error) => {
+        console.error(error);
+      });
   }
 
 }
-
