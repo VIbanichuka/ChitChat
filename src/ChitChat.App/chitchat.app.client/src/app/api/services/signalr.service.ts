@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@microsoft/signalr";
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject} from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({
@@ -10,11 +10,11 @@ export class SignalrService {
   chatUrl = "/chitChatHub"
   messages$ = new BehaviorSubject<any>([]);
   messages: any[] = [];
- hubConnection!: signalR.HubConnection;
+  hubConnection!: signalR.HubConnection;
   constructor() {
   }
 
- startConnection = () => {
+  startConnection = () => {
     this.createConnection();
 
     this.hubConnection
@@ -24,7 +24,7 @@ export class SignalrService {
         this.receiveMessageListener();
       })
       .catch(error => console.log('Error while starting connection: ' + error));
- }
+  }
 
   createConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -57,16 +57,23 @@ export class SignalrService {
       .catch(error => console.error(error));
   }
 
-  async JoinGroupAsync(channelName: string, displayName: string) {
+  async joinGroupAsync(channelName: string, displayName: string) {
     return await this.hubConnection.invoke("JoinGroupAsync", { channelName, displayName })
       .then(() => console.log('Joined group'))
       .catch(err => console.error('Error while joining group: ' + err));
   }
 
   async rejoinGroupAsync(channelName: string, displayName: string) {
-    return await this.hubConnection.invoke("RejoinGroupAsync", { channelName, displayName })
+    const hubModel = {ChannelName: channelName,Sender: displayName}
+    return await this.hubConnection.invoke("RejoinGroupAsync", hubModel)
       .then(() => console.log('rejoined group'))
       .catch(err => console.error('Error while joining group: ' + err));
   }
 
+  async reconnectChannelAsync(channelName: string, displayName: string) {
+    const hubModel = {ChannelName: channelName,Sender: displayName}
+    return await this.hubConnection.invoke("ReconnectChannelAsync", hubModel)
+      .then(() => console.log('reconnected channel'))
+      .catch(err => console.error('Error while reconnecting channel: ' + err));
+  }
 }
