@@ -40,9 +40,10 @@ namespace ChitChat.App.Server.Hubs
                 ChannelName = channelName,
                 Message = message,
                 Sender = sender,
+                Timestamp = DateTimeOffset.UtcNow
             };
             await _redisService.StoreChannelMessageAsync(hubModel);
-            await Clients.Group(channelName).SendMessageAsync(hubModel.Message, hubModel.Sender, hubModel.ChannelName);
+            await Clients.Group(hubModel.ChannelName).SendMessageAsync(hubModel.Message, hubModel.Sender, hubModel.ChannelName, hubModel.Timestamp);
         }
 
         public async Task RejoinGroupAsync(HubModel hubModel)
@@ -59,11 +60,11 @@ namespace ChitChat.App.Server.Hubs
             {
                 if (!string.IsNullOrEmpty(chat?.Message) && !string.IsNullOrEmpty(chat?.Sender) && !string.IsNullOrEmpty(chat?.ChannelName))
                 {
-                    await Clients.Caller.SendMessageAsync(chat.Message, chat.Sender, chat.ChannelName);
+                    await Clients.Caller.SendMessageAsync(chat.Message, chat.Sender, chat.ChannelName, chat.Timestamp);
                 }
             }
         }
-
+        
         public async Task ReconnectChannelAsync(HubModel hubModel)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, hubModel.ChannelName!);

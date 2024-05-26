@@ -33,6 +33,8 @@
                         <span style="font-weight: bold; margin-right: 8px;">{{ message.sender }}</span>
                     </div>
                     <div>{{ message.message }}</div>
+                    <small style="float: right; color: grey; font-size: 10px;">{{ message.timestamp | date:'HH:mm' }}</small>
+                    <div style="clear:both;"></div>
                 </div>
             </div>
         </div>

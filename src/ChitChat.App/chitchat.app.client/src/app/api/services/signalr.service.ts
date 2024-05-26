@@ -38,9 +38,9 @@ export class SignalrService {
   }
 
   receiveMessageListener() {
-    this.hubConnection.on("SendMessageAsync", (message: string, sender: string, channelName: string) => {
-      this.messages = [...this.messages, { message, sender, channelName }];
-      console.log("Received raw message:", message, sender);
+    this.hubConnection.on("SendMessageAsync", (message: string, sender: string, channelName: string, timestamp: string) => {
+      this.messages = [...this.messages, { message, sender, channelName, timestamp }];
+      console.log("Received raw message:", message, sender, timestamp);
       this.messages$.next(this.messages);
       console.log("Received message:", message);
     });
