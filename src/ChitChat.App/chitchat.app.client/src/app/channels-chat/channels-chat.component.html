@@ -37,8 +37,7 @@
                         <span style="font-weight: bold; margin-right: 8px;">{{ message.sender }}</span>
                     </div>
                     <div>{{ message.message }}</div>
-                    <small style="float: right; color: grey; font-size: 10px;">{{ message.timestamp | date:'HH:mm'
-                        }}</small>
+                    <small style="float: right; color: grey; font-size: 10px;">{{ message.timestamp | date:'HH:mm'}}</small>
                     <div style="clear:both;"></div>
                 </div>
             </div>
@@ -60,17 +59,28 @@
 <ng-template cdk-connected-overlay [cdkConnectedOverlayOrigin]="overlayPosition" [cdkConnectedOverlayOpen]="overlayOpen"
     (overlayOutsideClick)="closeOverlay()">
     <div class="overlay-container">
-        <h4 style="margin: 0; font-weight:500;">Members</h4>
-        <mat-divider></mat-divider>
-        <mat-action-list>
-            <mat-list-item *ngFor="let member of channelMembers">
-                <div style="display: flex; align-items: center; width: 100%; margin-left: 10px; margin-right: 10px;">
-                    <img matListAvatar src="../assets/{{member?.profilePicture || 'photo.jpg'}}"
-                        style=" padding: 0; margin: 10px; width: 35px; height: 35px; border-radius: 50%;">
-                    <h3 style="margin: 0; font-weight:500;">{{member?.displayName}}</h3>
+        <mat-tab-group dynamicHeight> 
+            <mat-tab label="Members">
+                <div>
+                    <mat-divider></mat-divider>
+                    <mat-action-list>
+                        <mat-list-item *ngFor="let member of channelMembers">
+                            <div style="display: flex; align-items: center; width: 100%; margin-left: 10px; margin-right: 10px;">
+                                <img matListAvatar src="../assets/{{member?.profilePicture || 'photo.jpg'}}"
+                                     style=" padding: 0; margin: 10px; width: 35px; height: 35px; border-radius: 50%;">
+                                <h3 style="margin: 0; font-weight:500;">{{member?.displayName}}</h3>
+                            </div>
+                        </mat-list-item>
+                    </mat-action-list>
                 </div>
+            </mat-tab>
 
-            </mat-list-item>
-        </mat-action-list>
+            <mat-tab label="Media">
+                <div>
+                    <p>Not implemented yet...</p>
+                </div>           
+            </mat-tab>
+        </mat-tab-group>
+
     </div>
 </ng-template>

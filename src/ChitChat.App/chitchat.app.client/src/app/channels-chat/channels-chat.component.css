@@ -105,8 +105,8 @@
 }
 
 .overlay-container {
-  width: 400px;
-  max-height: 400px;
+  width: 50vw;
+  max-height:400px;
   box-sizing: border-box;
   background-color: white;
   border-radius: 5px;

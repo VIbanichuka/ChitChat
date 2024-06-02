@@ -1,6 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserProfileResponseModel} from '../api/models';
 import { ChannelResponseModel } from '../api/models/channel-response-model';
 import { UserService } from '../api/services';
 import { AuthService } from '../api/services/auth.service';
