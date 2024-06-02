@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development'
-import { UserResponseModel } from '../models';
 import { ChannelRequestModel } from '../models/channel-request-model';
 import { ChannelResponseModel } from '../models/channel-response-model';
+import { MemberResponseModel } from '../models/member-response-model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +22,10 @@ export class ChannelsService {
     return this.httpClient.get<ChannelResponseModel[]>(url);
   }
 
-  public getChannelMembers(id: number): Observable<UserResponseModel[]> {
+  public getChannelMembers(id: number): Observable<MemberResponseModel[]> {
     const url = `${environment.apiUrl}${this.channelsUrl}members/${id}`;
     console.log('Request URL:', url);
-    return this.httpClient.get<UserResponseModel[]>(url);
+    return this.httpClient.get<MemberResponseModel[]>(url);
   }
 
   public getChannelById(id: number): Observable<ChannelResponseModel> {

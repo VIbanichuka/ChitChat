@@ -27,7 +27,10 @@ namespace ChitChat.Infrastructure.Repositories
 
         public async Task<Channel?> GetChannelWithUserByIdAsync(int channelId) 
         {
-            return await _context.Channels.Include(c => c.Users).FirstOrDefaultAsync(c => c.ChannelId == channelId);
+            return await _context.Channels
+                .Include(c => c.Users)
+                .ThenInclude(u => u.UserProfile)
+                .FirstOrDefaultAsync(c => c.ChannelId == channelId);
         }
     }
 }

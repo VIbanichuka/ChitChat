@@ -103,3 +103,13 @@
   background-color: #6CDFF6;
   border-radius: 5px;
 }
+
+.overlay-container {
+  width: 400px;
+  max-height: 400px;
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 5px;
+  padding-bottom: 10px;
+  padding-top: 0;
+}
