@@ -1,11 +1,11 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserProfileResponseModel, UserResponseModel } from '../api/models';
 import { ChannelResponseModel } from '../api/models/channel-response-model';
-import { UserProfileService, UserService } from '../api/services';
+import { UserService } from '../api/services';
 import { AuthService } from '../api/services/auth.service';
 import { ChannelsService } from '../api/services/channels.service';
 import { SignalrService } from '../api/services/signalr.service';
+import { MemberResponseModel } from '../api/models/member-response-model';
 
 @Component({
   selector: 'app-channels-chat',
@@ -14,18 +14,17 @@ import { SignalrService } from '../api/services/signalr.service';
 })
 export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   showChannelList: boolean = false;
+  overlayOpen: boolean = false;
   currentUserChannelList: ChannelResponseModel[] | null = null;
   channelId: string | null = null;
-  usersInGroup: UserResponseModel[] | null = null;
+  channelMembers: MemberResponseModel[] | null = null;
   currentUser: string = "";
-  userProfileInfo: UserProfileResponseModel | null = null;
   selectedChannel: string = "";
   inputMessage = "";
   messages: any[] = [];
   @ViewChild("scrollBar") private scrollContainer!: ElementRef;
   constructor(
     private route: ActivatedRoute,
-    private userProfileService: UserProfileService,
     private authService: AuthService,
     private userService: UserService,
     private channelService: ChannelsService,
@@ -56,7 +55,6 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestro
     });
 
     this.getUserChannels();
-
     
   }
 
@@ -84,7 +82,7 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestro
 
   getChannelMembers(channelId: number) {
     this.channelService.getChannelMembers(channelId).subscribe(users => {
-      this.usersInGroup = users;
+      this.channelMembers = users;
     });
   }
 
@@ -138,4 +136,7 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestro
       });
   }
 
+  closeOverlay() {
+    this.overlayOpen = false;
+  }
 }

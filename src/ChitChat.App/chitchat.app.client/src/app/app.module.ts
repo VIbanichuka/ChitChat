@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTabsModule} from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
@@ -71,6 +72,7 @@ import { NotFoundErrorComponent } from './not-found-error/not-found-error.compon
     OverlayModule,
     MatDividerModule,
     MatCardModule,
+    MatTabsModule,
     MatProgressBarModule,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },

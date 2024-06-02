@@ -9,8 +9,10 @@
         </div>
 
         <div *ngIf="showChannelList">
-            <div class="channels" *ngFor="let channel of currentUserChannelList" [ngClass]="{ 'current-channel': channel.channelName === selectedChannel }">
-                <a style="text-decoration: none;" [routerLink]="['/home/channel', channel.channelId]" (click)="reconnectSelectedChannel(channel.channelName)">
+            <div class="channels" *ngFor="let channel of currentUserChannelList"
+                [ngClass]="{ 'current-channel': channel.channelName === selectedChannel }">
+                <a style="text-decoration: none;" [routerLink]="['/home/channel', channel.channelId]"
+                    (click)="reconnectSelectedChannel(channel.channelName)">
                     <div>{{channel?.channelName}}</div>
                 </a>
             </div>
@@ -18,29 +20,32 @@
         <div *ngIf="!showChannelList" id="active-channel">
             <p>{{selectedChannel}}</p>
         </div>
-    </div>     
+    </div>
 
     <div class="message-box  mat-elevation-z5">
-        <div class="messagebox-header">
+        <div class="messagebox-header" (click)="overlayOpen = !overlayOpen" cdkOverlayOrigin
+            #overlayPosition="cdkOverlayOrigin">
             <h2>#{{selectedChannel}}</h2>
         </div>
         <mat-divider></mat-divider>
         <div #scrollBar class="chat-area">
 
-            <div *ngFor="let message of messages" [ngClass]="{'sent-message': message.sender === currentUser, 'received-message': message.sender !== currentUser}">
+            <div *ngFor="let message of messages"
+                [ngClass]="{'sent-message': message.sender === currentUser, 'received-message': message.sender !== currentUser}">
                 <div>
                     <div *ngIf="message.sender !== currentUser">
                         <span style="font-weight: bold; margin-right: 8px;">{{ message.sender }}</span>
                     </div>
                     <div>{{ message.message }}</div>
-                    <small style="float: right; color: grey; font-size: 10px;">{{ message.timestamp | date:'HH:mm' }}</small>
+                    <small style="float: right; color: grey; font-size: 10px;">{{ message.timestamp | date:'HH:mm'}}</small>
                     <div style="clear:both;"></div>
                 </div>
             </div>
         </div>
         <div class="input-area">
             <mat-form-field appearance="outline">
-                <input (keydown.enter)="sendMessageToGroup()" [(ngModel)]="inputMessage" matInput placeholder="Type message..." />
+                <input (keydown.enter)="sendMessageToGroup()" [(ngModel)]="inputMessage" matInput
+                    placeholder="Type message..." />
                 <button (click)="sendMessageToGroup()" mat-icon-button matSuffix>
                     <mat-icon>send</mat-icon>
                 </button>
@@ -49,3 +54,33 @@
     </div>
 
 </div>
+
+
+<ng-template cdk-connected-overlay [cdkConnectedOverlayOrigin]="overlayPosition" [cdkConnectedOverlayOpen]="overlayOpen"
+    (overlayOutsideClick)="closeOverlay()">
+    <div class="overlay-container">
+        <mat-tab-group dynamicHeight> 
+            <mat-tab label="Members">
+                <div>
+                    <mat-divider></mat-divider>
+                    <mat-action-list>
+                        <mat-list-item *ngFor="let member of channelMembers">
+                            <div style="display: flex; align-items: center; width: 100%; margin-left: 10px; margin-right: 10px;">
+                                <img matListAvatar src="../assets/{{member?.profilePicture || 'photo.jpg'}}"
+                                     style=" padding: 0; margin: 10px; width: 35px; height: 35px; border-radius: 50%;">
+                                <h3 style="margin: 0; font-weight:500;">{{member?.displayName}}</h3>
+                            </div>
+                        </mat-list-item>
+                    </mat-action-list>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Media">
+                <div>
+                    <p>Not implemented yet...</p>
+                </div>           
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+</ng-template>
