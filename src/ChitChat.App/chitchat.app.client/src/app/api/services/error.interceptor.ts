@@ -22,6 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             console.error('Not Found:', error.message);
             break;
           case 500:
+            this.router.navigate(['/500']);
             console.error('Internal Server Error:', error.message);
             break;
           case 502:
