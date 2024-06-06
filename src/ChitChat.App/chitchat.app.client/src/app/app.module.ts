@@ -36,6 +36,7 @@ import { ChannelPopupComponent } from './channel-popup/channel-popup.component';
 import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
 import { ErrorInterceptor } from './api/services/error.interceptor';
 import { NotFoundErrorComponent } from './not-found-error/not-found-error.component';
+import { SeverErrorComponent } from './sever-error/sever-error.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NotFoundErrorComponent } from './not-found-error/not-found-error.compon
     ChannelPopupComponent,
     ChannelsChatComponent,
     NotFoundErrorComponent,
+    SeverErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +78,7 @@ import { NotFoundErrorComponent } from './not-found-error/not-found-error.compon
     MatProgressBarModule,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
+      { path: '500', component: SeverErrorComponent},
       { path: 'register-user', component: RegisterUserComponent },
       { path: 'home',component: SidenavComponent, children: [
           { path: '', component: HomeComponent },
