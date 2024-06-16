@@ -4,17 +4,33 @@
     </div>
     <div class="message-box  mat-elevation-z5">
         <div class="messagebox-header"> 
-            <img src="../assets/{{'photo.jpg'}}" />
-            <h2>Victoria Newland</h2>
+            <img src="../assets/{{friendProfile?.profilePicture || 'photo.jpg'}}" />
+            <h2>{{friendProfile?.firstName}} {{friendProfile?.lastName}}</h2>
         </div>
         <mat-divider></mat-divider>
-        <div class="chat-area">
+        <div #scrollBar class="chat-area">
+            <div *ngFor="let message of messages">
+            </div>
+
+            <div *ngFor="let message of messages"
+                 [ngClass]="{'sent-message': message.sender === currentUser, 'received-message': message.sender !== currentUser}">
+                <div>
+                    <div *ngIf="message.sender !== currentUser">
+                        <span style="font-weight: bold; margin-right: 8px;">{{ message.sender }}</span>
+                    </div>
+                    <div>{{ message.message }}</div>
+                    <small style="float: right; color: grey; font-size: 10px;">{{ message.timestamp | date:'HH:mm'}}</small>
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
 
         </div>
+
         <div class="input-area">
             <mat-form-field appearance="outline">
-                <input matInput placeholder="Message..." />
-                <button mat-icon-button matSuffix>
+                <input (keydown.enter)="sendPrivateMessage()" [(ngModel)]="inputMessage" matInput
+                    placeholder="Type Message..." />
+                <button (click)="sendPrivateMessage()" mat-icon-button matSuffix>
                     <mat-icon>send</mat-icon>
                 </button>
             </mat-form-field>

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserResponseModel } from '../api/models';
 import { FriendshipRequest } from '../api/models/friendship-request-model';
 import { UserService } from '../api/services';
@@ -17,7 +17,10 @@ export class UserHubComponent implements OnInit {
   userInfo: UserResponseModel | null = null;
   showInviteButton: boolean = true;
   constructor(@Inject(MAT_DIALOG_DATA) public data: { user: any, showInviteButton: boolean },
-    private userService: UserService, private friendshipService: FriendshipService, private authService: AuthService) {
+    private userService: UserService,
+    private friendshipService: FriendshipService,
+    private authService: AuthService,
+    private matDialog: MatDialog) {
     this.user = data.user;
     this.showInviteButton = data.showInviteButton;
   }
@@ -31,6 +34,10 @@ export class UserHubComponent implements OnInit {
       this.userInfo = userInfo;
     }
     );
+  }
+
+  closeUserProfileDialogs() {
+    this.matDialog.closeAll()
   }
 
   sendInvite() {
