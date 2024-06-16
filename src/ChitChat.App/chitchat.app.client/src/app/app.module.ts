@@ -80,6 +80,7 @@ import { NotFoundErrorComponent } from './not-found-error/not-found-error.compon
       { path: 'home',component: SidenavComponent, children: [
           { path: '', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
+          { path: 'dms/:userId', component: DmsComponent },
           { path: 'dms', component: DmsComponent },
           { path: 'manage-invitations', component: ManageInvitationComponent },
           { path: 'channels', component: ChannelsComponent },

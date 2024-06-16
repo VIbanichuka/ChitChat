@@ -1,5 +1,4 @@
-﻿using ChitChat.Core.Entities;
-using System;
+﻿using System;
 using Microsoft.AspNetCore.SignalR;
 using ChitChat.App.Server.Hubs.Interfaces;
 using ChitChat.App.Server.Models.Requests;
@@ -56,6 +55,11 @@ namespace ChitChat.App.Server.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, hubModel.ChannelName!);
             var chats = await _redisService.GetStoredChannelMessagesAsync(hubModel.ChannelName!);
 
+            await SendValidMessagesAsync(chats);
+        }
+
+        private async Task SendValidMessagesAsync(IEnumerable<HubModel?> chats)
+        {
             foreach (var chat in chats)
             {
                 if (!string.IsNullOrEmpty(chat?.Message) && !string.IsNullOrEmpty(chat?.Sender) && !string.IsNullOrEmpty(chat?.ChannelName))
@@ -64,7 +68,7 @@ namespace ChitChat.App.Server.Hubs
                 }
             }
         }
-        
+
         public async Task ReconnectChannelAsync(HubModel hubModel)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, hubModel.ChannelName!);

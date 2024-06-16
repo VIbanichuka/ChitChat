@@ -54,21 +54,12 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestro
       this.changeDetectorRef.detectChanges();
     });
 
-    this.getUserChannels();
+    this.getUserChannels();     
     
   }
 
   ngAfterViewChecked(): void {
     this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
-  }
-
-  sendMessage() {
-    this.signalrService.receiveMessage(this.inputMessage)
-      .then(() => {
-        this.inputMessage = '';
-      }).catch((error) => {
-        console.error(error);
-      })
   }
 
   sendMessageToGroup() {
