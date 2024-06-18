@@ -1,76 +1,87 @@
-<form [formGroup]="form" (ngSubmit)="registerUser()">
-    <div class="container">
-        <div>
+<div class="container" style="display:flex; justify-content:center; align-items: center; min-height: 100vh;">
+    <mat-card class="ruser-card-container">
+        <mat-card-header style="display: flex; justify-content: center; align-items: center;">
             <div class="signin-heading">
                 <h1 style="font-size: 2em; font-weight: bolder;">PrimaMensa ChitChat</h1>
-                <h2>First of all, Enter your credentials</h2>
+                <h2 style="margin: 0px; padding: 0px;">First of all, Enter your credentials</h2>
             </div>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="registerUser()">
+                <div>
+                    <div class="form-floating">
+                        <input (blur)="checkIfDisplayNameExists()" formControlName="displayName" placeholder="Display name"
+                               class="form-control" />
+                        <label for="displayName"></label>
+                        <div style="color: red"
+                             *ngIf="form.get('displayName')?.hasError('required') && form.get('displayName')?.touched">
+                            Display name is required
+                        </div>
+                        <div style="color: red"
+                             *ngIf="form.get('displayName')?.hasError('maxlength') && form.get('displayName')?.touched">
+                            Maximum characters allowed is 30
+                        </div>
+                        <div style="color: red" *ngIf="getDisplayNameValidationMessage() !== '' ">
+                            {{ getDisplayNameValidationMessage() }}
+                        </div>
+                    </div>
 
-            <div class="form-floating">
-                <input (blur)="checkIfDisplayNameExists()" formControlName="displayName" placeholder="Display name" class="form-control" />
-                <label for="displayName"></label>
-                <div style="color: red" *ngIf="form.get('displayName')?.hasError('required') && form.get('displayName')?.touched">
-                    Display name is required
-                </div>
-                <div style="color: red" *ngIf="form.get('displayName')?.hasError('maxlength') && form.get('displayName')?.touched">
-                    Maximum characters allowed is 30
-                </div>
-                <div style="color: red" *ngIf="getDisplayNameValidationMessage() !== '' ">
-                    {{ getDisplayNameValidationMessage() }}
-                </div>
-            </div>
+                    <div class="form-floating">
+                        <input (blur)="checkIfUserExists()" formControlName="email" placeholder="Email" class="form-control" />
+                        <label for="email"></label>
+                        <div style="color: red" *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched">
+                            Email is required
+                        </div>
+                        <div style="color: red" *ngIf="form.get('email')?.hasError('email') && form.get('email')?.touched">
+                            Invalid email address
+                        </div>
+                        <div style="color: red" *ngIf="form.get('email')?.hasError('maxlength') && form.get('email')?.touched">
+                            Maximum characters allowed is 300
+                        </div>
+                        <div style="color: red" *ngIf="getEmailValidationMessage() !== '' ">
+                            {{ getEmailValidationMessage() }}
+                        </div>
+                    </div>
 
-            <div class="form-floating">
-                <input (blur)="checkIfUserExists()" formControlName="email" placeholder="Email" class="form-control" />
-                <label for="email"></label>
-                <div style="color: red" *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched">
-                    Email is required
-                </div>
-                <div style="color: red" *ngIf="form.get('email')?.hasError('email') && form.get('email')?.touched">
-                    Invalid email address
-                </div>
-                <div style="color: red" *ngIf="form.get('email')?.hasError('maxlength') && form.get('email')?.touched">
-                    Maximum characters allowed is 300
-                </div>
-                <div style="color: red" *ngIf="getEmailValidationMessage() !== '' ">
-                    {{ getEmailValidationMessage() }}
-                </div>
-            </div>
+                    <div class="form-floating">
+                        <input formControlName="password" placeholder="Password" class="form-control" type="password" />
+                        <label for="password"></label>
+                        <div style="color: red" *ngIf="form.get('password')?.hasError('required') && form.get('password')?.touched">
+                            Password is required
+                        </div>
+                        <div style="color: red"
+                             *ngIf="form.get('password')?.hasError('minlength') && form.get('password')?.touched">
+                            Password must be at least 6 characters long
+                        </div>
+                    </div>
 
-            <div class="form-floating">
-                <input formControlName="password" placeholder="Password" class="form-control" type="password" />
-                <label for="password"></label>
-                <div style="color: red" *ngIf="form.get('password')?.hasError('required') && form.get('password')?.touched">
-                    Password is required
-                </div>
-                <div style="color: red"  *ngIf="form.get('password')?.hasError('minlength') && form.get('password')?.touched">
-                    Password must be at least 6 characters long
-                </div>
-            </div>
+                    <div class="form-floating">
+                        <input formControlName="confirmPassword" placeholder="Confirm Password" class="form-control"
+                               type="password" />
+                        <label for="confirmPassword"></label>
+                        <div style="color: red"
+                             *ngIf="form.get('confirmPassword')?.hasError('required') && form.get('confirmPassword')?.touched">
+                            Confirm Password is required
+                        </div>
+                        <div style="color: red" *ngIf="form.hasError('mismatch') && form.get('confirmPassword')?.touched">
+                            Passwords do not match
+                        </div>
+                    </div>
 
-            <div class="form-floating">
-                <input formControlName="confirmPassword" placeholder="Confirm Password" class="form-control" type="password" />
-                <label for="confirmPassword"></label>
-                <div style="color: red"  *ngIf="form.get('confirmPassword')?.hasError('required') && form.get('confirmPassword')?.touched">
-                    Confirm Password is required
-                </div>
-                <div style="color: red" *ngIf="form.hasError('mismatch') && form.get('confirmPassword')?.touched">
-                    Passwords do not match
-                </div>
-            </div>
+                    <div class="login-btn">
+                        <button type="submit" mat-raised-button color="primary" class="form-control">
+                            <mat-icon>login</mat-icon> Sign up
+                        </button>
+                    </div>
 
-            <div class="login-btn">
-                <button type="submit" mat-raised-button color="primary" class="form-control">
-                    <mat-icon>login</mat-icon> Sign up
-                </button>
-            </div>
-
-            <div class="signin-user">
-                <small>Already using PrimaMensa ChitChat? </small>
-                <a routerLink="/signin-user">
-                    <small>Sign in to your account</small>
-                </a>
-            </div>
-        </div>
-    </div>
-</form>
+                    <div class="signin-user">
+                        <small>Already using PrimaMensa ChitChat? </small>
+                        <a routerLink="/signin-user">
+                            <small>Sign in to your account</small>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

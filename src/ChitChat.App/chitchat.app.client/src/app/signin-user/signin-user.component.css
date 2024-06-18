@@ -27,3 +27,7 @@
 .register-user{
     text-align: center;
 }
+
+.signin-user-card-container {
+    border-radius: 2%;
+}
