@@ -1,60 +1,65 @@
-<form [formGroup]="form">
-    <div class="container">
-
-        <div>
+<div class="container" style="display:flex; justify-content:center; align-items: center; min-height: 100vh;">
+    <mat-card class="signin-user-card-container">
+        <mat-card-header style="display: flex; justify-content: center; align-items: center;">
             <div class="signin-heading">
                 <h1 style="font-size: 2em; font-weight: bolder;">PrimaMensa ChitChat</h1>
                 <h2>Sign in to PrimaMensa ChitChat</h2>
             </div>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="form">
+                <div>
+                    <div class="form-floating">
+                        <input formControlName="email" placeholder="Email" class="form-control" type="email" />
+                        <label for="email"></label>
+                        <div class="invalid-feedback d-block" style="color: red"
+                             *ngIf="form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)">
+                            <div *ngIf="form.controls.email.errors?.['required']">
+                                Email is required!
+                            </div>
+                            <div *ngIf="form.controls.email.errors?.['minlength']">
+                                Minimum length is 5 characters.
+                            </div>
+                            <div *ngIf="form.controls.email.errors?.['maxlength']">
+                                Maximum length is 300 characters.
+                            </div>
+                            <div *ngIf="form.controls.email.errors?.['email']">
+                                Invalid email address.
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="form-floating">
-                <input formControlName="email" placeholder="Email" class="form-control" type="email" />
-                <label for="email"></label>
-                <div class="invalid-feedback d-block" style="color: red" *ngIf="form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)">
-                    <div *ngIf="form.controls.email.errors?.['required']">
-                        Email is required!
+                    <div class="form-floating">
+                        <input formControlName="password" placeholder="Password" class="form-control" type="password" />
+                        <label for="password"></label>
+                        <div class="invalid-feedback d-block" style="color: red"
+                             *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">
+                            <div *ngIf="form.controls.password.errors?.['required']">
+                                Password is required!
+                            </div>
+                            <div *ngIf="form.controls.password.errors?.['minlength']">
+                                Minimum length is 6 characters.
+                            </div>
+                            <div *ngIf="form.controls.password.errors?.['maxlength']">
+                                Maximum length is 20 characters.
+                            </div>
+                        </div>
                     </div>
-                    <div *ngIf="form.controls.email.errors?.['minlength']">
-                        Minimum length is 5 characters.
+
+                    <div class="login-btn">
+                        <button (click)="signin()" type="submit" mat-raised-button color="primary" class="form-control">
+                            <mat-icon>login</mat-icon> Sign in with email
+                        </button>
                     </div>
-                    <div *ngIf="form.controls.email.errors?.['maxlength']">
-                        Maximum length is 300 characters.
-                    </div>
-                    <div *ngIf="form.controls.email.errors?.['email']">
-                        Invalid email address.
+
+                    <div class="register-user">
+                        <small>New to PrimaMensa ChitChat? </small>
+                        <a routerLink="/register-user">
+                            <small>Create an account</small>
+                        </a>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-floating">
-                <input formControlName="password" placeholder="Password" class="form-control" type="password" />
-                <label for="password"></label>
-                <div class="invalid-feedback d-block" style="color: red" *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">
-                    <div *ngIf="form.controls.password.errors?.['required']">
-                        Password is required!
-                    </div>
-                    <div *ngIf="form.controls.password.errors?.['minlength']">
-                        Minimum length is 6 characters.
-                    </div>
-                    <div *ngIf="form.controls.password.errors?.['maxlength']">
-                        Maximum length is 20 characters.
-                    </div>
-                </div>
-            </div>
-
-            <div class="login-btn">
-                <button (click)="signin()" type="submit" mat-raised-button color="primary" class="form-control">
-                    <mat-icon>login</mat-icon> Sign in with email
-                </button>
-            </div>
-
-            <div class="register-user">
-                <small>New to PrimaMensa ChitChat? </small>
-                <a routerLink="/register-user">
-                    <small>Create an account</small>
-                </a>
-            </div>
-        </div>
-
-    </div>
-</form>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
