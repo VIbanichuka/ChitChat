@@ -1,64 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { UserProfileResponseModel, UserResponseModel } from '../api/models';
-import { UserProfileService, UserService } from '../api/services';
-import { AuthService } from '../api/services/auth.service';
-import { ChannelsService } from '../api/services/channels.service';
-import { SignalrService } from '../api/services/signalr.service';
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{ 
-  usersInGroup: UserResponseModel[] | null = null;
-  currentUser: string = "";
-  userProfileInfo: UserProfileResponseModel | null = null;
-  selectedChannel: string = "";
-  inputMessage = "";
-  messages: any[] = [];
-  constructor(
-    private userProfileService: UserProfileService,
-    private authService: AuthService,
-    private userService: UserService,
-    private channelService: ChannelsService,
-    private signalrService: SignalrService) { }
-
-  ngOnInit(): void {
-    this.getCurrentUser();
-      this.signalrService.messages$.subscribe(response => {
-        this.messages = response;
-      })
-    }
-
-  sendMessage() {
-    this.signalrService.receiveMessage(this.inputMessage)
-      .then(() => {
-        this.inputMessage = '';
-      }).catch((error) => {
-        console.error(error);
-      })
-  }
-
-  channelMembers(channelId: number) {
-    this.channelService.getChannelMembers(channelId).subscribe(users => {
-      this.usersInGroup = users;
-    });
-  }
-
-  channelName(channelId: number) {
-    this.channelService.getChannelById(channelId).subscribe(name => {
-      this.selectedChannel = name.channelName;
-    })
-  }
-
-  getCurrentUser() {
-    this.authService.getUserIdFromToken().subscribe(userId => {
-      if (!userId)
-        return;
-      this.userService.getUserById(userId).subscribe(user => {
-        this.currentUser = user.displayName;
-      });
-    });
-  }
+export class HomeComponent{ 
+  
 }
