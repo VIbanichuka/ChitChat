@@ -187,5 +187,34 @@ namespace ChitChat.App.Server.Controllers
 
             return Ok(updatedUser);
         }
+
+        [HttpPost("{id}/public-key")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> SharePublicKey(Guid id, [FromBody] UserPublicKeyRequest request)
+        {
+            if(id != Guid.Empty && request != null)
+            {
+                await _userService.SavePublicKeyAsync(id, request.PublicKey);
+                return Ok();
+            }
+            else
+            {
+                return NoContent();
+
+            }
+        }
+
+        [HttpGet("{id}/public-key")]
+        public async Task<IActionResult> GetPublicKey(Guid id)
+        {
+            var publicKey = await _userService.GetPublicKeyAsync(id);
+            if (publicKey == null)
+            {
+                return NotFound();
+            }
+            return Ok(new{publicKey});
+        }
     }
 }

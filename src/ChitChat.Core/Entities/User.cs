@@ -24,6 +24,9 @@ namespace ChitChat.Core.Entities
         public string? Email { get; set; }
 
         [Required]
+        public string? PublicKey { get; set; }
+
+        [Required]
         public byte[] PasswordHash { get; set; } = new byte[32];
 
         [Required]

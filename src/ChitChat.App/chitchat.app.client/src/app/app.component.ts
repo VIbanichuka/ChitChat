@@ -12,6 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.signalrService.hubConnection.off("SendMessageAsync");
+    this.signalrService.hubConnection.off("SendGroupMessageAsync")
   }
 
   ngOnInit(): void {

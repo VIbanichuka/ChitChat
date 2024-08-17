@@ -45,6 +45,25 @@ namespace ChitChat.App.Server.Hubs
             await Clients.Group(hubModel.ChannelName).SendMessageAsync(hubModel.Message, hubModel.Sender, hubModel.ChannelName, hubModel.Timestamp);
         }
 
+
+        public async Task SendGroupMessageAsync(string channelName, string message, string sender)
+        {
+            if (string.IsNullOrEmpty(channelName) || string.IsNullOrEmpty(message) || string.IsNullOrEmpty(sender))
+            {
+                throw new ArgumentException("All arguments must be non-empty.");
+            }
+
+            var hubModel = new HubModel()
+            {
+                ChannelName = channelName,
+                Message = message,
+                Sender = sender,
+                Timestamp = DateTimeOffset.UtcNow
+            };
+            await _redisService.StoreChannelMessageAsync(hubModel);
+            await Clients.Group(hubModel.ChannelName).SendGroupMessageAsync(hubModel.Message, hubModel.Sender, hubModel.ChannelName, hubModel.Timestamp);
+        }
+
         public async Task RejoinGroupAsync(HubModel hubModel)
         {
             if (string.IsNullOrEmpty(hubModel.ChannelName))

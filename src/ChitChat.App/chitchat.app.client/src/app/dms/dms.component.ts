@@ -17,7 +17,7 @@ export class DmsComponent implements OnInit, AfterViewChecked{
   groupName: string = "";
   friendProfile: UserProfileResponseModel | null = null;
   friendId: string | null = "";
-  userId: string | undefined = "";
+  userId: string = "";
   @ViewChild("scrollBar") private scrollContainer!: ElementRef;
   constructor(private userProfileService: UserProfileService,
     private signalrService: SignalrService,
@@ -56,12 +56,16 @@ export class DmsComponent implements OnInit, AfterViewChecked{
 
 
   sendPrivateMessage() {
-    this.signalrService.sendMessageToGroupAsync(this.groupName, this.inputMessage, this.currentUser)
-      .then(() => {
-        this.inputMessage = '';
-      }).catch((error) => {
-        console.error(error);
-      })
+    if (this.friendId) {
+      this.signalrService.sendPrivateMessageAsync(this.groupName, this.inputMessage, this.currentUser, this.friendId)
+        .then(() => {
+          this.inputMessage = '';
+        }).catch((error) => {
+          console.error(error);
+        });
+    } else {
+      console.error('friendId is null or undefined');
+    } 
   }
 
   private getFriendProfile(userId: string): void {
