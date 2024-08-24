@@ -27,6 +27,9 @@ namespace ChitChat.Core.Entities
         public string? PublicKey { get; set; }
 
         [Required]
+        public string? PrivateKey { get; set; }
+
+        [Required]
         public byte[] PasswordHash { get; set; } = new byte[32];
 
         [Required]
