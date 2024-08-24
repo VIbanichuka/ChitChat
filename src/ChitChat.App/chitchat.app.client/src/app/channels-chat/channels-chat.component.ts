@@ -96,7 +96,7 @@ export class ChannelsChatComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   reconnectGroup() {
-    this.signalrService.rejoinGroupAsync(this.selectedChannel, this.currentUser)
+    this.signalrService.rejoinGroupChatAsync(this.selectedChannel, this.currentUser)
       .then(() => {
       }).catch((error) => {
         console.error(error);

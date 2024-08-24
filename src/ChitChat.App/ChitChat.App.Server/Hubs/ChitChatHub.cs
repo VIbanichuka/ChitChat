@@ -88,6 +88,30 @@ namespace ChitChat.App.Server.Hubs
             }
         }
 
+        public async Task RejoinGroupMessageAsync(HubModel hubModel)
+        {
+            if (string.IsNullOrEmpty(hubModel.ChannelName))
+            {
+                throw new ArgumentException("Channel name cannot be empty.");
+            }
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, hubModel.ChannelName!);
+            var chats = await _redisService.GetStoredChannelMessagesAsync(hubModel.ChannelName!);
+
+            await SendValidGroupMessagesAsync(chats);
+        }
+
+        private async Task SendValidGroupMessagesAsync(IEnumerable<HubModel?> chats)
+        {
+            foreach (var chat in chats)
+            {
+                if (!string.IsNullOrEmpty(chat?.Message) && !string.IsNullOrEmpty(chat?.Sender) && !string.IsNullOrEmpty(chat?.ChannelName))
+                {
+                    await Clients.Caller.SendGroupMessageAsync(chat.Message, chat.Sender, chat.ChannelName, chat.Timestamp);
+                }
+            }
+        }
+
         public async Task ReconnectChannelAsync(HubModel hubModel)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, hubModel.ChannelName!);

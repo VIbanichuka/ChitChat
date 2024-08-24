@@ -111,9 +111,17 @@ export class SignalrService {
       .catch(err => console.error('Error while joining group: ' + err));
   }
 
-  async rejoinGroupAsync(channelName: string, displayName: string) {
+  async rejoinPrivateChatAsync(channelName: string, displayName: string) {
     const hubModel = { ChannelName: channelName, Sender: displayName }
     return await this.hubConnection.invoke("RejoinGroupAsync", hubModel)
+      .then(() => console.log('rejoined group'))
+      .catch(err => console.error('Error while joining group: ' + err));
+  }
+
+
+  async rejoinGroupChatAsync(channelName: string, displayName: string) {
+    const hubModel = { ChannelName: channelName, Sender: displayName }
+    return await this.hubConnection.invoke("RejoinGroupMessageAsync", hubModel)
       .then(() => console.log('rejoined group'))
       .catch(err => console.error('Error while joining group: ' + err));
   }

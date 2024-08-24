@@ -105,7 +105,7 @@ export class DmsComponent implements OnInit, AfterViewChecked{
   }
 
   reconnectPrivateChat() {
-    this.signalrService.rejoinGroupAsync(this.groupName, this.currentUser)
+    this.signalrService.rejoinPrivateChatAsync(this.groupName, this.currentUser)
       .then(() => {
       }).catch((error) => {
         console.error(error);
