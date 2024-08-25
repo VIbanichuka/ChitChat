@@ -188,15 +188,15 @@ namespace ChitChat.App.Server.Controllers
             return Ok(updatedUser);
         }
 
-        [HttpPost("{id}/public-key")]
+        [HttpPost("{id}/keys")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> SharePublicKey(Guid id, [FromBody] UserPublicKeyRequest request)
+        public async Task<IActionResult> SharePublicKey(Guid id, [FromBody] UserKeysRequest request)
         {
             if(id != Guid.Empty && request != null)
             {
-                await _userService.SavePublicKeyAsync(id, request.PublicKey);
+                await _userService.SaveKeysAsync(id, request.PublicKey, request.PrivateKey);
                 return Ok();
             }
             else
@@ -215,6 +215,17 @@ namespace ChitChat.App.Server.Controllers
                 return NotFound();
             }
             return Ok(new{publicKey});
+        }
+
+        [HttpGet("{id}/encrypted-key")]
+        public async Task<IActionResult> GetEncryptedKey(Guid id)
+        {
+            var encryptedKey = await _userService.GetEncryptedKeyAsync(id);
+            if (encryptedKey == null)
+            {
+                return NotFound();
+            }
+            return Ok(new { encryptedKey });
         }
     }
 }

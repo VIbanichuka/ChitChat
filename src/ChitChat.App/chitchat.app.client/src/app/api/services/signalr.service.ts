@@ -14,9 +14,14 @@ export class SignalrService {
   hubConnection!: signalR.HubConnection;
   private sentMessagesCache: Map<string, string> = new Map();
   private currentUser: string | null = null;
+  private passphrase: string | null = null;
   constructor(private authService: AuthService) {
     this.authService.getUsernameFromToken().subscribe(displayName => {
       this.currentUser = displayName;
+    });
+
+    this.authService.getUserIdFromToken().subscribe(id => {
+      this.passphrase = id;
     });
   }
 
@@ -52,7 +57,7 @@ export class SignalrService {
         messageToDisplay = this.sentMessagesCache.get(encryptedMessage);
       } else {
         try {
-          messageToDisplay = this.authService.decryptMessage(encryptedMessage);
+          messageToDisplay = await this.authService.decryptMessage(encryptedMessage, this.passphrase);
         } catch (error) {
           console.error('Error decrypting message:', error);
           return;
@@ -73,7 +78,7 @@ export class SignalrService {
         console.log("Received raw message:", message, sender, timestamp);
         this.messages$.next(this.messages);
         console.log("Received message:", message);
-      } catch (error) {
+      } catch  (error) {
         console.error('Error decrypting message:', error)
       }
     });

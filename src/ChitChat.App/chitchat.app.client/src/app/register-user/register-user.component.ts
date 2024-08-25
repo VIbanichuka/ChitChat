@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../api/services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { from, tap } from 'rxjs';
+import { AuthService } from '../api/services/auth.service';
 
 @Component({
   selector: 'app-register-user',
@@ -13,6 +16,7 @@ export class RegisterUserComponent implements OnInit {
   form: FormGroup;
 
   constructor(private userService: UserService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
@@ -35,14 +39,31 @@ export class RegisterUserComponent implements OnInit {
   }
 
   registerUser() {
-    if (this.form.invalid)
+    if (this.form.invalid) {
       return;
-
-      console.log(this.form.value);
-      this.userService.registerUser(this.form.value).subscribe(_ => {
-        console.log('posted to server');
-        this.router.navigate(['/signin-user']);
-      });
+    }
+    console.log(this.form.value);
+    this.userService.registerUser(this.form.value).pipe(
+      switchMap((response: any) => {
+        const userId = response.userId;
+        console.log('User registered with ID:', userId);
+        return from(this.authService.generateEncryptionKeys(userId)).pipe(
+          tap(() => {
+            console.log('Encryption keys generated and stored.');
+          })
+        );
+      }),
+      switchMap(() => {
+        return this.router.navigate(['/signin-user']);
+      })
+    ).subscribe(
+      () => {
+      },
+      error => {
+        alert("Registration failed. Please try again.");
+        console.error("Registration error:", error);
+      }
+    );
   }
 
   emailExists: boolean = false;

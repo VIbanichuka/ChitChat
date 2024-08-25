@@ -24,59 +24,20 @@ export class SigninUserComponent implements OnInit {
     password: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(20)])],
   })
 
-  //signin() {
-
-  //  if (this.form.invalid)
-  //    return;
-
-  //  console.log(this.form.value)
-  //  this.authService.authPost({ body: this.form.value }).subscribe(
-  //    async token => {
-
-  //      console.log(token);
-  //      localStorage.setItem('token', token);
-
-  //      const userId = this.authService.getUserIdFromToken();
-  //      if (userId) {
-  //        await this.authService.generateAndStoreEncryptionKeys(userId);
-  //        console.log('Encryption keys generated and stored.');
-  //      }
-  //      this.router.navigate(['/home']);
-  //    },
-  //    error => {
-  //      alert("Incorrect Email or Password")
-  //      console.error("Invalid authentication", error);
-  //    }
-  //  );
-  //}
-
   signin() {
     if (this.form.invalid)
       return;
 
-    console.log(this.form.value);
-    this.authService.authPost({ body: this.form.value }).pipe(
-      switchMap(token => {
-        localStorage.setItem('token', token);
+    console.log(this.form.value)
+    this.authService.authPost({ body: this.form.value }).subscribe(
+      async token => {
+
         console.log(token);
-        return this.authService.getUserIdFromToken();
-      }),
-      switchMap(userId => {
-        if (userId) {
-          return of(this.authService.generateAndStoreEncryptionKeys(userId)).pipe(
-            switchMap(() => {
-              console.log('Encryption keys generated and stored.');
-              return this.router.navigate(['/home']);
-            })
-          );
-        } else {
-          return of(null);
-        }
-      })
-    ).subscribe(
-      () => { },
+        localStorage.setItem('token', token);
+        this.router.navigate(['/home']);
+      },
       error => {
-        alert("Incorrect Email or Password");
+        alert("Incorrect Email or Password")
         console.error("Invalid authentication", error);
       }
     );

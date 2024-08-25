@@ -19,6 +19,7 @@ namespace ChitChat.Application.Interfaces.IServices
         Task<bool> CheckForEmail(string email);
         Task<bool> CheckForDisplayName(string displayName);
         Task<string?> GetPublicKeyAsync(Guid userId);
-        Task SavePublicKeyAsync(Guid userId, string publicKey);
+        Task<string?> GetEncryptedKeyAsync(Guid userId);
+        Task SaveKeysAsync(Guid userId, string publicKey, string privateKey);
     }
 }

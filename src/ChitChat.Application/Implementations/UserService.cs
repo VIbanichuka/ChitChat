@@ -136,7 +136,17 @@ namespace ChitChat.Application.Implementations
             return user.PublicKey;
         }
 
-        public async Task SavePublicKeyAsync(Guid userId, string publicKey)
+        public async Task<string?> GetEncryptedKeyAsync(Guid userId)
+        {
+            var user = await _userRepository.FindAsync(user => user.UserId == userId);
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+            return user.PrivateKey;
+        }
+
+        public async Task SaveKeysAsync(Guid userId, string publicKey, string privateKey)
         {
             var user = await _userRepository.FindAsync(user => user.UserId == userId);
 
@@ -145,6 +155,7 @@ namespace ChitChat.Application.Implementations
                 throw new ArgumentNullException(nameof(user));
             }
             user.PublicKey = publicKey;
+            user.PrivateKey = privateKey;
             _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
         }
