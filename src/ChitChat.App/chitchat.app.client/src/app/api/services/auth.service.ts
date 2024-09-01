@@ -102,7 +102,7 @@ export class AuthService extends BaseService {
 
   clearKeys() {
     localStorage.removeItem('publicKey');
-    localStorage.removeItem('privateKey');
+    localStorage.removeItem('EncryptedKey');
   }
 
   async encryptMessage(message: string, id: string): Promise<string> {
