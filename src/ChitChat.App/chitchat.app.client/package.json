@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.6",
-    "@angular/cli": "~15.2.6",
+    "@angular/cli": "^15.2.11",
     "@angular/compiler-cli": "^15.2.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jasmine": "~4.3.0",
