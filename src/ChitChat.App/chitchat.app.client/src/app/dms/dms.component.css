@@ -16,10 +16,11 @@
   padding: 1%;
 }
 
-.chat-area{
-    margin: 1%;
-    height: calc(100vh - 240px);
-    background: #f8f8f8;
+.chat-area {
+  margin: 1%;
+  height: calc(100vh - 240px);
+  background: #f8f8f8;
+  overflow-y: auto;
 }
 
 .input-area > mat-form-field{

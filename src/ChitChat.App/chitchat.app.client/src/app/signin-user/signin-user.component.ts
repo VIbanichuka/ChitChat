@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../api/services/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-signin-user',
@@ -23,16 +25,16 @@ export class SigninUserComponent implements OnInit {
   })
 
   signin() {
-
     if (this.form.invalid)
       return;
 
     console.log(this.form.value)
     this.authService.authPost({ body: this.form.value }).subscribe(
-      token => {
-        this.router.navigate(['/home']);
+      async token => {
+
         console.log(token);
         localStorage.setItem('token', token);
+        this.router.navigate(['/home']);
       },
       error => {
         alert("Incorrect Email or Password")

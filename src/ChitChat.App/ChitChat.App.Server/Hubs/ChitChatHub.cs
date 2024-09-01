@@ -45,6 +45,25 @@ namespace ChitChat.App.Server.Hubs
             await Clients.Group(hubModel.ChannelName).SendMessageAsync(hubModel.Message, hubModel.Sender, hubModel.ChannelName, hubModel.Timestamp);
         }
 
+
+        public async Task SendGroupMessageAsync(string channelName, string message, string sender)
+        {
+            if (string.IsNullOrEmpty(channelName) || string.IsNullOrEmpty(message) || string.IsNullOrEmpty(sender))
+            {
+                throw new ArgumentException("All arguments must be non-empty.");
+            }
+
+            var hubModel = new HubModel()
+            {
+                ChannelName = channelName,
+                Message = message,
+                Sender = sender,
+                Timestamp = DateTimeOffset.UtcNow
+            };
+            await _redisService.StoreChannelMessageAsync(hubModel);
+            await Clients.Group(hubModel.ChannelName).SendGroupMessageAsync(hubModel.Message, hubModel.Sender, hubModel.ChannelName, hubModel.Timestamp);
+        }
+
         public async Task RejoinGroupAsync(HubModel hubModel)
         {
             if (string.IsNullOrEmpty(hubModel.ChannelName))
@@ -65,6 +84,30 @@ namespace ChitChat.App.Server.Hubs
                 if (!string.IsNullOrEmpty(chat?.Message) && !string.IsNullOrEmpty(chat?.Sender) && !string.IsNullOrEmpty(chat?.ChannelName))
                 {
                     await Clients.Caller.SendMessageAsync(chat.Message, chat.Sender, chat.ChannelName, chat.Timestamp);
+                }
+            }
+        }
+
+        public async Task RejoinGroupMessageAsync(HubModel hubModel)
+        {
+            if (string.IsNullOrEmpty(hubModel.ChannelName))
+            {
+                throw new ArgumentException("Channel name cannot be empty.");
+            }
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, hubModel.ChannelName!);
+            var chats = await _redisService.GetStoredChannelMessagesAsync(hubModel.ChannelName!);
+
+            await SendValidGroupMessagesAsync(chats);
+        }
+
+        private async Task SendValidGroupMessagesAsync(IEnumerable<HubModel?> chats)
+        {
+            foreach (var chat in chats)
+            {
+                if (!string.IsNullOrEmpty(chat?.Message) && !string.IsNullOrEmpty(chat?.Sender) && !string.IsNullOrEmpty(chat?.ChannelName))
+                {
+                    await Clients.Caller.SendGroupMessageAsync(chat.Message, chat.Sender, chat.ChannelName, chat.Timestamp);
                 }
             }
         }

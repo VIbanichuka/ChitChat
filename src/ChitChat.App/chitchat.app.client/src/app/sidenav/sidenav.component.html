@@ -42,18 +42,10 @@
     <mat-sidenav [(opened)]="opened" mode="side">
         <mat-list>
             <mat-list-item style="margin-bottom: 20px;">
-                <a routerLink="/home"
+                <a routerLink="./friends"
                    style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
-                    <mat-icon color="primary">home</mat-icon>
-                    <span style="font-size: 10px;">Home</span>
-                </a>
-            </mat-list-item>
-
-            <mat-list-item style="margin-bottom: 20px;">
-                <a routerLink="./dms"
-                   style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
-                    <mat-icon color="primary">chat</mat-icon>
-                    <span style="font-size: 10px;">DMs</span>
+                    <mat-icon color="primary">people</mat-icon>
+                    <span style="font-size: 10px;">Friends</span>
                 </a>
             </mat-list-item>
 
@@ -62,14 +54,6 @@
                    style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
                     <mat-icon color="primary">groups</mat-icon>
                     <span style="font-size: 10px;">Channels</span>
-                </a>
-            </mat-list-item>
-
-            <mat-list-item>
-                <a routerLink="./friends"
-                   style="text-decoration: none; display: flex; flex-direction: column; align-items: center;">
-                    <mat-icon color="primary">people</mat-icon>
-                    <span style="font-size: 10px;">Friends</span>
                 </a>
             </mat-list-item>
 

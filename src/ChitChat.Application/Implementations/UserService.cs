@@ -125,5 +125,39 @@ namespace ChitChat.Application.Implementations
                 return false;
             }
         }
+
+        public async Task<string?> GetPublicKeyAsync(Guid userId)
+        {
+            var user = await _userRepository.FindAsync(user => user.UserId == userId);
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+            return user.PublicKey;
+        }
+
+        public async Task<string?> GetEncryptedKeyAsync(Guid userId)
+        {
+            var user = await _userRepository.FindAsync(user => user.UserId == userId);
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+            return user.PrivateKey;
+        }
+
+        public async Task SaveKeysAsync(Guid userId, string publicKey, string privateKey)
+        {
+            var user = await _userRepository.FindAsync(user => user.UserId == userId);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            user.PublicKey = publicKey;
+            user.PrivateKey = privateKey;
+            _userRepository.Update(user);
+            await _userRepository.SaveChangesAsync();
+        }
     }
 }

@@ -84,7 +84,6 @@ import { SeverErrorComponent } from './sever-error/sever-error.component';
           { path: '', component: HomeComponent },
           { path: 'friends', component: FriendsComponent },
           { path: 'dms/:userId', component: DmsComponent },
-          { path: 'dms', component: DmsComponent },
           { path: 'manage-invitations', component: ManageInvitationComponent },
           { path: 'channels', component: ChannelsComponent },
           { path: 'channel/:channelId', component: ChannelsChatComponent },
