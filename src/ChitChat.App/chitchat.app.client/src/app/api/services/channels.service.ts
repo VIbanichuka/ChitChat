@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment.development'
 import { ChannelRequestModel } from '../models/channel-request-model';
 import { ChannelResponseModel } from '../models/channel-response-model';
 import { MemberResponseModel } from '../models/member-response-model';
+import { ChannelStatsDto } from '../models/channel-stats-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,19 @@ export class ChannelsService {
   channelsbyNameUrl = "/Channel/name/"
   createChannelUrl = "/Channel/create/"
   channelsbyUserId = "/Channel/user-channel/"
+  topChannelsUrl = "/Channel/channels"
   constructor(private httpClient: HttpClient) { }
 
   public getChannels(): Observable<ChannelResponseModel[]> {
     const url = `${environment.apiUrl}${this.channelsUrl}`;
     console.log('Request URL:', url);
     return this.httpClient.get<ChannelResponseModel[]>(url);
+  }
+
+  public getTopChannels(): Observable<ChannelStatsDto[]> {
+    const url = `${environment.apiUrl}${this.topChannelsUrl}`;
+    console.log('Request URL:', url);
+    return this.httpClient.get<ChannelStatsDto[]>(url);
   }
 
   public getChannelMembers(id: number): Observable<MemberResponseModel[]> {

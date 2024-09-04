@@ -1,0 +1,43 @@
+<div class="dashboard-container mat-typography">
+<h1 style=" color:#3498DB; margin: 20px; text-align:left; font-weight:500;">Hello, {{username}}!</h1>
+    <app-top-channels></app-top-channels>
+
+    <mat-grid-list cols="3" rowHeight="600px" gutterSize="0px">
+        <mat-grid-tile colspan="2" rowspan="1">
+            <mat-card class="big-card">
+                <mat-card-header>
+                    <mat-card-title>Friendship Request Outcomes</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <app-sent-request-metrics></app-sent-request-metrics>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1" rowspan="1">
+            <mat-card class="small-card">
+                <mat-card-header>
+                    <mat-card-title>Friends </mat-card-title>   
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-divider></mat-divider>
+                    <mat-action-list>
+                        <mat-list-item *ngFor="let friend of displayFriends">
+                            <div style="display: flex; align-items: center; width: 100%; justify-content:left;">
+                                <img matListAvatar src="../assets/{{friend?.profilePicture || 'photo.jpg'}}"
+                                    style=" padding: 0; margin: 0; width: 40px; height: 40px; border-radius: 50%;">
+                                <h3 style="margin: 10px; font-weight:500;">
+                                    {{ friend?.firstName }} {{friend?.lastName}}
+                                </h3>
+                            </div>
+                        </mat-list-item>
+                    </mat-action-list>
+                    <button color="primary" mat-button *ngIf="friends.length > displayFriends.length"
+                        [routerLink]="['/home/friends']">See More</button>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+
+</div>

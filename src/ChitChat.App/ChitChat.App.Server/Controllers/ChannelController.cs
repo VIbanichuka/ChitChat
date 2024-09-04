@@ -118,6 +118,24 @@ namespace ChitChat.App.Server.Controllers
             return Ok(response);
         }
 
+        [HttpGet("channels")]
+        [ProducesResponseType(typeof(IEnumerable<ChannelStatsDto>), 200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetTopChannels()
+        {
+            var channels = await _channelService.GetTopChannelsByUsersAsync();
+            if (!channels.Any() || channels == null)
+            {
+                Log.Information("No channel found");
+                return NotFound();
+            }
+            var response = _mapper.Map<IEnumerable<ChannelStatsDto>>(channels);
+            return Ok(response);
+        }
+
         [HttpPost("create")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

@@ -37,11 +37,28 @@ namespace ChitChat.App.Server.Controllers
                 return NotFound();
             }
             return Ok(friends);
+        } 
+        
+        [HttpGet("sent-request-stats/{userId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetSentFriendRequestStats(Guid userId)
+        {
+            var friends = await _friendshipService.GetSentFriendRequestStatsAsync(userId);
+            if (!friends.Any())
+            {
+                Log.Information("No users found");
+                return NotFound();
+            }
+            return Ok(friends);
         }
 
         [HttpPost("send-request")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> SendFriendRequest([FromBody] SendFriendRequestModel sendFriendRequestModel)
         {
@@ -53,6 +70,7 @@ namespace ChitChat.App.Server.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> AcceptFriendRequestAsync(int friendshipId) 
@@ -66,6 +84,7 @@ namespace ChitChat.App.Server.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> RejectFriendRequestAsync(int friendshipId)
@@ -77,6 +96,7 @@ namespace ChitChat.App.Server.Controllers
         [HttpGet("pending-requests/{userId}")]
         [ProducesResponseType(typeof(IEnumerable<FriendshipResponseModel>), 200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetPendingFriendRequests(Guid userId) 

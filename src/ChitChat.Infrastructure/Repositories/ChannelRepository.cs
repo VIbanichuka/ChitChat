@@ -32,5 +32,12 @@ namespace ChitChat.Infrastructure.Repositories
                 .ThenInclude(u => u.UserProfile)
                 .FirstOrDefaultAsync(c => c.ChannelId == channelId);
         }
+        
+        public async Task<IEnumerable<Channel>> GetAllChannelsWithUserAsync() 
+        {
+            return await _context.Channels
+                .Include(c => c.Users)
+                .ToListAsync();
+        }
     }
 }
