@@ -22,5 +22,6 @@ namespace ChitChat.Application.Interfaces.IServices
         Task<bool> JoinChannelByDisplayName(int channelId, string displayName);
         Task<IEnumerable<MemberDto>> GetChannelMembersAsync(int channelId); 
         Task<IEnumerable<ChannelDto>> GetChannelsByUserIdAsync(Guid userId);
+        Task<List<ChannelStatsDto>> GetTopChannelsByUsersAsync();
     }
 }

@@ -1,0 +1,11 @@
+<div class="card-container">
+    <mat-card *ngFor="let channel of channels" class="channel-card">
+        <mat-card-header class="card-header">
+            <mat-card-title class="channel-title">{{ channel.channelName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+            <div class="user-count">{{ channel.userCount }}</div>
+            <mat-card-subtitle class="subtitle">Subscribers</mat-card-subtitle>
+        </mat-card-content>
+    </mat-card>
+</div>

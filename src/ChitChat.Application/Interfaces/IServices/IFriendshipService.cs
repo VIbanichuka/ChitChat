@@ -15,5 +15,6 @@ namespace ChitChat.Application.Interfaces.IServices
         Task RejectFriendRequestAsync(int friendshipId);
         Task<IEnumerable<FriendDto>> GetAllFriendsAsync(Guid userId);
         Task<IEnumerable<FriendshipDto>> GetPendingFriendRequestsAsync(Guid userId);
+        Task<IEnumerable<FriendshipRequestStatsDto>> GetSentFriendRequestStatsAsync(Guid inviterId);
     }
 }

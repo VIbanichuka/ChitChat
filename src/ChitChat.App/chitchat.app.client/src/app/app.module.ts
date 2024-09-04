@@ -14,7 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -37,6 +39,9 @@ import { ChannelsChatComponent } from './channels-chat/channels-chat.component';
 import { ErrorInterceptor } from './api/services/error.interceptor';
 import { NotFoundErrorComponent } from './not-found-error/not-found-error.component';
 import { SeverErrorComponent } from './sever-error/sever-error.component';
+import { SentRequestMetricsComponent } from './dashboard/sent-request-metrics/sent-request-metrics.component';
+import { TopChannelsComponent } from './dashboard/top-channels/top-channels.component';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +63,8 @@ import { SeverErrorComponent } from './sever-error/sever-error.component';
     SeverErrorComponent,
   ],
   imports: [
+    TopChannelsComponent,
+    NgChartsModule,
     BrowserModule,
     HttpClientModule,
     MatSidenavModule,
@@ -75,7 +82,9 @@ import { SeverErrorComponent } from './sever-error/sever-error.component';
     MatDividerModule,
     MatCardModule,
     MatTabsModule,
+    MatGridListModule,
     MatProgressBarModule,
+    SentRequestMetricsComponent,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
       { path: '500', component: SeverErrorComponent},

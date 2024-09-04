@@ -5,6 +5,7 @@ import {environment } from 'src/environments/environment.development'
 import { FriendshipRequest } from '../models/friendship-request-model';
 import { FriendModel } from '../models/friend-model';
 import { FriendshipResponseModel } from '../models/friendship-response-model';
+import { FriendshipRequestStatsDto } from '../models/friendship-request-stats-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class FriendshipService {
   pendingInviteUrl = "/Friendship/pending-requests/"
   acceptInviteUrl = "/Friendship/accept-request/"
   rejectInviteUrl = "/Friendship/reject-request/"
+  friendshipRequestStatsUrl = "/Friendship/sent-request-stats/"
   constructor(private httpClient: HttpClient) { }
 
   public sendFriendRequest(frienshipRequest: FriendshipRequest): Observable<FriendshipRequest> {
@@ -27,6 +29,12 @@ export class FriendshipService {
     const url = `${environment.apiUrl}${this.friendsUrl}${id}`;
     console.log('Request URL:', url);
     return this.httpClient.get<FriendModel[]>(url);
+  }
+
+  public getSentFriendRequestStats(id: string): Observable<FriendshipRequestStatsDto[]> {
+    const url = `${environment.apiUrl}${this.friendshipRequestStatsUrl}${id}`;
+    console.log('Request URL:', url);
+    return this.httpClient.get<FriendshipRequestStatsDto[]>(url);
   }
 
   public getPendingInvites(id: string): Observable<FriendshipResponseModel[]> {

@@ -166,5 +166,28 @@ namespace ChitChat.Application.Implementations
             var members = channel.Users.ToList();
             return _mapper.Map<IEnumerable<MemberDto>>(members);
         }
+
+        public async Task<List<ChannelStatsDto>> GetTopChannelsByUsersAsync()
+        {
+            var channels = await _channelRepository.GetAllChannelsWithUserAsync();
+
+            if (channels == null)
+            {
+                throw new ArgumentNullException(nameof(channels));
+            }
+
+            var top5ChannelsWithTheMostUsers = channels
+                .Select(c => new ChannelStatsDto()
+                {
+                    ChannelId = c.ChannelId,
+                    ChannelName = c.ChannelName,
+                    UserCount = c.Users.Count
+                })
+                .OrderByDescending(c => c.UserCount)
+                .Take(5)
+                .ToList();
+
+            return top5ChannelsWithTheMostUsers;
+        }
     }
 }

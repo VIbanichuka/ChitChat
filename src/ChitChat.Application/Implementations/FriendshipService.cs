@@ -122,5 +122,24 @@ namespace ChitChat.Application.Implementations
         {
             return await _friendshipRepository.AnyAsync(f => (f.InviterId == inviterId && f.InviteeId == inviteeId) || (f.InviterId == inviteeId && f.InviteeId == inviterId));
         }
+
+        public async Task<IEnumerable<FriendshipRequestStatsDto>> GetSentFriendRequestStatsAsync(Guid inviterId)
+        {
+            var sentRequests = await _friendshipRepository.GetAllWithIncludeAsync(f => f.InviterId == inviterId && f.InviteTime.HasValue,f => f.Inviter, f => f.Invitee);
+            var sentRequestData = sentRequests.GroupBy(f => new
+            {
+                InviteTime = f.InviteTime.Value.Date,
+                FriendshipStatus = f.FriendshipStatus.ToString(),
+            })
+            .Select(g => new FriendshipRequestStatsDto()
+            {
+                InviteTime = g.Key.InviteTime,
+                FriendshipStatus = g.Key.FriendshipStatus,
+                Count = g.Count()
+            })
+            .ToList();
+
+            return sentRequestData;
+        }
     }
 }

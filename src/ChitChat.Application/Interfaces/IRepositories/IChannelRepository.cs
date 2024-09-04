@@ -11,5 +11,6 @@ namespace ChitChat.Application.Interfaces.IRepositories
     {
         Task<Channel?> GetChannelWithUserByIdAsync(int channelId);
         Task<IEnumerable<Channel>> GetChannelsByUserIdAsync(Guid userId);
+        Task<IEnumerable<Channel>> GetAllChannelsWithUserAsync();
     }
 }
