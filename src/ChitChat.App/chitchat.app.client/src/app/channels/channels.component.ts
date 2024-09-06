@@ -12,10 +12,18 @@ import { ChannelPopupComponent } from '../channel-popup/channel-popup.component'
 })
 export class ChannelsComponent implements OnInit{
   channels: ChannelResponseModel[] | null = null;
+  searchQuery: string = '';
+  filteredChannels: ChannelResponseModel[] | null = null;
   hoveredItemId: number | null = null;
+  overlayOpen: boolean = false;
+  
   constructor(private matDialog: MatDialog, private channelsService: ChannelsService, private authService: AuthService){}
   ngOnInit(): void {
     this.getChannelsOfUser();
+  }
+  
+  closeOverlay() {
+    this.overlayOpen = false;
   }
 
   getChannelsOfUser() {
@@ -24,9 +32,23 @@ export class ChannelsComponent implements OnInit{
         return;
       this.channelsService.getChannelsUserId(userId).subscribe((channels: ChannelResponseModel[]) => {
         this.channels = channels;
+        this.filteredChannels = channels;
         console.log(channels);
       })
     })
+  }
+
+  searchChannel(): void {
+    const query = this.searchQuery.trim().toLowerCase();
+    if (query) {
+      this.filteredChannels = this.channels?.filter(channel =>
+        channel.channelName.toLowerCase().startsWith(query)
+      ) || [];
+      this.overlayOpen = this.filteredChannels.length > 0;
+    } else {
+      this.filteredChannels = []; 
+      this.overlayOpen = false; 
+    }
   }
 
   openChannelDialog() {   
