@@ -18,3 +18,14 @@
 .list-item:hover .hover-button {
   display: block;
 }
+
+.overlay-container {
+  width: 100%;
+  background-color: #ffff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-bottom: 10px;
+  padding-top: 0;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}

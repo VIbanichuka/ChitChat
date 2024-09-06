@@ -1,6 +1,19 @@
-<div style="margin-left: 10px; margin-top: 10px; margin-right: 10px; padding-left: 100px; padding-right: 100px; overflow-y: auto;">
+<div
+    style="margin-left: 10px; margin-top: 10px; margin-right: 10px; padding-left: 100px; padding-right: 100px; overflow-y: auto;">
+
+    <div style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
+        <div style="position: relative; width: 100%; max-width: 600px;">
+            <mat-icon style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: gray;">
+                search
+            </mat-icon>
+            <input cdkOverlayOrigin #overlayPosition="cdkOverlayOrigin" placeholder="Search for channels" type="search"
+                [(ngModel)]="searchQuery" (ngModelChange)="searchChannel()"
+                style="width: 100%; height: 35px; padding-left: 50px; padding-right: 15px; border-radius: 5px; border: 1px solid #ddd; font-size: 12px;" />
+        </div>
+    </div>
+
     <div style="display: flex; justify-content: space-between;">
-        <h2>Channels</h2>
+        <h2>Your channels</h2>
         <button style="margin-left: auto;" mat-raised-button (click)="openChannelDialog()">Create Channel</button>
     </div>
 
@@ -8,7 +21,8 @@
         <mat-card>
             <mat-card-content>
                 <div style="display:flex; justify-content: center; align-content: center;">
-                    <img matListAvatar src="../assets/{{'photo3.png'}}" style="height: 100%; max-height: 400px; width: 100%; max-width: 400px" />
+                    <img matListAvatar src="../assets/{{'photo3.png'}}"
+                        style="height: 100%; max-height: 400px; width: 100%; max-width: 400px" />
                 </div>
                 <mat-card-title>There are no channels...</mat-card-title>
             </mat-card-content>
@@ -18,13 +32,36 @@
     <div *ngIf="channels && channels.length > 0">
         <mat-card>
             <mat-action-list>
-                <mat-list-item class="list-item" *ngFor="let channel of channels" (mouseenter)="toggleHoverButton(channel.channelId, true)" (mouseleave)="toggleHoverButton(channel.channelId, false)">
+                <mat-list-item class="list-item" *ngFor="let channel of channels"
+                    (mouseenter)="toggleHoverButton(channel.channelId, true)"
+                    (mouseleave)="toggleHoverButton(channel.channelId, false)">
                     <a [routerLink]="['/home/channel', channel.channelId]">
                         <div matListItemTitle>{{channel?.channelName}}</div>
                     </a>
-                    <button type="submit" mat-raised-button color="warn" class="hover-button" *ngIf="hoveredItemId === channel.channelId" (click)="leaveChannel(channel.channelId)">Leave</button>
+                    <button type="submit" mat-raised-button color="warn" class="hover-button"
+                        *ngIf="hoveredItemId === channel.channelId"
+                        (click)="leaveChannel(channel.channelId)">Leave</button>
                 </mat-list-item>
             </mat-action-list>
         </mat-card>
     </div>
 </div>
+
+<ng-template cdk-connected-overlay [cdkConnectedOverlayOrigin]="overlayPosition" [cdkConnectedOverlayOpen]="overlayOpen"
+    [cdkConnectedOverlayWidth]="overlayPosition.elementRef.nativeElement.offsetWidth"
+    (overlayOutsideClick)="closeOverlay()">
+    <div class="overlay-container">
+        <mat-divider></mat-divider>
+        <mat-action-list>
+            <mat-list-item *ngFor="let channel of filteredChannels">
+                <a [routerLink]="['/home/channel', channel.channelId]"
+                    style="text-decoration: none; color: inherit; width: 100%;">
+                    <div style="display: flex; align-items: center; width: 100%; justify-content:left;">
+                        <mat-icon style="margin-right: 10px;" matListItemIcon>search</mat-icon>
+                        <h3 style=" font-weight: 500; margin:0px; padding: 0px;">{{ channel.channelName }}</h3>
+                    </div>
+                </a>
+            </mat-list-item>
+        </mat-action-list>
+    </div>
+</ng-template>

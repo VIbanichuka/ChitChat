@@ -12,6 +12,10 @@ import { UserHubComponent } from '../user-hub/user-hub.component';
 })
 export class FriendsComponent implements OnInit {
   friends: FriendModel[] | null = null;
+  overlayOpen: boolean = false;
+  searchQuery: string = '';
+  filteredFriends: FriendModel[] | null = null;
+
   constructor(private matDialog: MatDialog, private friendshipService: FriendshipService, private authService: AuthService) { }
     ngOnInit(): void {
       this.getFriends();
@@ -34,5 +38,22 @@ export class FriendsComponent implements OnInit {
       maxWidth: '600px',
       data: { user: friend, showInviteButton: false }
     });
+  }
+
+  closeOverlay() {
+    this.overlayOpen = false;
+  }
+
+  searchFriends(){
+    const query = this.searchQuery.trim().toLowerCase();
+    if (query) {
+      this.filteredFriends = this.friends?.filter(user =>
+        user.displayName.toLowerCase().startsWith(query)
+      ) || [];
+      this.overlayOpen = this.filteredFriends.length > 0;
+    } else {
+      this.filteredFriends = []; 
+      this.overlayOpen = false; 
+    }
   }
 }
