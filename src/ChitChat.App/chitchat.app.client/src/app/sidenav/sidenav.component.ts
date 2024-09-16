@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { UserHubComponent } from '../user-hub/user-hub.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../api/services/auth.service';
+import { FriendshipService } from '../api/services/friendship.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -19,7 +20,12 @@ export class SidenavComponent implements OnInit {
   searchTerm: string = '';
   searchResults$: Observable<UserProfileResponseModel[]> | null = null;
 
-  constructor(private router: Router, private authService: AuthService, private matDialog: MatDialog, private searchBarService: SearchBarService, private userProfileService: UserProfileService) {
+  constructor(private router: Router, 
+    private authService: AuthService, 
+    private matDialog: MatDialog, 
+    private friendshipService: FriendshipService,
+    private searchBarService: SearchBarService, 
+    private userProfileService: UserProfileService) {
     this.searchResults$ = this.searchBarService.search(this.searchBarService.getSearchSubject());
   }
 
@@ -48,16 +54,17 @@ export class SidenavComponent implements OnInit {
 
   openProfileHub(userId: string | any) {
     this.userProfileService.getUserProfileById(userId).subscribe(user => {
-      this.closeOverlay();
-      const matDialogRef = this.matDialog.open(UserHubComponent, {
-        width: '100%',
-        maxWidth: '600px',
-        data: { user: user, showInviteButton: true}
-      });
-
-      matDialogRef.afterOpened().subscribe(result => {
-        this.searchTerm = '';
-      });
+      this.checkIfAFriend(userId).then(isFriend => {
+        this.closeOverlay();
+        const matDialogRef = this.matDialog.open(UserHubComponent, {
+          width: '100%',
+          maxWidth: '600px',
+          data: { user: user, showInviteButton: !isFriend }
+        });
+        matDialogRef.afterOpened().subscribe(result => {
+          this.searchTerm = '';
+        });
+      })     
     });  
   }
 
@@ -78,4 +85,24 @@ export class SidenavComponent implements OnInit {
     this.authService.clearKeys();
     this.router.navigate(['/signin-user']);
   }
+
+  checkIfAFriend(userId: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.getUserIdFromToken().subscribe(currentUserId => {
+        if (!currentUserId) {
+          resolve(false);
+          return;
+        }
+        this.friendshipService.getFriends(currentUserId).subscribe(friends => {
+          const isFriend = friends.some(friend => friend.userId === userId);
+          resolve(isFriend);
+        }, error => {
+          reject(error);
+        });
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+  
 }
