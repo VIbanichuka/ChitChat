@@ -35,5 +35,7 @@ export class HomeComponent implements OnInit{
     });
   }
 
-
+  openUserDm(friend: FriendModel) {
+    this.router.navigate(['/home/dms', friend.userId]);
+  }
 }
