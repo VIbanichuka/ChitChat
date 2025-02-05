@@ -29,9 +29,9 @@
 }
 
 .user-count {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #6CDFF6;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #777;
 }
 
 .subtitle {
@@ -39,3 +39,31 @@
     color: #777;
     margin-top: 10px;
 }
+
+.color-0 {
+  background-color: #DFF2E4;
+}
+
+.color-1 {
+  background-color: #FDE7E8;
+}
+
+.color-2 {
+  background-color: #FFF4D1;
+}
+
+.color-3 {
+  background-color: #D1D7E7;
+}
+
+.color-4 {
+  background-color: #D9EAF6;
+}
+
+.custom-card {
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+  .custom-card:hover {
+    opacity: 0.7;
+  }

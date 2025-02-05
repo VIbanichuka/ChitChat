@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ namespace ChitChat.Application.Dtos
 {
     public class UserProfileDto
     {
-        public Guid UserProfileId { get; set; }
+        [Key]
+        public Guid UserProfileId { get; set; } = Guid.NewGuid();
 
         public Guid UserId { get; set; }
 

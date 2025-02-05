@@ -11,7 +11,7 @@ import { of } from 'rxjs';
   styleUrls: ['./signin-user.component.css']
 })
 
-export class SigninUserComponent implements OnInit {
+export class SigninUserComponent implements OnInit {  
 
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -47,5 +47,6 @@ export class SigninUserComponent implements OnInit {
     if (localStorage.getItem('token')) {
       this.router.navigate(['/home']);
     }
+    this.authService.initializeGoogleAuth();
   }
 }

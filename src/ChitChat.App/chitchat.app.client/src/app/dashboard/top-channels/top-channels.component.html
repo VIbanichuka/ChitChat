@@ -1,5 +1,5 @@
 <div class="card-container">
-    <mat-card *ngFor="let channel of channels" class="channel-card">
+    <mat-card *ngFor="let channel of channels; let i = index" class="channel-card custom-card color-{{i % 5}}">
         <mat-card-header class="card-header">
             <mat-card-title class="channel-title">{{ channel.channelName }}</mat-card-title>
         </mat-card-header>

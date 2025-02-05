@@ -145,7 +145,14 @@ namespace UnitTests.Services
             {
                 UserId = userId,
                 DisplayName = "TestUser1",
-                Email = "testUser1@gmail.com"
+                Email = "testUser1@gmail.com",
+                UserProfile = new UserProfile()
+                {
+                    ProfilePicture = "default.jpg",
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Bio = "Test Bio"
+                }
             };
 
             _mockUserRepository.Setup(repo => repo.AddAsync(user, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);

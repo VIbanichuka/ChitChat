@@ -14,6 +14,8 @@ using Microsoft.OpenApi.Models;
 using Npgsql;
 using Serilog;
 using StackExchange.Redis;
+using Google.Apis.Auth.AspNetCore3;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +61,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IChannelService, ChannelService>();
+builder.Services.AddScoped<IExternalAuthService, ExternalAuthService>();
 builder.Services.AddSingleton<IRedisService, RedisService>();
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(Program));
@@ -93,11 +96,13 @@ builder.Services.AddSwaggerGen(options =>
 
 });
 
-builder.Services.AddAuthentication(x =>
+builder.Services.AddAuthentication(options =>
 {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(options =>
   {
       options.TokenValidationParameters = new TokenValidationParameters
@@ -107,8 +112,14 @@ builder.Services.AddAuthentication(x =>
           ValidateIssuer = false,
           ValidateAudience = false
       };
-  });
-
+  })
+.AddCookie()
+.AddGoogleOpenIdConnect(options =>
+{
+    options.ClientId = builder.Configuration.GetSection("Authentication:Google:ClientId").Value;
+    options.ClientSecret = builder.Configuration.GetSection("Authentication:Google:ClientSecret").Value;
+});
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

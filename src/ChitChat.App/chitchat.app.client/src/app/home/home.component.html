@@ -22,10 +22,10 @@
                 <mat-card-content>
                     <mat-divider></mat-divider>
                     <mat-action-list>
-                        <mat-list-item *ngFor="let friend of displayFriends">
+                        <mat-list-item *ngFor="let friend of displayFriends" (click)="openUserDm(friend)">
                             <div style="display: flex; align-items: center; width: 100%; justify-content:left;">
                                 <img matListAvatar src="../assets/{{friend?.profilePicture || 'photo.jpg'}}"
-                                    style=" padding: 0; margin: 0; width: 40px; height: 40px; border-radius: 50%;">
+                                     style=" padding: 0; margin: 0; width: 40px; height: 40px; border-radius: 50%;">
                                 <h3 style="margin: 10px; font-weight:500;">
                                     {{ friend?.firstName }} {{friend?.lastName}}
                                 </h3>

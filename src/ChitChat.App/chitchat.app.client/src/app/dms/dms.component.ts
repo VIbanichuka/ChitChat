@@ -18,6 +18,7 @@ export class DmsComponent implements OnInit, AfterViewChecked{
   friendProfile: UserProfileResponseModel | null = null;
   friendId: string | null = "";
   userId: string = "";
+  chats: any[] = [];
   @ViewChild("scrollBar") private scrollContainer!: ElementRef;
   constructor(private userProfileService: UserProfileService,
     private signalrService: SignalrService,

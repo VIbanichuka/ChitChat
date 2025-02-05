@@ -6,24 +6,31 @@ import { ApiConfiguration } from "../api-configuration";
 import { StrictHttpResponse } from "../strict-http-response";
 import { RequestBuilder } from "../request-builder";
 import { map, filter } from "rxjs/operators";
-import { UserLoginRequestModel, UserResponseModel } from "src/app/api/models";
+import { UserLoginRequestModel} from "src/app/api/models";
 import { JwtHelperService, JwtModule } from "@auth0/angular-jwt";
 import * as forge from 'node-forge';
 import * as CryptoJS from 'crypto-js';
-import { environment } from "../../../environments/environment";
+import { environment } from 'src/environments/environment.development'
+import { ActivatedRoute, Router } from "@angular/router";
+declare const google: any;
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService extends BaseService {
+  private googleLoaded: boolean = false;
   publicKeyUrl = "/User/"
+  googleAuthUrl = "/Auth/google-login/"
   jwtHelper = new JwtHelperService();
   constructor(
     config: ApiConfiguration,
     http: HttpClient,
+    route: ActivatedRoute,
+    router: Router
   ) {
-    super(config, http);
+    super(config, http, route, router);
+    this.loadGoogleAuthScript();
   }
 
   static readonly AuthPostPath = '/Auth/Login/'
@@ -153,4 +160,64 @@ export class AuthService extends BaseService {
     return decryptedPrivateKey;
   }
 
+  initializeGoogleAuth() {
+    if (!this.googleLoaded) {
+      console.error('Google API not yet loaded. Retrying...');
+      setTimeout(() => this.initializeGoogleAuth(), 500);
+      return;
+    }
+
+    google.accounts.id.initialize({
+      client_id: environment.googleClientId,
+      callback: (response: any) => this.handleCredentialResponse(response),
+      auto_select: false,
+      prompt_parent_id: "google-signin-container"
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-signin-container"),
+      {
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+        shape: "rectangular"
+      }
+    );
+
+    console.log("Google Sign-In initialized.");
+  }
+
+  handleCredentialResponse(response: any) {
+    console.log('Google Token: ', response.credential);
+
+    this.http
+      .post(`${environment.apiUrl}${this.googleAuthUrl}`, { token: response.credential })
+      .subscribe(
+        (res: any) => {
+          console.log('JWT Token: ', res.token);
+
+          if (res.token) {
+            localStorage.setItem('token', res.token);
+            this.router.navigate(['/home']);
+          } else {
+            console.error('Google Auth failed: Token missing');
+          }
+         
+        },
+        (err) => {
+          console.error('Google Auth failed', err);
+        }
+      );
+  }
+
+  private loadGoogleAuthScript() {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      this.googleLoaded = true;
+    };
+    document.head.appendChild(script);
+  }
 }
