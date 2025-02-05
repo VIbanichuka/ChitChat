@@ -46,12 +46,16 @@
                         </div>
                     </div>
 
-                    <div class="login-btn">
+                    <div class="login-btn" style="margin-bottom: 5px;">
                         <button (click)="signin()" type="submit" mat-raised-button color="primary" class="form-control">
                             <mat-icon>login</mat-icon> Sign in with email
                         </button>
                     </div>
 
+                    <h3 style="text-align:center; margin: 0px; font-weight:600;">OR</h3>
+
+                    <div class="login-btn" id="google-signin-container" style="justify-content:center; display: flex; align-items: center;">                        
+                    </div>
                     <div class="register-user">
                         <small>New to PrimaMensa ChitChat? </small>
                         <a routerLink="/register-user">

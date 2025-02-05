@@ -31,11 +31,18 @@ namespace ChitChat.Application.Implementations
             }
 
             await CheckIfUserExist(user.Email, user.DisplayName);
-            var newUserProfile = new UserProfile();
+            var newUserProfile = new UserProfile()
+            {
+                UserId = user.UserId,
+                ProfilePicture = user.UserProfile.ProfilePicture,
+                FirstName = user.UserProfile.FirstName,
+                LastName = user.UserProfile.LastName,
+                Bio = user.UserProfile.Bio,
+            };
+
             user.UserProfile = newUserProfile;
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
-
             return _mapper.Map<UserDto>(user);
         }
 

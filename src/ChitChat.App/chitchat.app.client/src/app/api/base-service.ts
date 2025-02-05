@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration } from 'src/app/api/api-configuration';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable()
 export class BaseService {
   constructor(
     protected config: ApiConfiguration,
-    protected http: HttpClient
+    protected http: HttpClient,
+    protected route: ActivatedRoute,
+    protected router: Router,
   ) {
   }
 

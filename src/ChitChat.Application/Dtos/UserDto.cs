@@ -14,6 +14,8 @@ namespace ChitChat.Application.Dtos
         public string? Email { get; set; }
         public byte[] PasswordHash { get; set; } = new byte[32];
         public byte[] PasswordSalt { get; set; } = new byte[32];
+
+        public UserProfileDto? UserProfile { get; set; }
         public List<Message>? SentMessages { get; set; }
         public List<Message>? ReceivedMessages { get; set; }
         public List<Channel>? Channels { get; set; }

@@ -13,12 +13,14 @@ namespace ChitChat.App.Server.Controllers
         private readonly IPasswordService _passwordService;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
+        private readonly IExternalAuthService _externalAuthService;
 
-        public AuthController(IPasswordService passwordService, IUserService userService, IAuthService authService)
+        public AuthController(IExternalAuthService externalAuthService, IPasswordService passwordService, IUserService userService, IAuthService authService)
         {
             _authService = authService;
             _passwordService = passwordService;
             _userService = userService;
+            _externalAuthService = externalAuthService;
         }
 
         [HttpPost("Login")]
@@ -26,7 +28,7 @@ namespace ChitChat.App.Server.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> Login([FromBody]UserLoginRequestModel userLoginRequest)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequestModel userLoginRequest)
         {
             if (string.IsNullOrWhiteSpace(userLoginRequest.Email) || string.IsNullOrWhiteSpace(userLoginRequest.Password))
             {
@@ -37,8 +39,8 @@ namespace ChitChat.App.Server.Controllers
             var user = await _userService.GetUserByEmailAsync(userLoginRequest.Email);
 
             if (user == null)
-            { 
-               return NotFound("Invalid Authentication");
+            {
+                return NotFound("Invalid Authentication");
             }
 
             var isPasswordVerified = _passwordService.VerifyPasswordHash(userLoginRequest.Password, user.PasswordHash, user.PasswordSalt);
@@ -49,6 +51,15 @@ namespace ChitChat.App.Server.Controllers
             }
             var token = _authService.CreateToken(user);
             return Ok(token);
+        }
+
+        [HttpPost("google-login")]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleAuthRequest request)
+        {
+            var token = await _externalAuthService.AuthenticateWithGoogleAsync(request.Token);
+
+            return new JsonResult(new { token });
         }
     }
 }
