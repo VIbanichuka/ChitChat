@@ -14,10 +14,10 @@
             </mat-card>
         </mat-grid-tile>
 
-        <mat-grid-tile colspan="1" rowspan="1">
+        <mat-grid-tile colspan="1" rowspan="1" *ngIf="displayFriends?.length">
             <mat-card class="small-card">
                 <mat-card-header>
-                    <mat-card-title>Friends </mat-card-title>   
+                    <mat-card-title>Friends </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <mat-divider></mat-divider>
@@ -33,7 +33,9 @@
                         </mat-list-item>
                     </mat-action-list>
                     <button color="primary" mat-button *ngIf="friends.length > displayFriends.length"
-                        [routerLink]="['/home/friends']">See More</button>
+                            [routerLink]="['/home/friends']">
+                        See More
+                    </button>
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>

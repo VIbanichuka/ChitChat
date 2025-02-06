@@ -157,55 +157,80 @@ namespace ChitChat.App.Server.Controllers
         }
 
         [HttpPost("{channelId}/user/{userId}/join")]
-        [ProducesResponseType(201)]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> JoinChannel(int channelId, Guid userId)
         {
+            if (channelId <= 0 || userId == Guid.Empty)
+            {
+                Log.Warning("Invalid join request. ChannelId: {ChannelId}, UserId: {UserId}", channelId, userId);
+                return BadRequest("Invalid channel ID or user ID.");
+            }
+
             var hasJoined = await _channelService.JoinChannel(channelId, userId);
             if (hasJoined)
             {
-                return Ok();
+                Log.Information("User {UserId} successfully joined channel {ChannelId}.", userId, channelId);
+                return NoContent();
             }
             return BadRequest();
         }
 
         [HttpPost("{channelId}/displayName/{displayName}/join")]
-        [ProducesResponseType(201)]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> JoinChannelByUserName(int channelId, string displayName)
         {
+            if (channelId <= 0 || string.IsNullOrWhiteSpace(displayName))
+            {
+                Log.Warning("Invalid join request. ChannelId: {ChannelId}, DisplayName: {displayName}", channelId, displayName);
+                return BadRequest("Invalid channel ID or user ID.");
+            }
             var hasJoined = await _channelService.JoinChannelByDisplayName(channelId, displayName);
             if (hasJoined)
             {
-                return Ok();
+                Log.Information("DisplayName {displayName} successfully joined channel {ChannelId}.", displayName, channelId);
+                return NoContent();
             }
             return BadRequest();
         }
 
         [HttpPost("{channelId}/user/{userId}/leave")]
+        [ProducesResponseType(200)]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> LeaveChannel(int channelId, Guid userId)
         {
+            if (channelId <= 0 || userId == Guid.Empty)
+            {
+                Log.Warning("Invalid leave request. ChannelId: {ChannelId}, UserId: {UserId}", channelId, userId);
+                return BadRequest("Invalid channel ID or user ID.");
+            }
+
             var hasLeft = await _channelService.LeaveChannel(channelId,userId);
             if (hasLeft)
             {
-                return Ok();
+                return NoContent();
             }
             return BadRequest();
         }
 
         [HttpPut("{channelId}")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateChannel(int channelId, [FromBody] ChannelRequestModel channelRequest)
         {
+            if (channelId <= 0 || channelRequest == null)
+            {
+                Log.Warning("Invalid request. ChannelId: {ChannelId}, Request: {Request}", channelId, channelRequest);
+                return BadRequest("Invalid channel ID or request data");
+            }
+
             var existingChannel = await _channelService.GetChannelByIdAsync(channelId);
             if(existingChannel == null)
             {
@@ -225,7 +250,14 @@ namespace ChitChat.App.Server.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteChannel(int channelId)
         {
+            if (channelId <= 0)
+            {
+                Log.Warning("Invalid channelId: {ChannelId}", channelId);
+                return BadRequest("Invalid channel ID");
+            }
+
             var isDeleted = await _channelService.DeleteChannelAsync(channelId);
+            
             if (!isDeleted)
             {
                 Log.Information("Channel not found to be deleted.");

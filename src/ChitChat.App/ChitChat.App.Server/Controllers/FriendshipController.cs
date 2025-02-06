@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChitChat.App.Server.Models.Reponses;
 using ChitChat.App.Server.Models.Requests;
+using ChitChat.Application.Dtos;
 using ChitChat.Application.Implementations;
 using ChitChat.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -31,10 +32,10 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> GetAllFriends(Guid userId)
         {
             var friends = await _friendshipService.GetAllFriendsAsync(userId);
-            if (!friends.Any())
+            if (!friends.Any() || friends == null)
             {
-                Log.Information("No users found");
-                return NotFound();
+                Log.Information("No friends found for user {UserId}", userId);
+                return Ok(new List<FriendResponse>());
             }
             return Ok(friends);
         } 
@@ -47,10 +48,10 @@ namespace ChitChat.App.Server.Controllers
         public async Task<IActionResult> GetSentFriendRequestStats(Guid userId)
         {
             var friends = await _friendshipService.GetSentFriendRequestStatsAsync(userId);
-            if (!friends.Any())
+            if (!friends.Any() || friends == null)
             {
                 Log.Information("No users found");
-                return NotFound();
+                return Ok(new List<FriendshipRequestStatsDto>());
             }
             return Ok(friends);
         }
@@ -105,7 +106,7 @@ namespace ChitChat.App.Server.Controllers
             if(pendingRequests == null || !pendingRequests.Any()) 
             {
                 Log.Information("There are no pending requests");
-                return NotFound();
+                return Ok(new List<FriendshipResponseModel>());
             }
             var friendshipResponse = _mapper.Map<IEnumerable<FriendshipResponseModel>>(pendingRequests);
             return Ok(friendshipResponse);
