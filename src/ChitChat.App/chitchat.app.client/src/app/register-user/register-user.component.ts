@@ -30,6 +30,7 @@ export class RegisterUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.initializeGoogleAuth();
   }
 
   passwordMatchValidator(group: FormGroup) {
