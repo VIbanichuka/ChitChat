@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {UserService} from '../api/services/user.service'
+import { AfterViewInit, Component} from '@angular/core';
+import { UserService } from '../api/services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
@@ -12,7 +12,7 @@ import { AuthService } from '../api/services/auth.service';
   styleUrls: ['./register-user.component.css']
 })
 
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements AfterViewInit {
   form: FormGroup;
 
   constructor(private userService: UserService,
@@ -29,8 +29,10 @@ export class RegisterUserComponent implements OnInit {
     }, { validators: this.passwordMatchValidator });
   }
 
-  ngOnInit(): void {
-    this.authService.initializeGoogleAuth();
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.authService.initializeGoogleAuth();
+    }, 0)
   }
 
   passwordMatchValidator(group: FormGroup) {

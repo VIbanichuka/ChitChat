@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, } from '@angular/core';
 import { AuthService } from '../api/services/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-signin-user',
@@ -11,7 +9,7 @@ import { of } from 'rxjs';
   styleUrls: ['./signin-user.component.css']
 })
 
-export class SigninUserComponent implements OnInit {  
+export class SigninUserComponent implements AfterViewInit {  
 
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -43,10 +41,13 @@ export class SigninUserComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (localStorage.getItem('token')) {
       this.router.navigate(['/home']);
+    } else {
+      setTimeout(() => {
+        this.authService.initializeGoogleAuth();
+      }, 0)
     }
-    this.authService.initializeGoogleAuth();
   }
 }
