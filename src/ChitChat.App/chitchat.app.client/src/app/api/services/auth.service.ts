@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpResponse, HttpContext } from "@angular/common/http";
+import { HttpClient, HttpResponse, HttpContext, HttpHeaders } from "@angular/common/http";
 import { BaseService } from "../base-service";
 import { Observable, of } from 'rxjs';
 import { ApiConfiguration } from "../api-configuration";
@@ -12,6 +12,7 @@ import * as forge from 'node-forge';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment.development'
 import { ActivatedRoute, Router } from "@angular/router";
+import { ChangePasswordRequestModel } from "../models/change-password-request-model";
 declare const google: any;
 
 @Injectable({
@@ -219,5 +220,13 @@ export class AuthService extends BaseService {
       this.googleLoaded = true;
     };
     document.head.appendChild(script);
+  }
+
+  private authChangePasswordPostPath = '/Auth/change-password/'
+
+  public changePassword(userRequest: ChangePasswordRequestModel): Observable<void> {
+    const url = `${environment.apiUrl}${this.authChangePasswordPostPath}`;
+    console.log('Request URL:', url);
+    return this.http.post<void>(url, userRequest);
   }
 }

@@ -41,6 +41,7 @@ import { NotFoundErrorComponent } from './not-found-error/not-found-error.compon
 import { SeverErrorComponent } from './sever-error/sever-error.component';
 import { SentRequestMetricsComponent } from './dashboard/sent-request-metrics/sent-request-metrics.component';
 import { TopChannelsComponent } from './dashboard/top-channels/top-channels.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { TopChannelsComponent } from './dashboard/top-channels/top-channels.comp
     ChannelsChatComponent,
     NotFoundErrorComponent,
     SeverErrorComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     TopChannelsComponent,

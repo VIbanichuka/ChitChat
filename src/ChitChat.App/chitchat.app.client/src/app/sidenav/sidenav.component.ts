@@ -9,6 +9,7 @@ import { UserHubComponent } from '../user-hub/user-hub.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../api/services/auth.service';
 import { FriendshipService } from '../api/services/friendship.service';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 @Component({
   selector: 'app-sidenav',
@@ -44,6 +45,14 @@ export class SidenavComponent implements OnInit {
 
   opened = true;
   overlayOpen = false;
+
+
+  openChangePasswordDialog() {
+    this.matDialog.open(ChangePasswordComponent, {
+      maxWidth: '400px',
+      width: '100%'
+    })
+  }
 
   openProfileDialog() {
     this.matDialog.open(MainUserProfileComponent, {
