@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../api/services/auth.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class ChangePasswordComponent {
   changePasswordForm: FormGroup;
   constructor(private formBuilder: FormBuilder,
     private matDialog: MatDialog,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private snackBar: MatSnackBar) {
 
     this.changePasswordForm = this.formBuilder.group({
       currentPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -44,12 +46,22 @@ export class ChangePasswordComponent {
     this.authService.changePassword(this.changePasswordForm.value).subscribe({
       next: () => {
         console.log('Password changed successfully');
-        alert('Password changed successfully');
+        this.snackBar.open('Password changed successfully', 'close', {
+          duration: 5000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
         this.closeChangePasswordDialog();
       },
       error: (err) => {
         console.error('Error changing password:', err);
-        alert('Failed to change password');
+        this.snackBar.open('Failed to change password', 'Retry', {
+          duration: 5000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
       }
     });
   }
