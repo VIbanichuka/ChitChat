@@ -75,7 +75,7 @@
                             <span>Pending Invites</span>
                         </a>
 
-                        <mat-dialog-actions>
+                        <mat-dialog-actions *ngIf="user?.authProvider === 'PrimaMensaChitChat'">
                             <button mat-menu-item (click)="openChangePasswordDialog()">
                                 <span>Change Password</span>
                             </button>

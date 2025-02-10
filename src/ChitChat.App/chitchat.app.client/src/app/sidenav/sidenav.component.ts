@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MainUserProfileComponent } from 'src/app/main-user-profile/main-user-profile.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchBarService } from '../api/services/search-bar.service';
-import { UserProfileResponseModel } from '../api/models';
-import { UserProfileService } from '../api/services';
+import { UserProfileResponseModel, UserResponseModel } from '../api/models';
+import { UserProfileService, UserService } from '../api/services';
 import { Observable } from 'rxjs';
 import { UserHubComponent } from '../user-hub/user-hub.component';
 import { Router } from '@angular/router';
@@ -20,12 +20,14 @@ export class SidenavComponent implements OnInit {
   results: UserProfileResponseModel[] | null = null;
   searchTerm: string = '';
   searchResults$: Observable<UserProfileResponseModel[]> | null = null;
+  user: UserResponseModel | null = null;
 
   constructor(private router: Router, 
     private authService: AuthService, 
     private matDialog: MatDialog, 
     private friendshipService: FriendshipService,
-    private searchBarService: SearchBarService, 
+    private searchBarService: SearchBarService,
+    private userService: UserService,
     private userProfileService: UserProfileService) {
     this.searchResults$ = this.searchBarService.search(this.searchBarService.getSearchSubject());
   }
@@ -41,6 +43,14 @@ export class SidenavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.getUserIdFromToken().subscribe(userId => {
+      if (!userId)
+        return;
+      this.userService.getUserById(userId).subscribe( (response) => {
+        this.user = response;
+      });
+    })
+
   }
 
   opened = true;

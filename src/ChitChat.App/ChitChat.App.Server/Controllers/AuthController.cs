@@ -15,13 +15,15 @@ namespace ChitChat.App.Server.Controllers
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
         private readonly IExternalAuthService _externalAuthService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IExternalAuthService externalAuthService, IPasswordService passwordService, IUserService userService, IAuthService authService)
+        public AuthController(IConfiguration configuration,IExternalAuthService externalAuthService, IPasswordService passwordService, IUserService userService, IAuthService authService)
         {
             _authService = authService;
             _passwordService = passwordService;
             _userService = userService;
             _externalAuthService = externalAuthService;
+            _configuration = configuration;
         }
 
         [ProducesResponseType(400)]
@@ -49,6 +51,11 @@ namespace ChitChat.App.Server.Controllers
             if (user == null)
             {
                 return Unauthorized("User not found.");
+            }
+
+            if(user.AuthProvider != _configuration["AuthProvider:DefaultProvider"])
+            {
+                return Forbid();
             }
 
             var isPasswordVerified = _passwordService.VerifyPasswordHash(changePasswordRequest.CurrentPassword, user.PasswordHash, user.PasswordSalt);

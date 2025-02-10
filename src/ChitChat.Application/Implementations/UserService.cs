@@ -34,10 +34,10 @@ namespace ChitChat.Application.Implementations
             var newUserProfile = new UserProfile()
             {
                 UserId = user.UserId,
-                ProfilePicture = user.UserProfile.ProfilePicture,
-                FirstName = user.UserProfile.FirstName,
-                LastName = user.UserProfile.LastName,
-                Bio = user.UserProfile.Bio,
+                ProfilePicture = user.UserProfile?.ProfilePicture ?? string.Empty,
+                FirstName = user.UserProfile?.FirstName ?? string.Empty,
+                LastName = user.UserProfile?.LastName ?? string.Empty,
+                Bio = user.UserProfile?.Bio ?? string.Empty
             };
 
             user.UserProfile = newUserProfile;

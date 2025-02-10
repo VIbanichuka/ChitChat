@@ -15,12 +15,14 @@ namespace ChitChat.App.Server.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IPasswordService _passwordService;
+        private readonly IConfiguration _configuration;
 
-        public UserController(IUserService userService, IMapper mapper, IPasswordService passwordService)
+        public UserController(IConfiguration configuration,IUserService userService, IMapper mapper, IPasswordService passwordService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _mapper = mapper ?? throw new ArgumentNullException();
             _passwordService = passwordService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -136,7 +138,8 @@ namespace ChitChat.App.Server.Controllers
                 DisplayName = userRequest.DisplayName,
                 Email = userRequest.Email,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                AuthProvider = _configuration["AuthProvider:DefaultProvider"]!
             };
 
             Log.Information("User created successfully. User ID: {Email}", newUser.Email);
