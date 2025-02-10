@@ -60,11 +60,12 @@ namespace ChitChat.Application.Implementations
             {
                 Email = payload.Email,
                 DisplayName = payload.Email,
+                AuthProvider = _configuration["AuthProvider:GoogleProvider"]!,
                 UserProfile = new UserProfileDto
                 {
-                    ProfilePicture = payload.Picture,
-                    FirstName = payload.GivenName,
-                    LastName = payload.FamilyName
+                    ProfilePicture = payload?.Picture ?? string.Empty,
+                    FirstName = payload?.GivenName ?? string.Empty,
+                    LastName = payload?.FamilyName ?? string.Empty
                 }
             };
             var createdUser = await _userService.CreateUserAsync(_mapper.Map<User>(newUser));

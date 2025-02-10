@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule} from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { NotFoundErrorComponent } from './not-found-error/not-found-error.compon
 import { SeverErrorComponent } from './sever-error/sever-error.component';
 import { SentRequestMetricsComponent } from './dashboard/sent-request-metrics/sent-request-metrics.component';
 import { TopChannelsComponent } from './dashboard/top-channels/top-channels.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
@@ -61,6 +63,7 @@ import { TopChannelsComponent } from './dashboard/top-channels/top-channels.comp
     ChannelsChatComponent,
     NotFoundErrorComponent,
     SeverErrorComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     TopChannelsComponent,
@@ -84,6 +87,7 @@ import { TopChannelsComponent } from './dashboard/top-channels/top-channels.comp
     MatTabsModule,
     MatGridListModule,
     MatProgressBarModule,
+    MatSnackBarModule,
     SentRequestMetricsComponent,
     RouterModule.forRoot([
       { path: 'signin-user', component: SigninUserComponent },
